@@ -1,0 +1,32 @@
+{
+    "dialogList": [
+        {
+            "dialog": [
+                {
+                    "name": 1,
+                    "text": "Hello! Welcome to Aster Yellows meadow! (click text box to continue)"
+                },
+                {
+                    "name": 2,
+                    "text": "Your goal is to return this empty plane of dirt into the lush meadow it once was!"
+                },
+                {
+                    "name": 1,
+                    "text": "Let's start by planting some seeds! Use WASD or the arrow keys to move, and click on a patch of soil to plant a seed!"
+                }
+            ]
+        },
+        {
+            "dialog": [
+                {
+                    "name": 2,
+                    "text": "Great job! Plant as many seeds as you'd like!"
+                },
+                {
+                    "name": 1,
+                    "text": "The seeds will grow on their own, but you can also click on them to water them!"
+                }
+            ]
+        }
+    ]
+}

@@ -1,8 +1,9 @@
+import Phaser from 'phaser'
+
 class DialogBox {
   constructor(scene, width, height) {
     this.scene = scene;
 
-    this.animationSpeed = 50; // Adjust the speed of the animation (milliseconds per character)
     this.isAnimating = false;
     this.clickToSkip = false;
 
@@ -14,15 +15,32 @@ class DialogBox {
     this.dialogBox.fillRoundedRect(0, 0, width, height,15);
 
     this.dialogBox.setPosition(x, y);
-
-
-
-    // Add text with black color
-    this.dialogText = scene.add.text(x+10, y+10, 'DEBUG', { fontSize: '18px', fill: '#000' });
+    
+    this.dialogText = scene.make.text({
+      x: x+10,
+      y: y+10,
+      text: 'DEBUG',
+      origin: { x: 0, y: 0},
+      style: {
+          font: '20px Roboto',
+          fill: 'white',
+          wordWrap: { width: (width - 20) }
+      }
+  });
     this.dialogText.setOrigin(0, 0);
 
-    this.dialogBox.setVisible(false);
-    this.dialogText.setVisible(false);
+    this.dialogBox.setVisible(true);
+    this.dialogText.setVisible(true);
+    
+  }
+
+  handleClicks(){
+    this.scene.input.on('pointerdown', function () {
+      if (this.isAnimating)
+          this.clickToSkip = true;
+      else if (this.dialogBox.hasNextDialog)
+              this.dialogBox.triggerNextDialog;
+  }, this);
   }
 
   setTextWithAnimation(text) {
@@ -33,36 +51,29 @@ class DialogBox {
     const totalCharacters = text.length;
 
     const animateCharacter = () => {
-      if (this.isAnimating && currentIndex < totalCharacters) {
-        this.dialogText.setText(text.substring(0, currentIndex + 1));
-        currentIndex++;
-
-        setTimeout(animateCharacter, this.animationSpeed);
-      } else {
-        this.isAnimating = false;
-
-        // Check if the user clicked to skip
-        if (this.clickToSkip) {
-          this.dialogText.setText(text);
+        if (this.isAnimating && currentIndex < totalCharacters) {
+            this.dialogText.setText(text.substring(0, currentIndex + 1));
+            currentIndex++;
+            // Using requestAnimationFrame for smoother animations
+            requestAnimationFrame(animateCharacter);
+            if (this.clickToSkip) {
+              this.isAnimating = false;
+              this.dialogText.setText(text);
+              return;
+          }
+        } else {
+            this.isAnimating = false;
         }
-      }
     };
 
     animateCharacter();
-  }
+}
 
   show(text) {
-    console.log("Show was called!")
     this.dialogBox.setVisible(true);
     this.dialogText.setVisible(true)
+    this.handleClicks()
     this.setTextWithAnimation(text);
-
-    // Allow the user to click to skip animation
-    this.scene.input.on('pointerdown', () => {
-      if (this.isAnimating) {
-        this.clickToSkip = true;
-      }
-    });
   }
 
   hide() {
