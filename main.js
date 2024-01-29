@@ -61,17 +61,14 @@ class GameScene extends Phaser.Scene {
         this.input.enabled = true;
         this.add.image(0, 0, "bg").setOrigin(0, 0)
 
-        //const data = this.cache.json.get('narrator');
-
         this.narrator = new DialogBox(this, 700, 100,this.cache.json.get('narrator'));
 
         //this.narrator.show("Welcome to the Game! Here is some more text yeah this should take a while to animate yepyep so much animation go brrrr all the animation and stuff let's see if it will make a new line");
         
         //note to self later, maybe try adding different dialog boxes for different characters just specify which character when it is created?
+        this.narrator.startDialog(0) //call startDialog and send in which index
 
-        this.narrator.startDialog(0) //call startDialog and send in which dialog to use and which index in dialogList to use
 
-        //Align.scaleToGameW(bg, 2);
 
         //this.cameras.main.setBounds(0, 0, bg.displayWidth, bg.displayHeight);
         //this.cameras.main.startFollow(this.player);
@@ -114,7 +111,7 @@ class GameScene extends Phaser.Scene {
         //this.cameras.main.setBounds(0, 0, newWidth, newHeight);
         //this.cameras.main.centerOn(this.player.x, this.player.y);
 
-        this.player.setPosition(width * 0.5, height * 0.5)
+        //this.player.setPosition(width * 0.5, height * 0.5)
         /*if (height < 220 )
         this.player.setPosition((width*0.5),(height*0.8))
         else 

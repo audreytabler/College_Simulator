@@ -11,7 +11,7 @@ class DialogBox {
 
     this.data =data //data holds json data
     this.dialogLength //how many bubbles in a conversation
-    this.dialogIndex;
+    this.dialogIndex = 0;
     this.currentIndex //current index within a conversation
 
 
@@ -42,6 +42,8 @@ class DialogBox {
 
     this.dialogBox.setVisible(true);
     this.dialogText.setVisible(true);
+
+    this.handleClicks()
     
   }
 
@@ -52,8 +54,6 @@ class DialogBox {
       else if (this.currentIndex < this.dialogLength)
         this.nextDialog();
       else this.hide();
-
-
   }, this);
   }
 
@@ -79,24 +79,35 @@ class DialogBox {
             this.isAnimating = false;
         }
     };
-
     animateCharacter();
   }
 
-  startDialog(index){
-    /*this.scene.load.json('dialogData', this.jsonFilePath);
-    this.scene.load.on('complete', () => {
-      const data = this.scene.cache.json.get('dialogData');
-      console.log("data length is " +data.dialogList.length)
-    });
-   // this.scene.load.start();*/
-   this.dialogLength = this.data.dialogList[index].dialog.length;
-   this.dialogIndex = index
+  startDialog(index){ //stardialog with given index
+    if (index>=this.data.dialogList.length)
+    this.dialogIndex = this.data.dialogList.length - 1
+    else this.dialogIndex = index
+
+   this.dialogLength = this.data.dialogList[index].dialog.length; //length of conversation
    this.currentIndex = 0;
-   console.log("startdialogue called, data length is "+this.data.dialogList.length + " sub 1 is " +this.data.dialogList[0] + " text" + this.data.dialogList[0].dialog[0].text)
-   this.handleClicks()
+    //which conversation
+   
+   
    this.nextDialog();
-   //this.show(this.data.dialogList[this.dialogIndex].dialog[this.currentIndex].text)
+  }
+
+  startDialog(){ //will go off of whatever the last index is
+    if (this.dialogIndex >= this.data.dialogList.length)
+      this.dialogIndex = this.data.dialogList.length - 1
+
+   this.dialogLength = this.data.dialogList[this.dialogIndex].dialog.length; //length of conversation
+   this.currentIndex = 0;
+
+   this.nextDialog();
+  }
+
+  nextDialog(){
+    this.show(this.data.dialogList[this.dialogIndex].dialog[this.currentIndex].text)
+    this.currentIndex++
   }
 
   show(text) {
@@ -106,12 +117,8 @@ class DialogBox {
     this.setTextWithAnimation(text);
   }
 
-  nextDialog(){
-    this.show(this.data.dialogList[this.dialogIndex].dialog[this.currentIndex].text)
-    this.currentIndex++
-  }
-
   hide() {
+    this.dialogIndex++;
     this.dialogBox.setVisible(false);
     this.dialogText.setVisible(false);
     this.dialogText.setText('');
