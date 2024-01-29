@@ -12,6 +12,10 @@ class GameScene extends Phaser.Scene {
         this.player
         this.cursor
 
+        //npcs
+        this.narrator
+        this.jsonfile
+
         //variables
         this.playerSpeed = 150
 
@@ -44,19 +48,28 @@ class GameScene extends Phaser.Scene {
         this.load.image("bg", "/assets/bg.png")
         this.load.image("player", "/assets/player.png")
 
-
+        this.load.json('narrator', "/assets/narratorDialog.json")
+       // this.scene.load.on('complete', () => {
+            
+        //  });
+;
+  
+        
     }
 
     create() {
         this.input.enabled = true;
         this.add.image(0, 0, "bg").setOrigin(0, 0)
-        this.dialogBox = new DialogBox(this, 700, 100);
 
-        this.dialogBox.show("Welcome to the Game! Here is some more text yeah this should take a while to animate yepyep so much animation go brrrr all the animation and stuff let's see if it will make a new line");
+        //const data = this.cache.json.get('narrator');
+
+        this.narrator = new DialogBox(this, 700, 100,this.cache.json.get('narrator'));
+
+        //this.narrator.show("Welcome to the Game! Here is some more text yeah this should take a while to animate yepyep so much animation go brrrr all the animation and stuff let's see if it will make a new line");
         
         //note to self later, maybe try adding different dialog boxes for different characters just specify which character when it is created?
 
-       // this.dialogBox.startDialog('narratorDialog.json',0) //call startDialog and send in which dialog to use and which index in dialogList to use
+        this.narrator.startDialog(0) //call startDialog and send in which dialog to use and which index in dialogList to use
 
         //Align.scaleToGameW(bg, 2);
 
@@ -155,3 +168,4 @@ window.onload = function () {
         }
     });
 };
+

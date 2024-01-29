@@ -13,6 +13,10 @@
                 {
                     "name": 1,
                     "text": "Let's start by planting some seeds! Use WASD or the arrow keys to move, and click on a patch of soil to plant a seed!"
+                },
+                {
+                    "name": 1,
+                    "text": "more text debug"
                 }
             ]
         },

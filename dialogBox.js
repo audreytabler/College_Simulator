@@ -1,11 +1,22 @@
 import Phaser from 'phaser'
 
+
 class DialogBox {
-  constructor(scene, width, height) {
+  //data;
+  constructor(scene, width, height,data) {
     this.scene = scene;
 
     this.isAnimating = false;
     this.clickToSkip = false;
+
+    this.data =data //data holds json data
+    this.dialogLength //how many bubbles in a conversation
+    this.dialogIndex;
+    this.currentIndex //current index within a conversation
+
+
+    //console.log("data is " + this.data.dialogList.length)
+    this.dialogList =[] 
 
     const x = (scene.sys.game.config.width -(width*0.6))/2; // Adjust as needed
     const y = scene.sys.game.config.height - height - 10; // Adjust as needed
@@ -22,7 +33,7 @@ class DialogBox {
       text: 'DEBUG',
       origin: { x: 0, y: 0},
       style: {
-          font: '20px Roboto',
+          font: '20px Courier New',
           fill: 'white',
           wordWrap: { width: (width - 20) }
       }
@@ -38,8 +49,11 @@ class DialogBox {
     this.scene.input.on('pointerdown', function () {
       if (this.isAnimating)
           this.clickToSkip = true;
-      else if (this.dialogBox.hasNextDialog)
-              this.dialogBox.triggerNextDialog;
+      else if (this.currentIndex < this.dialogLength)
+        this.nextDialog();
+      else this.hide();
+
+
   }, this);
   }
 
@@ -67,13 +81,34 @@ class DialogBox {
     };
 
     animateCharacter();
-}
+  }
+
+  startDialog(index){
+    /*this.scene.load.json('dialogData', this.jsonFilePath);
+    this.scene.load.on('complete', () => {
+      const data = this.scene.cache.json.get('dialogData');
+      console.log("data length is " +data.dialogList.length)
+    });
+   // this.scene.load.start();*/
+   this.dialogLength = this.data.dialogList[index].dialog.length;
+   this.dialogIndex = index
+   this.currentIndex = 0;
+   console.log("startdialogue called, data length is "+this.data.dialogList.length + " sub 1 is " +this.data.dialogList[0] + " text" + this.data.dialogList[0].dialog[0].text)
+   this.handleClicks()
+   this.nextDialog();
+   //this.show(this.data.dialogList[this.dialogIndex].dialog[this.currentIndex].text)
+  }
 
   show(text) {
     this.dialogBox.setVisible(true);
-    this.dialogText.setVisible(true)
-    this.handleClicks()
+    this.dialogText.setVisible(true);
+    //this.handleClicks()
     this.setTextWithAnimation(text);
+  }
+
+  nextDialog(){
+    this.show(this.data.dialogList[this.dialogIndex].dialog[this.currentIndex].text)
+    this.currentIndex++
   }
 
   hide() {
