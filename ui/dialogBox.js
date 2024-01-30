@@ -5,6 +5,8 @@ class DialogBox {
   //data;
   constructor(scene, width, height,data) {
     this.scene = scene;
+    this.height = height
+    this.width=width
 
     this.isAnimating = false;
     this.clickToSkip = false;
@@ -20,13 +22,11 @@ class DialogBox {
 
     const x = (scene.sys.game.config.width -(width*0.6))/2; // Adjust as needed
     const y = scene.sys.game.config.height - height - 10; // Adjust as needed
-
     this.dialogBox = scene.add.graphics();
     this.dialogBox.fillStyle(0xFFFFFF, 0.7); // White background color
     this.dialogBox.fillRoundedRect(0, 0, width, height,15);
 
     this.dialogBox.setPosition(x, y);
-    
     this.dialogText = scene.make.text({
       x: x+10,
       y: y+10,
@@ -44,6 +44,7 @@ class DialogBox {
     this.dialogText.setVisible(true);
 
     this.handleClicks()
+    //this.scene.events.on('update', this.updatePosition, this);
     
   }
 
@@ -57,6 +58,14 @@ class DialogBox {
   }, this);
   }
 
+  updatePosition() {
+    const camera = this.scene.cameras.main;
+    const x = camera.scrollX +175; // Adjust as needed
+    const y = camera.scrollY+camera.height -this.height -10; // Adjust as needed
+    this.dialogBox.setPosition(x, y);
+    this.dialogText.setPosition(x+10,y+10)
+  }
+
   setTextWithAnimation(text) {
     this.isAnimating = true;
     this.clickToSkip = false;
@@ -66,6 +75,7 @@ class DialogBox {
 
     const animateCharacter = () => {
         if (this.isAnimating && currentIndex < totalCharacters) {
+         // this.updatePosition(); 
             this.dialogText.setText(text.substring(0, currentIndex + 1));
             currentIndex++;
             // Using requestAnimationFrame for smoother animations

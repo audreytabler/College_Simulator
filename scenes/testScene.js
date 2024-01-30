@@ -1,14 +1,12 @@
-import './style.css'
 import Phaser from 'phaser'
-import DialogBox from './ui/dialogBox.js'
-import { CampusScene } from './scenes/campusScene.js';
-import {TestScene} from './scenes/testScene.js'
-import { SCENE_KEYS } from "./scenes/scene-keys";
-/*
-class GameScene extends Phaser.Scene {
+import DialogBox from '../ui/dialogBox.js'
+import { SCENE_KEYS } from './scene-keys.js';
+
+
+export class TestScene extends Phaser.Scene {
     //this constructor is basically side bar with all gameobjects in scene
     constructor() {
-        super("scene-game");
+        super({key: SCENE_KEYS.TEST_SCENE,});
         //gameObjects
         this.cameras
         this.player
@@ -17,6 +15,7 @@ class GameScene extends Phaser.Scene {
         //npcs
         this.narrator
         this.jsonfile
+        
 
         //variables
         this.playerSpeed = 150
@@ -48,11 +47,11 @@ class GameScene extends Phaser.Scene {
 
     preload() {
         //this.load.image("bg", "/assets/bg.png")
-        this.load.image("player", "/assets/circle.png")
+        this.load.image("player", "./assets/circle.png")
 
-        this.load.json('narrator', "/assets/narratorDialog.json")
+        this.load.json('narrator', "./assets/narratorDialog.json")
 
-        this.load.image("tiles", "/assets/tiles.png");
+        this.load.image("tiles", "./assets/tiles.png");
 
 
     }
@@ -125,66 +124,12 @@ class GameScene extends Phaser.Scene {
         //this.cameras.main.centerOn(this.player.x, this.player.y);
 
         //this.player.setPosition(width * 0.5, height * 0.5)
-        //if (height < 220 )
-        //this.player.setPosition((width*0.5),(height*0.8))
-        //else 
-        //this.player.setPosition((width*0.5),(height*0.5))
+        /*if (height < 220 )
+        this.player.setPosition((width*0.5),(height*0.8))
+        else 
+        this.player.setPosition((width*0.5),(height*0.5))*/
         //this.player.setPosition(width*0.5,(canvas.height*0.5))
     }
 
-}*/
-
-//window.onload = function () {
-    /*const config = {
-        type: Phaser.WEBGL,
-        canvas: gameCanvas,
-        physics: {
-            default: 'arcade',
-            arcade: {
-                gravity: { y: 50 },
-                debug: true,
-            },
-        },
-        scene: [TestScene],
-    };*/
-
-    const game = new Phaser.Game({
-        type: Phaser.WEBGL,
-        canvas: gameCanvas,
-        pixelArt: false,
-        scale: {
-          parent: 'game-container',
-          width: 1024,
-          height: 576,
-          mode: Phaser.Scale.FIT,
-          autoCenter: Phaser.Scale.CENTER_BOTH,
-        },
-        backgroundColor: '#000000',
-        physics: {
-            default: 'arcade',
-            arcade: {
-                gravity: { y: 50 },
-                debug: true,
-            },
-        },
-      });
-    game.scene.add(SCENE_KEYS.CAMPUS_SCENE, CampusScene);
-    game.scene.add(SCENE_KEYS.TEST_SCENE, TestScene);
-    game.scene.start(SCENE_KEYS.TEST_SCENE)
-
-    //set initial game size
-    //game.canvas.width = window.innerWidth - 10;
-    //game.canvas.height = window.innerHeight - 10;
-
-    //game canvas resize when user resizes browser window
-    /*window.addEventListener('resize', function () {
-        game.canvas.width = window.innerWidth - 10;
-        game.canvas.height = window.innerHeight - 10;
-
-        const activeScene = game.scene.getScene("scene-game");
-        if (activeScene && activeScene.windowSizeChanged) {
-            activeScene.windowSizeChanged(window.innerWidth - 10, window.innerHeight - 10);
-        }
-    });*/
-//};
-
+}
+export default TestScene;

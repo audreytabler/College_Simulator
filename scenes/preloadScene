@@ -1,0 +1,22 @@
+import Phaser from 'phaser';
+import { SCENE_KEYS } from './scene-keys.js';
+import { WebFontFileLoader } from '../assets/web-font-file-loader.js';
+
+export class PreloadScene extends Phaser.Scene {
+  constructor() {
+    super({
+      key: SCENE_KEYS.PRELOAD_SCENE,
+    });
+  }
+
+  preload() {
+    console.log(`[${PreloadScene.name}:preload] invoked`);
+
+
+  }
+
+  create() {
+    console.log(`[${PreloadScene.name}:create] invoked`);
+    this.scene.start(SCENE_KEYS.CAMPUS_SCENE);
+  }
+}
