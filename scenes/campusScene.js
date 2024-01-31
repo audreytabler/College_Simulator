@@ -1,7 +1,6 @@
 import Phaser from 'phaser'
 import { SCENE_KEYS } from "./scene-keys";
 
-
 export class CampusScene extends Phaser.Scene{
     constructor(){
         super({

@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import DialogBox from '../ui/dialogBox.js'
+import PlayerStats from '../ui/playerStats.js'
 import { SCENE_KEYS } from './scene-keys.js';
 
 
@@ -15,14 +16,13 @@ export class TestScene extends Phaser.Scene {
         //npcs
         this.narrator
         this.jsonfile
-        
 
         //variables
         this.playerSpeed = 150
 
         //brainstorming idea: choose character type at beginning of game
         //ie gym type uses less energy at gym, academic studying decreases stress but social raises it more
-
+        this.statsOverlay;
         //keep grade by going to class
         //doing good on test minigame increases grade
         this.grade
@@ -39,21 +39,15 @@ export class TestScene extends Phaser.Scene {
         //high energy levels = study group = studying doesn't increase stress
         this.social
 
-
         //soundfx
         this.bgMusic
-
     }
 
     preload() {
         //this.load.image("bg", "/assets/bg.png")
         this.load.image("player", "./assets/circle.png")
-
         this.load.json('narrator', "./assets/narratorDialog.json")
-
         this.load.image("tiles", "./assets/tiles.png");
-
-
     }
 
     create() {
@@ -88,7 +82,7 @@ export class TestScene extends Phaser.Scene {
        this.cameras.main.startFollow(this.player);
 
        this.narrator = new DialogBox(this, 700, 100, this.cache.json.get('narrator'));
-
+        this.statsOverlay = new PlayerStats(this,1,1,1)
         //this.narrator.show("Welcome to the Game! Here is some more text yeah this should take a while to animate yepyep so much animation go brrrr all the animation and stuff let's see if it will make a new line");
 
         //note to self later, maybe try adding different dialog boxes for different characters just specify which character when it is created?
@@ -111,6 +105,9 @@ export class TestScene extends Phaser.Scene {
             this.player.setVelocityX(0);
             this.player.setVelocityY(0);
         }
+
+        if (this.narrator.getIsVisible)
+            this.narrator.updatePosition()
     }
 
     windowSizeChanged(width, height) {

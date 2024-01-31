@@ -16,6 +16,7 @@ class DialogBox {
     this.dialogIndex = 0;
     this.currentIndex //current index within a conversation
 
+    this.isVisible = false;
 
     //console.log("data is " + this.data.dialogList.length)
     this.dialogList =[] 
@@ -40,12 +41,13 @@ class DialogBox {
   });
     this.dialogText.setOrigin(0, 0);
 
-    this.dialogBox.setVisible(true);
-    this.dialogText.setVisible(true);
-
     this.handleClicks()
     //this.scene.events.on('update', this.updatePosition, this);
     
+  }
+
+  getIsVisible(){
+    return this.isVisible
   }
 
   handleClicks(){
@@ -74,8 +76,7 @@ class DialogBox {
     const totalCharacters = text.length;
 
     const animateCharacter = () => {
-        if (this.isAnimating && currentIndex < totalCharacters) {
-         // this.updatePosition(); 
+        if (this.isAnimating && currentIndex < totalCharacters) { 
             this.dialogText.setText(text.substring(0, currentIndex + 1));
             currentIndex++;
             // Using requestAnimationFrame for smoother animations
@@ -123,6 +124,7 @@ class DialogBox {
   show(text) {
     this.dialogBox.setVisible(true);
     this.dialogText.setVisible(true);
+    this.isVisible = true;
     //this.handleClicks()
     this.setTextWithAnimation(text);
   }
@@ -132,6 +134,7 @@ class DialogBox {
     this.dialogBox.setVisible(false);
     this.dialogText.setVisible(false);
     this.dialogText.setText('');
+    this.isVisible = false;
     this.isAnimating = false;
     this.clickToSkip = false;
   }
