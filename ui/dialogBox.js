@@ -1,9 +1,11 @@
 import Phaser from 'phaser'
 
 
-class DialogBox {
+class DialogBox extends Phaser.GameObjects.Graphics {
+
   //data;
   constructor(scene, width, height,data) {
+    super(scene, 'DialogBox');
     this.scene = scene;
     this.height = height
     this.width=width
@@ -60,7 +62,7 @@ class DialogBox {
   }, this);
   }
 
-  updatePosition() {
+  updatePosition() { 
     const camera = this.scene.cameras.main;
     const x = camera.scrollX +175; // Adjust as needed
     const y = camera.scrollY+camera.height -this.height -10; // Adjust as needed

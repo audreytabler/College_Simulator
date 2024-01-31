@@ -18,7 +18,7 @@ export class TestScene extends Phaser.Scene {
         this.jsonfile
 
         //variables
-        this.playerSpeed = 150
+        this.playerSpeed = 270
 
         //brainstorming idea: choose character type at beginning of game
         //ie gym type uses less energy at gym, academic studying decreases stress but social raises it more
@@ -53,7 +53,6 @@ export class TestScene extends Phaser.Scene {
     create() {
         this.input.enabled = true;
         //this.add.image(0, 0, "bg").setOrigin(0, 0)
-
         const array = 
         [[0, 1, 1, 2],
         [17, 18, 18, 19],
@@ -79,10 +78,19 @@ export class TestScene extends Phaser.Scene {
         this.player.setCollideWorldBounds(true)
        // this.player.setSize(20,15).setOffset(10,70)
         
-       this.cameras.main.startFollow(this.player);
+       this.cameras.main.startFollow(this.player,false,0.2,0.2);
+       
 
        this.narrator = new DialogBox(this, 700, 100, this.cache.json.get('narrator'));
-        this.statsOverlay = new PlayerStats(this,1,1,1)
+       this.statsOverlay = new PlayerStats(this)
+
+       const container = this.add.container(0,0)
+       container.add(this.statsOverlay)
+       //container.add(this.narrator)
+       container.setScrollFactor(1.00,1.00,true)
+
+       //this.cameras.
+
         //this.narrator.show("Welcome to the Game! Here is some more text yeah this should take a while to animate yepyep so much animation go brrrr all the animation and stuff let's see if it will make a new line");
 
         //note to self later, maybe try adding different dialog boxes for different characters just specify which character when it is created?
