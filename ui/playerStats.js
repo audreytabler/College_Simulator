@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-class PlayerStats extends Phaser.GameObjects.Graphics{
+class PlayerStats extends Phaser.GameObjects.Graphics {
     constructor(scene) {
         super(scene, 'PlayerStats');
         if (!PlayerStats.instance) {
@@ -22,22 +22,36 @@ class PlayerStats extends Phaser.GameObjects.Graphics{
 
     updateEnergy(increment) {
         this.energyNum = this.energyNum + increment
+        this.energyLevel.createGeometryMask(this.emptyBars)
+        if (this.energyNum > 135)
+        this.energyNum = 135
+        if (this.energyNum < 0){
+            this.energyNum = 0
+            return;
+        }
         this.energyLevel.clear();
+        this.energyLevel.fillStyle(0xf0e68c, 1);
+       
 
-        if (this.energyNum > 15)
-            this.energyLevel.fillRoundedRect(0, 0, this.energyNum, 20, 10);
+        this.energyLevel.fillRoundedRect(0, 0, this.energyNum, 20, (this.energyNum * 0.07));
     }
     updateSocial(increment) {
         this.socialNum = this.socialNum + increment
         this.socialLevel.clear();
+        this.socialLevel.fillStyle(0x73a9c2, 1);
 
-        if (this.socialNum > 15)
-            this.socialLevel.fillRoundedRect(0, 0, this.socialNum, 20, 10);
-        else if (this.socialNum <=15 && this.socialNum >0)
-        this.socialLevel.fillRoundedRect(0, 0, this.socialNum, 20, 10);
+        if(this.socialNum > 135)
+            this.socialNum = 135
+        if (this.socialNum <= 0)
+            this.socialNum = 0
+
+        this.socialLevel.fillRoundedRect(0, 0, this.socialNum, 20, (this.socialNum * 0.07));
     }
 
     updatePosition() {
+        this.updateEnergy(-0.1)
+        this.updateSocial(-0.2)
+
         const camera = this.scene.cameras.main;
         const x = camera.scrollX + 20; // Adjust as needed
         const y = camera.scrollY + 10; // Adjust as needed
@@ -59,6 +73,7 @@ class PlayerStats extends Phaser.GameObjects.Graphics{
         this.energyLevel = this.scene.add.graphics();
         this.energyLevel.fillStyle(0xf0e68c, 1);
         this.energyLevel.fillRoundedRect(0, 0, this.energyNum, 20, 10);
+        this.energyLevel.createGeometryMask(this.emptyBars)
 
         //green stress bar
         this.stressLevel = this.scene.add.graphics();
@@ -70,6 +85,7 @@ class PlayerStats extends Phaser.GameObjects.Graphics{
         this.socialLevel = this.scene.add.graphics();
         this.socialLevel.fillStyle(0x73a9c2, 1);
         this.socialLevel.fillRoundedRect(0, 0, this.socialNum, 20, 10);
+        //this.socialLevel.fillRoundedRect(0, 0, 10, 20, 10-(10*0.7));
 
         this.scene.events.on('update', this.updatePosition, this);
     }

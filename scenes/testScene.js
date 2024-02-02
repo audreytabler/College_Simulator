@@ -84,11 +84,6 @@ export class TestScene extends Phaser.Scene {
        this.narrator = new DialogBox(this, 700, 100, this.cache.json.get('narrator'));
        this.statsOverlay = new PlayerStats(this)
 
-       const container = this.add.container(0,0)
-       container.add(this.statsOverlay)
-       //container.add(this.narrator)
-       container.setScrollFactor(1.00,1.00,true)
-
        //this.cameras.
 
         //this.narrator.show("Welcome to the Game! Here is some more text yeah this should take a while to animate yepyep so much animation go brrrr all the animation and stuff let's see if it will make a new line");
