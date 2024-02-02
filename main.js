@@ -1,6 +1,7 @@
 import './style.css'
 import Phaser from 'phaser'
 import DialogBox from './ui/dialogBox.js'
+import {TitleScene} from './scenes/titleScene.js'
 import { CampusScene } from './scenes/campusScene.js';
 import {TestScene} from './scenes/testScene.js'
 import {DormScene} from './scenes/dormScene.js'
@@ -41,6 +42,7 @@ import { SCENE_KEYS } from "./scenes/scene-keys";
             },
         },
       });
+      game.scene.add(SCENE_KEYS.TITLE_SCENE, TitleScene);
     game.scene.add(SCENE_KEYS.CAMPUS_SCENE, CampusScene);
     game.scene.add(SCENE_KEYS.TEST_SCENE, TestScene);
     game.scene.add(SCENE_KEYS.DORM_SCENE, DormScene);
