@@ -3,20 +3,113 @@
         {
             "dialog": [
                 {
-                    "name": 1,
-                    "text": "Hello! Welcome to Aster Yellows meadow! (click text box to continue)"
+                    "name": "Narrator",
+                    "text": "Good morning and happy Monday! Use the arrow keys or WASD to move around your dorm room. (click to progress dialog)"
+                },
+                {
+                    "name": "Narrator",
+                    "text": "The bars in the top left of your screen represent your energy, focus, and social, hover over them to see your current percentage level for each of them! "
+                },
+                {
+                    "name": "Narrator",
+                    "text": "You use energy for each task you complete. Getting eight hours of sleep will give you a full energy bar to use for the next day. You can also increase your energy throughout the day if needed by consuming snacks or energy drinks."
+                },
+                {
+                    "name": "Narrator",
+                    "text": "Keeping your focus high makes tasks easier to complete. Be careful not to over expend your focus though, critically low levels of focus can lead to burnout and other side effects. "
+                },
+                {
+                    "name": "Narrator",
+                    "text": "Focus can be increased by taking care of yourself (such as by going to the gym, hobbies, clean habits, ect) or spending time in quiet spaces (such as in your dorm or at the library)"
+                },
+                {
+                    "name": "Narrator",
+                    "text": "It is also important to allocate time to interact with your peers and get involved on campus! Your social level represents your current social fulfilment. If you notice it getting low, you could consider going to a campus club meeting or reach out and see what your friends are up to!"
+                },
+                {
+                    "name": "Narrator",
+                    "text": "You slept for eight hours last night so your energy bar is full! Ah, but it appears your focus levels are a little lackluster this morning. How about a nice warm shower to help clear your mind?",
+                    "goal":"shower"
+                }
+            ]
+        },
+        {
+            "dialog":[
+                {
+                    "name": "Narrator",
+                    "text": ""
+                },
+                {
+                    "name": "Narrator",
+                    "text": ""
+                },
+                {
+                    "name": "Narrator",
+                    "text": ""
+                },
+                {
+                    "name": "Narrator",
+                    "text": ""
+                },
+                {
+                    "name": "Narrator",
+                    "text": ""
+                },{
+                    "name": "Narrator",
+                    "text": ""
+                }
+
+            ]
+        },
+        {
+            "dialog": [
+                {
+                    "name": "Narrator",
+                    "text": "Hello student! Welcome to orientation! (click text box to continue)"
+                },
+                {
+                    "name": "Narrator",
+                    "text": "Let's get you settled in to your dorm room-- Your roommate is so excited to meet you!"
+                },
+                {
+                    "name": "Narrator",
+                    "text": "You will see your current task at the top of the screen, right now let's take your items to your new room. You will be in room 103 this semester."
+                }
+            ]
+        },
+        {
+            "dialog": [
+                {
+                    "name": "Narrator",
+                    "text": "Welcome to your dorm room! This is your primary space to recharge and can be useful for getting away from distractions if there is something you really need to focus on."
+                },
+                {
+                    "name": "Narrator",
+                    "text": "Spending time here increases your focus meter, which generally makes activities such as studying, meditation, and decision making more effective"
+                },
+                {
+                    "name": "Narrator",
+                    "text": "Spending 8 hours in bed per day will give you a full energy bar for a days activities, but if you find there is not enough hours in a day you can also give yourself temporary energy via caffeinated drinks or snacks."
+                },
+                {
+                    "name": "Narrator",
+                    "text": "It is generally a good idea to keep a couple of snacks on you in case of emergencies"
+                }
+            ]
+        },
+        {
+            "dialog": [
+                {
+                    "name": "Narrator",
+                    "text": "This is the central area of campus, use the arrow keys or WASD to explore!"
                 },
                 {
                     "name": 2,
-                    "text": "Your goal is to return this empty plane of dirt into the lush meadow it once was!"
+                    "text": "This is the central area of campus, use the arrow keys or WASD to explore!"
                 },
                 {
-                    "name": 1,
-                    "text": "Let's start by planting some seeds! Use WASD or the arrow keys to move, and click on a patch of soil to plant a seed!"
-                },
-                {
-                    "name": 1,
-                    "text": "more text debug"
+                    "name": "Narrator",
+                    "text": "At the top of the screen you will see your current task, why don't you try finding your way to your first class of the day! It is in the English building on the west side of campus!"
                 }
             ]
         },
@@ -27,7 +120,7 @@
                     "text": "Great job! Plant as many seeds as you'd like!"
                 },
                 {
-                    "name": 1,
+                    "name": "Narrator",
                     "text": "The seeds will grow on their own, but you can also click on them to water them!"
                 }
             ]

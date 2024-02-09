@@ -1,9 +1,8 @@
 import Phaser from 'phaser'
+import { Player } from '../ui/Player.js';
 import DialogBox from '../ui/dialogBox.js'
 import PlayerStats from '../ui/playerStats.js'
 import { SCENE_KEYS } from './scene-keys.js';
-
-
 export class TestScene extends Phaser.Scene {
     //this constructor is basically side bar with all gameobjects in scene
     constructor() {
@@ -12,6 +11,7 @@ export class TestScene extends Phaser.Scene {
         this.cameras
         this.player
         this.cursor
+        this.playerEnteredTrigger = false;
 
         //npcs
         this.narrator
@@ -51,6 +51,7 @@ export class TestScene extends Phaser.Scene {
     }
 
     create() {
+        
         this.input.enabled = true;
         //this.add.image(0, 0, "bg").setOrigin(0, 0)
         const array = 
@@ -71,38 +72,57 @@ export class TestScene extends Phaser.Scene {
         this.cursor = this.input.keyboard.createCursorKeys()
 
         //player stuff
+        
         this.player = this.physics.add.image((window.innerWidth / 2), (window.innerHeight / 2), "player").setOrigin(0, 0)
         this.player.setScale(0.2,0.2)
         this.player.setImmovable(true)
         this.player.body.allowGravity = false;
         this.player.setCollideWorldBounds(true)
        // this.player.setSize(20,15).setOffset(10,70)
-        
+       //this.player = new Player(this)
+
+       //code for detecting if player is in area
+       const triggerArea = this.add.rectangle(100, 100, 200, 100, 0x000000, 100); // Invisible rectangle trigger area
+       this.physics.add.existing(triggerArea, true); 
+       this.physics.add.collider(this.player, triggerArea, () => {
+        if (!this.playerEnteredTrigger) {
+            // Player entered the trigger area for the first time, trigger the event
+            this.playerEnteredTrigger = true; // Set the flag to true
+            console.log("player entered area")
+           // this.triggerEvent();
+        }
+    });
+    
+    this.physics.add.overlap(this.player, triggerArea, () => {
+        if (!this.physics.overlap(this.player, triggerArea)) {
+            // Player left the trigger area, trigger the event
+            this.playerEnteredTrigger = false; // Set the flag to false
+            console.log("player left area")
+        }
+    }, null, this);
+
+
        this.cameras.main.startFollow(this.player,false,0.2,0.2);
        
-
        this.narrator = new DialogBox(this, 700, 100, this.cache.json.get('narrator'));
        this.statsOverlay = new PlayerStats(this)
-
-       //this.cameras.
-
-        //this.narrator.show("Welcome to the Game! Here is some more text yeah this should take a while to animate yepyep so much animation go brrrr all the animation and stuff let's see if it will make a new line");
 
         //note to self later, maybe try adding different dialog boxes for different characters just specify which character when it is created?
         this.narrator.startDialog(0) //call startDialog and send in which index
     }
 
     update() {
-        // console.log('Player position:', this.player.x, this.player.y);
-        const { left, right, up, down } = this.cursor //would add up,down if overhead view
+        
+        const { left, right, up, down, } = this.cursor //would add up,down if overhead view
+        const { W, A, S, D } = this.input.keyboard.addKeys('W,A,S,D');
         //player controls
-        if (left.isDown )
+        if (left.isDown || A.isDown )
             this.player.setVelocityX(-this.playerSpeed);
-        else if (right.isDown )
+        else if (right.isDown || D.isDown)
             this.player.setVelocityX(this.playerSpeed);
-        else if (up.isDown )
+        else if (up.isDown || W.isDown)
             this.player.setVelocityY(-this.playerSpeed)
-        else if (down.isDown)
+        else if (down.isDown || S.isDown)
             this.player.setVelocityY(this.playerSpeed)
         else {
             this.player.setVelocityX(0);
