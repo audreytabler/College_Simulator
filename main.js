@@ -37,7 +37,7 @@ import { SCENE_KEYS } from "./scenes/scene-keys";
         physics: {
             default: 'arcade',
             arcade: {
-                gravity: { y: 50 },
+               // gravity: { y: 50 },
                 debug: true,
             },
         },
@@ -46,7 +46,7 @@ import { SCENE_KEYS } from "./scenes/scene-keys";
     game.scene.add(SCENE_KEYS.CAMPUS_SCENE, CampusScene);
     game.scene.add(SCENE_KEYS.TEST_SCENE, TestScene);
     game.scene.add(SCENE_KEYS.DORM_SCENE, DormScene);
-    game.scene.start(SCENE_KEYS.TEST_SCENE)
+    game.scene.start(SCENE_KEYS.CAMPUS_SCENE)
 
     //set initial game size
     //game.canvas.width = window.innerWidth - 10;
