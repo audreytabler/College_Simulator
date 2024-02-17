@@ -37,7 +37,7 @@ class DialogBox extends Phaser.GameObjects.Graphics {
       origin: { x: 0, y: 0},
       style: {
           font: '20px Courier New',
-          fill: 'white',
+          fill: 'black',
           wordWrap: { width: (width - 20) }
       }
   });

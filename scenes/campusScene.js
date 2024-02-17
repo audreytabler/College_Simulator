@@ -3,6 +3,7 @@ import { Player } from '../ui/Player.js';
 import DialogBox from '../ui/dialogBox.js'
 import PlayerStats from '../ui/playerStats.js'
 import { SCENE_KEYS } from './scene-keys.js';
+import MissionManager from '../ui/missionManager.js';
 export class CampusScene extends Phaser.Scene {
     //this constructor is basically side bar with all gameobjects in scene
     constructor() {
@@ -72,8 +73,9 @@ export class CampusScene extends Phaser.Scene {
 
 
         //code for detecting if player is in area
-        this.triggerArea = this.add.rectangle(100, 100, 200, 100, 0x000000, 100); // Invisible rectangle trigger area
-        this.triggerArea.setPosition(920,2419)
+        //enter dorm trigger area
+        this.triggerArea = this.add.rectangle(100, 100, 200, 100, 0x000000, 0); // Invisible rectangle trigger area
+        this.triggerArea.setPosition(510,2260) 
         this.physics.add.existing(this.triggerArea, true);
 
         this.physics.add.overlap(this.player, this.triggerArea, () => {
@@ -93,6 +95,8 @@ export class CampusScene extends Phaser.Scene {
 
         this.narrator = new DialogBox(this, 700, 100, this.cache.json.get('narrator'));
         this.statsOverlay = new PlayerStats(this)
+        this.missionManager = new MissionManager(this)
+        this.missionManager.drawText("CURRENT TASK: ")
 
         //note to self later, maybe try adding different dialog boxes for different characters just specify which character when it is created?
         this.narrator.startDialog(0) //call startDialog and send in which index

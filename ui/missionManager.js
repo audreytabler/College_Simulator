@@ -6,20 +6,23 @@ class MissionManager extends Phaser.GameObjects.Graphics {
         if (!MissionManager.instance) {
             MissionManager.instance = this;
             this.currentMission = 0;
-            this.missionText = this.scene.add.text(0,0,'debug text',{ fontSize: '16px', fill:'white',blendMode: 'MULTIPLY' });
+            this.missionText = this.scene.add.text(0,0,'debug text',{ fontSize: '16px', fill:'black',blendMode: 'MULTIPLY' });
             this.criteria;
             this.targetBox;
             this.criteriaMet = false
             this.missionInProgress = false;
+
+            this.scene.events.on('update', this.updatePosition, this);
         }
         MissionManager.instance.scene = scene
         return MissionManager.instance;
+
     }
 
     updatePosition(){
         const camera = this.scene.cameras.main;
-        const x = camera.scrollX + 20; // Adjust as needed
-        const y = camera.scrollY + 10; // Adjust as needed
+        const x = camera.scrollX + 300; // Adjust as needed
+        const y = camera.scrollY + 15; // Adjust as needed
         this.missionText.setPosition(x, y);
     }
 
