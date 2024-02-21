@@ -12,13 +12,16 @@ class DialogBox extends Phaser.GameObjects.Graphics {
 
     this.isAnimating = false;
     this.clickToSkip = false;
+    this.dialogEnabled = false;
 
+    this.goal;
     this.data =data //data holds json data
     this.dialogLength //how many bubbles in a conversation
     this.dialogIndex = 0;
     this.currentIndex //current index within a conversation
 
     this.isVisible = false;
+    this.clicksAllowed = true;
 
     //console.log("data is " + this.data.dialogList.length)
     this.dialogList =[] 
@@ -45,21 +48,33 @@ class DialogBox extends Phaser.GameObjects.Graphics {
 
     this.handleClicks()
     //this.scene.events.on('update', this.updatePosition, this);
-    
   }
 
   getIsVisible(){
     return this.isVisible
   }
+  disableClicks(){
+    this.clicksAllowed = false
+  }
+  enableClicks(){
+    this.clicksAllowed=true
+  }
 
   handleClicks(){
+    if(this.clicksAllowed){
     this.scene.input.on('pointerdown', function () {
       if (this.isAnimating)
-          this.clickToSkip = true;
+          this.clickToSkip = true
       else if (this.currentIndex < this.dialogLength)
         this.nextDialog();
-      else this.hide();
+      else if (this.dialogEnabled){ 
+        this.hide(); 
+        this.goal = this.data.dialogList[this.dialogIndex-1].dialog[this.currentIndex-1].goal
+        console.log(this.goal)
+        this.scene.missionManager.startMission(this.goal)
+      }
   }, this);
+}
   }
 
   updatePosition() { 
@@ -71,6 +86,8 @@ class DialogBox extends Phaser.GameObjects.Graphics {
   }
 
   setTextWithAnimation(text) {
+    if(!this.clicksAllowed)
+      return
     this.isAnimating = true;
     this.clickToSkip = false;
 
@@ -78,22 +95,26 @@ class DialogBox extends Phaser.GameObjects.Graphics {
     const totalCharacters = text.length;
 
     const animateCharacter = () => {
-        if (this.isAnimating && currentIndex < totalCharacters) { 
+        if (this.isAnimating && currentIndex < totalCharacters) {
             this.dialogText.setText(text.substring(0, currentIndex + 1));
             currentIndex++;
+
+            if (this.clickToSkip) {
+                this.isAnimating = false;
+                this.dialogText.setText(text);
+                return;
+            }
+
             // Using requestAnimationFrame for smoother animations
             requestAnimationFrame(animateCharacter);
-            if (this.clickToSkip) {
-              this.isAnimating = false;
-              this.dialogText.setText(text);
-              return;
-          }
         } else {
             this.isAnimating = false;
         }
     };
+
     animateCharacter();
-  }
+}
+
 
   startDialog(index){ //stardialog with given index
     if (index>=this.data.dialogList.length)
@@ -109,6 +130,7 @@ class DialogBox extends Phaser.GameObjects.Graphics {
   }
 
   startDialog(){ //will go off of whatever the last index is
+    this.dialogEnabled=true;
     if (this.dialogIndex >= this.data.dialogList.length)
       this.dialogIndex = this.data.dialogList.length - 1
 
@@ -139,6 +161,7 @@ class DialogBox extends Phaser.GameObjects.Graphics {
     this.isVisible = false;
     this.isAnimating = false;
     this.clickToSkip = false;
+    this.dialogEnabled = false
   }
 }
 

@@ -87,7 +87,7 @@ export class TestScene extends Phaser.Scene {
         //this.topRight.setImmovable(true)
         
         this.physics.world.enable;
-       
+
         
         this.physics.world.setBounds( 0, 0, 15351, 11260 );
         

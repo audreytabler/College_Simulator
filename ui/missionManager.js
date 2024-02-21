@@ -27,8 +27,14 @@ class MissionManager extends Phaser.GameObjects.Graphics {
     }
 
     startMission(m){
+        console.log("mission " + m + " started")
         this.missionInProgress = true
         switch(m){
+            case "take_shower":
+                this.drawText("Current task: Take a warm shower")
+                this.scene.targetBox.setPosition(450,3000) //= set target box position to front of dorm door
+                this.criteria//check player inventory contains items
+                break;
             case "find_dorm":
                 this.drawText("Bring your items to your dorm (room #111)")
                 this.targetBox.setPosition(0,0) //= set target box position to front of dorm door

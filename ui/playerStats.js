@@ -17,10 +17,6 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
             this.focusText;
             this.mentalText;
 
-            
-
-            //this.interpolatedColor;
-
             //this.newText = this.scene.add.text(0,0,'hello',{ fontSize: '16px', fill: 'white' });
             
             this.mask;

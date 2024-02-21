@@ -5,6 +5,7 @@
                 {
                     "name": "Narrator",
                     "text": "Good morning and happy Monday! Use the arrow keys or WASD to move around your dorm room. (click to progress dialog)"
+                    ,"goal":"index 0 goal"
                 },
                 {
                     "name": "Narrator",
@@ -12,24 +13,26 @@
                 },
                 {
                     "name": "Narrator",
-                    "text": "You use energy for each task you complete. Getting eight hours of sleep will give you a full energy bar to use for the next day. You can also increase your energy throughout the day if needed by consuming snacks or energy drinks."
+                    "text": "You use energy for each task you complete. Getting eight hours of sleep will give you a full energy bar to use for the next day. You can also increase your energy throughout the day by consuming snacks or energy drinks."
                 },
                 {
                     "name": "Narrator",
-                    "text": "Keeping your focus high makes tasks easier to complete. Be careful not to over expend your focus though, critically low levels of focus can lead to burnout and other side effects. "
+                    "text": "Keeping your focus high makes tasks easier to complete. Be careful not to over expend your focus though, critically low levels of focus can lead to burnout."
                 },
                 {
                     "name": "Narrator",
-                    "text": "Focus can be increased by taking care of yourself (such as by going to the gym, hobbies, clean habits, ect) or spending time in quiet spaces (such as in your dorm or at the library)"
+                    "text": "Focus can be increased through means such as by going to the gym, hobbies, cleaning, ect or spending time in quiet spaces such as in your dorm or at the library."
+                ,"goal":"focus number goal"
                 },
                 {
                     "name": "Narrator",
-                    "text": "It is also important to allocate time to interact with your peers and get involved on campus! Your social level represents your current social fulfilment. If you notice it getting low, you could consider going to a campus club meeting or reach out and see what your friends are up to!"
+                    "text": "Your social level represents your current social fulfilment. If you notice it getting low, you could consider getting involved in a campus event or sending a text to someone you know to see what they're up to!",
+                    "goal":"previous text goal"
                 },
                 {
                     "name": "Narrator",
-                    "text": "You slept for eight hours last night so your energy bar is full! Ah, but it appears your focus levels are a little lackluster this morning. How about a nice warm shower to help clear your mind?",
-                    "goal":"shower"
+                    "text": "You slept for eight hours last night so your energy bar is full! It appears your focus levels are a little lackluster this morning-- how about a nice warm shower to help clear your mind?",
+                    "goal":"take_shower"
                 }
             ]
         },

@@ -14,6 +14,8 @@ export class CampusScene extends Phaser.Scene {
         this.cursor
         this.playerEnteredTrigger = false;
         this.topRight;
+        this.missionManager;
+        this.targetBox;
 
         //npcs
         this.narrator
@@ -23,12 +25,13 @@ export class CampusScene extends Phaser.Scene {
         this.playerSpeed = 400
 
         this.triggerArea
+        this.popUp
         this.wallsGroup;
-
     }
 
     preload() {
         this.load.image("bg", "/assets/images/backgroundSketch.png")
+        this.load.image("popUp", "/assets/playertest.png")
         this.load.spritesheet('player', 'assets/CharacterSpritesheet.png', { frameWidth: 85, frameHeight: 150 });
         this.load.json('narrator', "./assets/narratorDialog.json")
 
@@ -37,46 +40,17 @@ export class CampusScene extends Phaser.Scene {
 
     create() {
         this.physics.world.enable;
+        this.physics.world.setBounds(0, 0, 15351, 11260);
         this.input.enabled = true;
-
         this.cursor = this.input.keyboard.createCursorKeys()
 
         this.add.image(0,0,"bg").setOrigin(0,0)
-        
-        this.anims.create({
-            key: "idle",
-            frameRate: 10,
-            frames: this.anims.generateFrameNumbers("player", { start: 0, end: 0 }),
-            repeat: -1
-        });
-        this.anims.create({
-            key: "forward",
-            frameRate: 10,
-            frames: this.anims.generateFrameNumbers("player", { start: 10, end: 14 }),
-            repeat: -1
-        });
-        this.anims.create({
-            key: "left",
-            frameRate: 7,
-            frames: this.anims.generateFrameNumbers("player", { start: 15, end: 17 }),
-            repeat: -1
-        });
-        this.anims.create({
-            key: "right",
-            frameRate: 7,
-            frames: this.anims.generateFrameNumbers("player", { start: 20, end: 22 }),
-            repeat: -1
-        });
-        this.anims.create({
-            key: "back",
-            frameRate: 10,
-            frames: this.anims.generateFrameNumbers("player", { start: 5, end: 5 }),
-            repeat: -1
-        });
 
-        //player stuff
-        //this.background = this.scene.add.image
-        // Add the topRight image to the scene
+        this.popUp = this.add.image(494,2419,'popup')
+        this.popUp.setInteractive()
+        this.popUp.setVisible(false)
+        this.popUp.on('pointerdown',()=> {this.narrator.disableClicks(); this.scene.start(SCENE_KEYS.TEST_SCENE);})
+
         this.topRight = this.physics.add.image(0, 0, 'top_right').setOrigin(0, 0);
 
         // Create a new physics group
@@ -89,19 +63,9 @@ export class CampusScene extends Phaser.Scene {
             child.setImmovable(true);
         });
 
-
-
-        this.physics.world.setBounds(0, 0, 15351, 11260);
-
-        this.player = this.physics.add.sprite(0, 0, "player").setOrigin(0, 0)//((window.innerWidth / 2), (window.innerHeight / 2), "player").setOrigin(0, 0)
-        //this.player.setScale(0.2,0.2)
-        this.player.setPosition(494, 2419)
-        this.player.body.allowGravity = false;
-        this.player.setBodySize(65,120)
-        this.player.setCollideWorldBounds(true)
+        this.player()
 
         this.physics.add.collider(this.player, this.wallsGroup);
-
 
         //code for detecting if player is in area
         //enter dorm trigger area
@@ -114,17 +78,30 @@ export class CampusScene extends Phaser.Scene {
                 // Player entered the trigger area for the first time, trigger the event
                 this.playerEnteredTrigger = true; // Set the flag to true
                 console.log("player entered area")
+                this.popUp.setVisible(true)
                 // this.triggerEvent();
             }
 
         });
 
+        //target box for setting goals
+        this.targetBox = this.add.rectangle(100, 100, 200, 100, 0x000000, 0); // Invisible rectangle trigger area
+        this.targetBox.setPosition(510,2260) 
+        this.physics.add.existing(this.targetBox, true);
 
+        this.physics.add.overlap(this.player, this.targetBox, () => {
+            if (!this.playerEnteredTrigger) {
+                // Player entered the trigger area for the first time, trigger the event
+                this.playerEnteredTrigger = true; // Set the flag to true
+                console.log("player entered target box")
+                this.popUp.setVisible(true)
+                // this.triggerEvent();
+            }
 
-
-        this.cameras.main.startFollow(this.player, false, 0.2, 0.2);
+        });
 
         this.narrator = new DialogBox(this, 700, 100, this.cache.json.get('narrator'));
+        
         this.statsOverlay = new PlayerStats(this)
         this.missionManager = new MissionManager(this)
         this.missionManager.drawText("CURRENT TASK: ")
@@ -133,9 +110,8 @@ export class CampusScene extends Phaser.Scene {
         this.narrator.startDialog(0) //call startDialog and send in which index
 
         this.input.on('pointerdown', (pointer) => {
-
             // Log the position of the cursor when clicked
-            console.log('Cursor position - X:', this.player.x, 'Y:', this.player.y);
+            console.log('player position - X:', this.player.x, 'Y:', this.player.y);
         });
     }
 
@@ -144,6 +120,7 @@ export class CampusScene extends Phaser.Scene {
         if ((!this.physics.overlap(this.player, this.triggerArea)) && (this.playerEnteredTrigger == true)) {
             // Player left the trigger area, trigger the event
             this.playerEnteredTrigger = false; // Set the flag to false
+            this.popUp.setVisible(false)
             console.log("player left area");
         }
 
@@ -177,6 +154,49 @@ export class CampusScene extends Phaser.Scene {
 
         if (this.narrator.getIsVisible)
             this.narrator.updatePosition()
+    }
+
+    player(){
+        this.anims.create({
+            key: "idle",
+            frameRate: 10,
+            frames: this.anims.generateFrameNumbers("player", { start: 0, end: 0 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "forward",
+            frameRate: 10,
+            frames: this.anims.generateFrameNumbers("player", { start: 10, end: 14 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "left",
+            frameRate: 7,
+            frames: this.anims.generateFrameNumbers("player", { start: 15, end: 17 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "right",
+            frameRate: 7,
+            frames: this.anims.generateFrameNumbers("player", { start: 20, end: 22 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "back",
+            frameRate: 10,
+            frames: this.anims.generateFrameNumbers("player", { start: 5, end: 5 }),
+            repeat: -1
+        });
+
+        this.player = this.physics.add.sprite(0, 0, "player").setOrigin(0, 0)//((window.innerWidth / 2), (window.innerHeight / 2), "player").setOrigin(0, 0)
+        //this.player.setScale(0.2,0.2)
+        this.player.setPosition(494, 2419)
+        this.player.body.allowGravity = false;
+        this.player.setBodySize(65,120)
+        this.player.setCollideWorldBounds(true)
+
+        this.cameras.main.startFollow(this.player, false, 0.2, 0.2);
+
     }
 
 }
