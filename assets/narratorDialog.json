@@ -40,11 +40,15 @@
             "dialog":[
                 {
                     "name": "Narrator",
-                    "text": ""
-                },
+                    "text": "Great! You've made it to the shower. Click the button to turn it on"
+                }
+            ]
+        },
+        {
+            "dialog":[
                 {
                     "name": "Narrator",
-                    "text": ""
+                    "text": "You feel refreshed and your mind seems much clearer now! (+20 Focus)"
                 },
                 {
                     "name": "Narrator",

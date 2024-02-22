@@ -26,18 +26,22 @@ class MissionManager extends Phaser.GameObjects.Graphics {
         this.missionText.setPosition(x, y);
     }
 
-    startMission(m){
+    async startMission(m){
         console.log("mission " + m + " started")
         this.missionInProgress = true
         switch(m){
             case "take_shower":
                 this.drawText("Current task: Take a warm shower")
-                this.scene.targetBox.setPosition(450,3000) //= set target box position to front of dorm door
-                this.criteria//check player inventory contains items
+                this.scene.targetBox.setPosition(450,2260) //= set target box position to shower
+
+                //wait until player is within bounds of targetbox)
+                await this.until(_ => this.criteriaMet == true);
+                console.log("criteria met!")
+                this.scene.narrator.startDialog()  
                 break;
             case "find_dorm":
                 this.drawText("Bring your items to your dorm (room #111)")
-                this.targetBox.setPosition(0,0) //= set target box position to front of dorm door
+                this.scene.targetBox.setPosition(0,0) //= set target box position to front of dorm door
                 this.criteria//check player inventory contains items
                 break;
             case "meet_neighbors":
@@ -47,7 +51,7 @@ class MissionManager extends Phaser.GameObjects.Graphics {
                     break;
             case "find_dining hall":
                 this.drawText("Follow your roommate to the dining hall")
-                this.targetBox.setPosition(0,0) //= set target box position to orientation
+                this.scene.targetBox.setPosition(0,0) //= set target box position to orientation
                 break;
         }
 
@@ -61,6 +65,19 @@ class MissionManager extends Phaser.GameObjects.Graphics {
         this.missionText.setVisible(true)
         this.missionText.setText(text)
     }
+
+    setCriteriaMet(val){
+        this.criteriaMet = val
+    }
+
+    until(conditionFunction) {
+        const poll = resolve => {
+          if(conditionFunction()) resolve();
+          else setTimeout(_ => poll(resolve), 400);
+        }
+      
+        return new Promise(poll);
+      }
 
 
 

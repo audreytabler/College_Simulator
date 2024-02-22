@@ -79,6 +79,7 @@ export class CampusScene extends Phaser.Scene {
                 this.playerEnteredTrigger = true; // Set the flag to true
                 console.log("player entered area")
                 this.popUp.setVisible(true)
+                this.missionManager.setCriteriaMet(true)
                 // this.triggerEvent();
             }
 
@@ -95,6 +96,7 @@ export class CampusScene extends Phaser.Scene {
                 this.playerEnteredTrigger = true; // Set the flag to true
                 console.log("player entered target box")
                 this.popUp.setVisible(true)
+                this.missionManager.setCriteriaMet(true)
                 // this.triggerEvent();
             }
 
@@ -122,7 +124,9 @@ export class CampusScene extends Phaser.Scene {
             this.playerEnteredTrigger = false; // Set the flag to false
             this.popUp.setVisible(false)
             console.log("player left area");
+            this.missionManager.setCriteriaMet(false)
         }
+        
 
         const { left, right, up, down, } = this.cursor //would add up,down if overhead view
         const { W, A, S, D } = this.input.keyboard.addKeys('W,A,S,D');
