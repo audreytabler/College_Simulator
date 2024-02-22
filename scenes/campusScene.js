@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import { Player } from '../ui/Player.js';
 import DialogBox from '../ui/dialogBox.js'
+import Clock from '../ui/clock.js'
 import PlayerStats from '../ui/playerStats.js'
 import { SCENE_KEYS } from './scene-keys.js';
 import MissionManager from '../ui/missionManager.js';
@@ -16,6 +17,7 @@ export class CampusScene extends Phaser.Scene {
         this.topRight;
         this.missionManager;
         this.targetBox;
+        this.clock;
 
         //npcs
         this.narrator
@@ -108,6 +110,8 @@ export class CampusScene extends Phaser.Scene {
         this.missionManager = new MissionManager(this)
         this.missionManager.drawText("CURRENT TASK: ")
 
+        this.clock = new Clock(this,this.time.now)
+
         //note to self later, maybe try adding different dialog boxes for different characters just specify which character when it is created?
         this.narrator.startDialog(0) //call startDialog and send in which index
 
@@ -118,6 +122,10 @@ export class CampusScene extends Phaser.Scene {
     }
 
     update() {
+
+        this.clock.update();
+        //const deltaTime = this.time.now;
+
 
         if ((!this.physics.overlap(this.player, this.triggerArea)) && (this.playerEnteredTrigger == true)) {
             // Player left the trigger area, trigger the event
