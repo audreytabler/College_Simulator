@@ -77,13 +77,6 @@ class DialogBox extends Phaser.GameObjects.Graphics {
 }
   }
 
-  updatePosition() { 
-    const camera = this.scene.cameras.main;
-    const x = camera.scrollX +175; // Adjust as needed
-    const y = camera.scrollY+camera.height -this.height -10; // Adjust as needed
-    this.dialogBox.setPosition(x, y);
-    this.dialogText.setPosition(x+10,y+10)
-  }
 
   setTextWithAnimation(text) {
     if(!this.clicksAllowed)

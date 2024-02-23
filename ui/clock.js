@@ -10,38 +10,49 @@ export class Clock extends Phaser.GameObjects.Graphics {
         this.clockText = null;
         this.deltaTime;
         this.start = initialTime;
+        this.numDays =1
+        this.totalHours = 7;
 
         // Create a text object to display the clock
-        this.clockText = this.scene.add.text(10, 10, this.getTimeString(), { font: '24px Arial', fill: '#ffffff' });
+        this.clockText = this.scene.add.text(15, 800, this.getTimeString(), { font: '24px Arial', fill: '#ffffff' });
+            const camera = this.scene.cameras.main;
+            const x = camera.scrollX + 850; // Adjust as needed
+            const y = camera.scrollY + 15; // Adjust as needed
+            this.clockText.setPosition(x, y);
+
     }
 
     
     // Function to update the clock time
     update() {
-        const deltaTime = (this.scene.time.now - this.start)/ 10000; // Convert deltaTime to seconds
+        const deltaTime = (this.scene.time.now - this.start)/ 1000; // Convert deltaTime to seconds
         const minutesPassed = deltaTime * this.timeScale;
         this.advanceTime(minutesPassed);
-        
+
+        if (this.totalHours >= 24 ) {
+            this.numDays++; // Increment numDays
+            this.totalHours =0
+            this.time.hour=12
+            this.time.minute=1
+        }
         // Update the clock display
         this.clockText.setText(this.getTimeString());
-        this.updatePosition()
     }
-    updatePosition(){
-        const camera = this.scene.cameras.main;
-        const x = camera.scrollX + 850; // Adjust as needed
-        const y = camera.scrollY + 15; // Adjust as needed
-        this.clockText.setPosition(x, y);
-    }
+
 
     // Function to advance the time by a certain number of minutes
     advanceTime(minutes) {
         // Convert minutes to hours and minutes
         const totalMinutes = this.time.hour * 60 + this.time.minute + minutes;
+        const totalHoursMins = this.totalHours * 60 + this.time.minute + minutes;
+        this.totalHours = Math.floor(totalHoursMins / 60)
+        console.log("total hours is " + this.totalHours)
         this.time.hour = Math.floor(totalMinutes / 60) % 12 || 12; // Ensure hour is between 1 and 12
         this.time.minute = totalMinutes % 60;
 
         // Determine the period (AM or PM)
-        this.time.period = totalMinutes < 720 ? 'AM' : 'PM';
+        //this.time.period = totalMinutes < 720 ? 'AM' : 'PM';
+        this.time.period = this.totalHours < 12 ? 'AM' : 'PM';
     }
 
     // Function to format the time as a string

@@ -66,7 +66,7 @@ export class CampusScene extends Phaser.Scene {
         });
 
         this.player()
-        this.scene.launch(SCENE_KEYS.UI_SCENE);
+        //this.scene.launch(SCENE_KEYS.UI_SCENE);
 
         this.physics.add.collider(this.player, this.wallsGroup);
 

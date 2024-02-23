@@ -21,6 +21,7 @@ export class UIScene extends Phaser.Scene {
         console.log("UIScene launched!")
         // Create the clock
         this.clock = new Clock(this,this.time.now);
+        this.clock.setPosition(15,800)
         
         this.narrator = new DialogBox(this, 700, 100, this.cache.json.get('narrator'));
         this.narrator.startDialog(0)
