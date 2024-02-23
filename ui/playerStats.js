@@ -3,27 +3,23 @@ import Phaser from 'phaser';
 class PlayerStats extends Phaser.GameObjects.Graphics {
     constructor(scene) {
         super(scene, 'PlayerStats');
-        if (!PlayerStats.instance) {
-            this.scene = scene;
-            this.energyNum = 135 * 1;
-            this.focusNum = 4;
-            this.mentalNum = 135 * 1;
-            this.emptyBars;
-            this.energyLevel;
-            this.focusLevel;
-            this.mentalLevel;
+        this.scene = scene;
+        this.energyNum = 135 * 1;
+        this.focusNum = 4;
+        this.mentalNum = 135 * 1;
+        this.emptyBars;
+        this.energyLevel;
+        this.focusLevel;
+        this.mentalLevel;
 
-            this.energyText;
-            this.focusText;
-            this.mentalText;
+        this.energyText;
+        this.focusText;
+        this.mentalText;
 
-            //this.newText = this.scene.add.text(0,0,'hello',{ fontSize: '16px', fill: 'white' });
-            
-            this.mask;
+        //this.newText = this.scene.add.text(0,0,'hello',{ fontSize: '16px', fill: 'white' });
+        
+        this.mask;
 
-            PlayerStats.instance = this;
-        }
-        PlayerStats.instance.scene = scene
         this.initialDrawAllStats();
         return PlayerStats.instance;
     }

@@ -5,6 +5,7 @@ import {TitleScene} from './scenes/titleScene.js'
 import { CampusScene } from './scenes/campusScene.js';
 import {TestScene} from './scenes/testScene.js'
 import {DormScene} from './scenes/dormScene.js'
+import {UIScene} from './scenes/uiScene.js'
 import { SCENE_KEYS } from "./scenes/scene-keys";
 
 
@@ -42,11 +43,13 @@ import { SCENE_KEYS } from "./scenes/scene-keys";
             },
         },
       });
-      game.scene.add(SCENE_KEYS.TITLE_SCENE, TitleScene);
     game.scene.add(SCENE_KEYS.CAMPUS_SCENE, CampusScene);
     game.scene.add(SCENE_KEYS.TEST_SCENE, TestScene);
     game.scene.add(SCENE_KEYS.DORM_SCENE, DormScene);
+    game.scene.add(SCENE_KEYS.UI_SCENE, UIScene);
+    game.scene.add(SCENE_KEYS.TITLE_SCENE, TitleScene);
     game.scene.start(SCENE_KEYS.CAMPUS_SCENE)
+    //game.scene.start(SCENE_KEYS.UI_SCENE)
 
     //set initial game size
     //game.canvas.width = window.innerWidth - 10;

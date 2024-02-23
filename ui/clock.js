@@ -18,17 +18,13 @@ export class Clock extends Phaser.GameObjects.Graphics {
     
     // Function to update the clock time
     update() {
-        //this.deltaTime= this.scene.time.now
-        // Update the time based on the time scale
         const deltaTime = (this.scene.time.now - this.start)/ 10000; // Convert deltaTime to seconds
-        //console.log("delta time is: " + deltaTime + " current time is " + this.scene.time.now )
         const minutesPassed = deltaTime * this.timeScale;
         this.advanceTime(minutesPassed);
         
         // Update the clock display
         this.clockText.setText(this.getTimeString());
         this.updatePosition()
-       // console.log("total minutes is " + this.time.minute.toString().padStart(2, '0'))
     }
     updatePosition(){
         const camera = this.scene.cameras.main;
@@ -41,7 +37,6 @@ export class Clock extends Phaser.GameObjects.Graphics {
     advanceTime(minutes) {
         // Convert minutes to hours and minutes
         const totalMinutes = this.time.hour * 60 + this.time.minute + minutes;
-        //console.log("minutes is " + Math.round(totalMinutes))
         this.time.hour = Math.floor(totalMinutes / 60) % 12 || 12; // Ensure hour is between 1 and 12
         this.time.minute = totalMinutes % 60;
 

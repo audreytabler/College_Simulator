@@ -4,4 +4,5 @@ export const SCENE_KEYS = Object.freeze({
     CAMPUS_SCENE: 'CAMPUS_SCENE',
     DORM_SCENE: 'DORM_SCENE',
     TEST_SCENE: 'TEST_SCENE',
+    UI_SCENE: 'UI_SCENE',
   });

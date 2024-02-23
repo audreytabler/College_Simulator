@@ -3,8 +3,9 @@ import { Player } from '../ui/Player.js';
 import DialogBox from '../ui/dialogBox.js'
 import Clock from '../ui/clock.js'
 import PlayerStats from '../ui/playerStats.js'
-import { SCENE_KEYS } from './scene-keys.js';
 import MissionManager from '../ui/missionManager.js';
+import { SCENE_KEYS } from './scene-keys.js';
+
 export class CampusScene extends Phaser.Scene {
     //this constructor is basically side bar with all gameobjects in scene
     constructor() {
@@ -21,7 +22,6 @@ export class CampusScene extends Phaser.Scene {
 
         //npcs
         this.narrator
-        this.jsonfile
 
         //variables
         this.playerSpeed = 400
@@ -66,6 +66,7 @@ export class CampusScene extends Phaser.Scene {
         });
 
         this.player()
+        this.scene.launch(SCENE_KEYS.UI_SCENE);
 
         this.physics.add.collider(this.player, this.wallsGroup);
 
@@ -81,7 +82,7 @@ export class CampusScene extends Phaser.Scene {
                 this.playerEnteredTrigger = true; // Set the flag to true
                 console.log("player entered area")
                 this.popUp.setVisible(true)
-                this.missionManager.setCriteriaMet(true)
+               // this.missionManager.setCriteriaMet(true)
                 // this.triggerEvent();
             }
 
@@ -98,22 +99,22 @@ export class CampusScene extends Phaser.Scene {
                 this.playerEnteredTrigger = true; // Set the flag to true
                 console.log("player entered target box")
                 this.popUp.setVisible(true)
-                this.missionManager.setCriteriaMet(true)
+               // this.missionManager.setCriteriaMet(true)
                 // this.triggerEvent();
             }
 
         });
 
-        this.narrator = new DialogBox(this, 700, 100, this.cache.json.get('narrator'));
+       // this.narrator = new DialogBox(this, 700, 100, this.cache.json.get('narrator'));
         
-        this.statsOverlay = new PlayerStats(this)
-        this.missionManager = new MissionManager(this)
-        this.missionManager.drawText("CURRENT TASK: ")
+        //this.statsOverlay = new PlayerStats(this)
+        //this.missionManager = new MissionManager(this)
+        //this.missionManager.drawText("CURRENT TASK: ")
 
-        this.clock = new Clock(this,this.time.now)
+       // this.clock = new Clock(this,this.time.now)
 
         //note to self later, maybe try adding different dialog boxes for different characters just specify which character when it is created?
-        this.narrator.startDialog(0) //call startDialog and send in which index
+      //  this.narrator.startDialog(0) //call startDialog and send in which index
 
         this.input.on('pointerdown', (pointer) => {
             // Log the position of the cursor when clicked
@@ -123,7 +124,7 @@ export class CampusScene extends Phaser.Scene {
 
     update() {
 
-        this.clock.update();
+        //this.clock.update();
         //const deltaTime = this.time.now;
 
 
@@ -132,7 +133,7 @@ export class CampusScene extends Phaser.Scene {
             this.playerEnteredTrigger = false; // Set the flag to false
             this.popUp.setVisible(false)
             console.log("player left area");
-            this.missionManager.setCriteriaMet(false)
+            //this.missionManager.setCriteriaMet(false)
         }
         
 
@@ -164,8 +165,8 @@ export class CampusScene extends Phaser.Scene {
             //this.player.frame = 0;
         }
 
-        if (this.narrator.getIsVisible)
-            this.narrator.updatePosition()
+      /*  if (this.narrator.getIsVisible)
+            this.narrator.updatePosition()*/
     }
 
     player(){
@@ -195,8 +196,8 @@ export class CampusScene extends Phaser.Scene {
         });
         this.anims.create({
             key: "back",
-            frameRate: 10,
-            frames: this.anims.generateFrameNumbers("player", { start: 5, end: 5 }),
+            frameRate: 7,
+            frames: this.anims.generateFrameNumbers("player", { start: 25, end: 28 }),
             repeat: -1
         });
 
