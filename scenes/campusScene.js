@@ -29,6 +29,7 @@ export class CampusScene extends Phaser.Scene {
         this.triggerArea
         this.popUp
         this.wallsGroup;
+        
     }
 
     preload() {
@@ -41,6 +42,8 @@ export class CampusScene extends Phaser.Scene {
     }
 
     create() {
+        this.events.emit('sceneActivated', this);
+
         this.physics.world.enable;
         this.physics.world.setBounds(0, 0, 15351, 11260);
         this.input.enabled = true;
@@ -105,20 +108,15 @@ export class CampusScene extends Phaser.Scene {
 
         });
 
-       // this.narrator = new DialogBox(this, 700, 100, this.cache.json.get('narrator'));
-        
-        //this.statsOverlay = new PlayerStats(this)
-        //this.missionManager = new MissionManager(this)
-        //this.missionManager.drawText("CURRENT TASK: ")
-
-       // this.clock = new Clock(this,this.time.now)
-
-        //note to self later, maybe try adding different dialog boxes for different characters just specify which character when it is created?
-      //  this.narrator.startDialog(0) //call startDialog and send in which index
 
         this.input.on('pointerdown', (pointer) => {
             // Log the position of the cursor when clicked
             console.log('player position - X:', this.player.x, 'Y:', this.player.y);
+        });
+
+        this.scene.get(SCENE_KEYS.UI_SCENE).events.on('setTargetBox', () => {
+            console.log("setting target box position... target box y is "+this.targetBox.y )
+            this.targetBox.setPosition(510,2500)
         });
     }
 

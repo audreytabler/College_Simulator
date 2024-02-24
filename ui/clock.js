@@ -33,7 +33,7 @@ export class Clock extends Phaser.GameObjects.Graphics {
             this.numDays++; // Increment numDays
             this.totalHours =0
             this.time.hour=12
-            this.time.minute=1
+            this.time.minute=0
         }
         // Update the clock display
         this.clockText.setText(this.getTimeString());
@@ -46,7 +46,7 @@ export class Clock extends Phaser.GameObjects.Graphics {
         const totalMinutes = this.time.hour * 60 + this.time.minute + minutes;
         const totalHoursMins = this.totalHours * 60 + this.time.minute + minutes;
         this.totalHours = Math.floor(totalHoursMins / 60)
-        console.log("total hours is " + this.totalHours)
+        //console.log("total hours is " + this.totalHours)
         this.time.hour = Math.floor(totalMinutes / 60) % 12 || 12; // Ensure hour is between 1 and 12
         this.time.minute = totalMinutes % 60;
 
