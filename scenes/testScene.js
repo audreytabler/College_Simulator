@@ -2,11 +2,10 @@ import Phaser from 'phaser'
 import { Player } from '../ui/Player.js';
 import DialogBox from '../ui/dialogBox.js'
 import PlayerStats from '../ui/playerStats.js'
-import { SCENE_KEYS } from './scene-keys.js';
 export class TestScene extends Phaser.Scene {
     //this constructor is basically side bar with all gameobjects in scene
     constructor() {
-        super({key: SCENE_KEYS.TEST_SCENE,});
+        super({key: "TEST_SCENE"});
         //gameObjects
         this.cameras
         this.player

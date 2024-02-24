@@ -3,12 +3,11 @@ import DialogBox from '../ui/dialogBox.js'
 import Clock from '../ui/clock.js'
 import PlayerStats from '../ui/playerStats.js'
 import MissionManager from '../ui/missionManager.js';
-import { SCENE_KEYS } from './scene-keys.js';
 
 
 export class UIScene extends Phaser.Scene {
     constructor() {
-        super({ key: SCENE_KEYS.UI_SCENE, active: true }); // Make UIScene always active
+        super({ key: "UI_SCENE", active: true }); // Make UIScene always active
         this.clock
         this.narrator;
         this.playerStats;
@@ -30,32 +29,38 @@ export class UIScene extends Phaser.Scene {
         this.statsOverlay = new PlayerStats(this)
         this.missionManager = new MissionManager(this)
         this.missionManager.drawText("CURRENT TASK: ")
+        this.newScene()
 
-        this.scene.get(SCENE_KEYS.CAMPUS_SCENE).events.on('sceneActivated', (sceneKey) => {
+        /*this.scene.get(SCENE_KEYS.CAMPUS_SCENE).events.on('sceneActivated', (sceneKey) => {
             this.activeScene = sceneKey;
             console.log('Active scene:', this.activeScene);
-        });
-
-        this.scene.get(SCENE_KEYS.DORM_SCENE).events.on('sceneActivated', (sceneKey) => {
+        });*/
+        
+        /*this.scene.get(this.activeScene).events.on('sceneActivated', (sceneKey) => {
             this.activeScene = sceneKey;
-            console.log('Active scene:', this.activeScene);
-        });
+            console.log('Active scene:'+ this.activeScene);
+        });*/
 
         this.events.emit('setTargetBox'); 
+        
 
         
     }
 
     update() {
-        this.events.emit('setTargetBox'); 
+        //this.events.emit('setTargetBox'); 
         // Update the clock
         this.clock.update();
-       /* if (this.activeScene != null){
-            console.log("active scene is " + this.activeScene)
-            this.activeScene.targetBox.setPosition(0,0) 
-            this.activeScene.add.text(15, 800, "this.getTimeString()", { font: '24px Arial', fill: '#ffffff' });
-        }*/
+        //this.newScene()
+    
     }
+
+    newScene(nScene){
+        this.activeScene = nScene
+        console.log("ui: new scene is " + this.activeScene)
+
+    }
+
 }
 
 // Define Clock class as shown in the previous example

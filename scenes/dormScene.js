@@ -1,25 +1,45 @@
 import Phaser from 'phaser'
-import { SCENE_KEYS } from "./scene-keys";
 
 
 export class DormScene extends Phaser.Scene{
     constructor(){
         super({
-            key: SCENE_KEYS.DORM_SCENE
+            key: "DORM_SCENE"
         });
         this.cameras
         this.player
         this.playerSpeed = 400
         this.cursor
         this.targetBox
+
+        this.wallsGroup;
     }
     create(){
         this.events.emit('sceneActivated', this);  
 
-        this.scene.get(SCENE_KEYS.UI_SCENE).events.on('setTargetBox', () => {
+        this.scene.get("UI_SCENE").events.on('setTargetBox', () => {
             console.log("setting target box position")
             this.targetBox.setPosition(0,0)
-        });                        
+        });       
+        
+        this.targetBox = this.add.rectangle(100, 100, 200, 100, 0x000000, 0); // Invisible rectangle trigger area
+        this.targetBox.setPosition(510,2260) 
+        this.physics.add.existing(this.targetBox, true);
+
+        this.physics.add.overlap(this.player, this.targetBox, () => {
+            if (!this.playerEnteredTrigger) {
+                // Player entered the trigger area for the first time, trigger the event
+                this.playerEnteredTrigger = true; // Set the flag to true
+                console.log("player entered target box")
+                this.popUp.setVisible(true)
+               // this.missionManager.setCriteriaMet(true)
+                // this.triggerEvent();
+            }
+
+        });
+
+        this.wallsGroup = this.physics.add.group();
+
     }
     update(){
         const { left, right, up, down, } = this.cursor //would add up,down if overhead view

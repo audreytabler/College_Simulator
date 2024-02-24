@@ -5,7 +5,6 @@ import { CampusScene } from './scenes/campusScene.js';
 import {TestScene} from './scenes/testScene.js'
 import {DormScene} from './scenes/dormScene.js'
 import {UIScene} from './scenes/uiScene.js'
-import { SCENE_KEYS } from "./scenes/scene-keys";
 
 const game = new Phaser.Game({
     type: Phaser.WEBGL,
@@ -27,10 +26,10 @@ const game = new Phaser.Game({
         },
     },
     });
-game.scene.add(SCENE_KEYS.CAMPUS_SCENE, CampusScene);
-game.scene.add(SCENE_KEYS.TEST_SCENE, TestScene);
-game.scene.add(SCENE_KEYS.DORM_SCENE, DormScene);
-game.scene.add(SCENE_KEYS.UI_SCENE, UIScene);
-game.scene.add(SCENE_KEYS.TITLE_SCENE, TitleScene);
-game.scene.start(SCENE_KEYS.CAMPUS_SCENE)
+game.scene.add("CAMPUS_SCENE", CampusScene);
+game.scene.add("TEST_SCENE", TestScene);
+game.scene.add("DORM_SCENE", DormScene);
+game.scene.add("UI_SCENE", UIScene);
+game.scene.add("TITLE_SCENE", TitleScene);
+game.scene.start("CAMPUS_SCENE")
 

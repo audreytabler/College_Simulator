@@ -4,12 +4,11 @@ import DialogBox from '../ui/dialogBox.js'
 import Clock from '../ui/clock.js'
 import PlayerStats from '../ui/playerStats.js'
 import MissionManager from '../ui/missionManager.js';
-import { SCENE_KEYS } from './scene-keys.js';
 
 export class CampusScene extends Phaser.Scene {
     //this constructor is basically side bar with all gameobjects in scene
     constructor() {
-        super({ key: SCENE_KEYS.CAMPUS_SCENE });
+        super({ key: "CAMPUS_SCENE" });
         //gameObjects
         this.cameras
         this.player
@@ -29,7 +28,6 @@ export class CampusScene extends Phaser.Scene {
         this.triggerArea
         this.popUp
         this.wallsGroup;
-        
     }
 
     preload() {
@@ -54,7 +52,7 @@ export class CampusScene extends Phaser.Scene {
         this.popUp = this.add.image(494,2419,'popup')
         this.popUp.setInteractive()
         this.popUp.setVisible(false)
-        this.popUp.on('pointerdown',()=> {this.narrator.disableClicks(); this.scene.start(SCENE_KEYS.TEST_SCENE);})
+        this.popUp.on('pointerdown',()=> {this.narrator.disableClicks(); this.scene.start("TEST_SCENE");})
 
         this.topRight = this.physics.add.image(0, 0, 'top_right').setOrigin(0, 0);
 
@@ -114,11 +112,14 @@ export class CampusScene extends Phaser.Scene {
             console.log('player position - X:', this.player.x, 'Y:', this.player.y);
         });
 
-        this.scene.get(SCENE_KEYS.UI_SCENE).events.on('setTargetBox', () => {
+        this.scene.get("UI_SCENE").events.on('setTargetBox', () => {
             console.log("setting target box position... target box y is "+this.targetBox.y )
             this.targetBox.setPosition(510,2500)
         });
+        console.log("this key is " + this.sys.settings.key)
+        this.scene.get("UI_SCENE").newScene(this.sys.settings.key)
     }
+    
 
     update() {
 
