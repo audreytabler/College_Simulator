@@ -18,6 +18,7 @@ export class CampusScene extends Phaser.Scene {
         this.missionManager;
         this.targetBox;
         this.clock;
+        this.uiScene;
 
         //npcs
         this.narrator
@@ -40,6 +41,7 @@ export class CampusScene extends Phaser.Scene {
     }
 
     create() {
+        this.uiScene = this.scene.get("UI_SCENE")
         this.events.emit('sceneActivated', this);
 
         this.physics.world.enable;
@@ -52,7 +54,7 @@ export class CampusScene extends Phaser.Scene {
         this.popUp = this.add.image(494,2419,'popup')
         this.popUp.setInteractive()
         this.popUp.setVisible(false)
-        this.popUp.on('pointerdown',()=> {this.narrator.disableClicks(); this.scene.start("TEST_SCENE");})
+        this.popUp.on('pointerdown',()=> {this.uiScene.narrator.disableClicks(); this.scene.start("TEST_SCENE");})
 
         this.topRight = this.physics.add.image(0, 0, 'top_right').setOrigin(0, 0);
 

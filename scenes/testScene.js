@@ -177,8 +177,6 @@ export class TestScene extends Phaser.Scene {
             this.player.setVelocityY(0);
         }
 
-        if (this.narrator.getIsVisible)
-            this.narrator.updatePosition()
     }
 
     windowSizeChanged(width, height) {
