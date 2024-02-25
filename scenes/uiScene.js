@@ -62,7 +62,3 @@ export class UIScene extends Phaser.Scene {
     }
 
 }
-
-// Define Clock class as shown in the previous example
-
-

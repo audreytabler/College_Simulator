@@ -6,25 +6,53 @@ export class DormScene extends Phaser.Scene{
         super({
             key: "DORM_SCENE"
         });
+        this.sceneActive =true
         this.cameras
         this.player
         this.playerSpeed = 400
         this.cursor
         this.targetBox
+        this.popUp
+        this.uiScene
+
+        this.playerEnteredTrigger = false
 
         this.wallsGroup;
     }
+    preload(){
+        this.load.image("bg", "/assets/dormBG.png")
+        this.load.spritesheet('player', 'assets/CharacterSpritesheet.png', { frameWidth: 85, frameHeight: 150 });
+        this.load.image("popUp", "/assets/enter.png")
+    }
     create(){
-        this.events.emit('sceneActivated', this);  
+        
+        this.scene.get("UI_SCENE").newScene(this.sys.settings.key)
+        this.uiScene = this.scene.get("UI_SCENE")
+
+        this.physics.world.enable;
+        this.physics.world.setBounds(0, 0, 9035, 6347);
+        this.input.enabled = true;
+        this.cursor = this.input.keyboard.createCursorKeys()
+
+        this.add.image(0,0,"bg").setOrigin(0,0)
+        if(this.sceneActive)
+        this.player()
 
         this.scene.get("UI_SCENE").events.on('setTargetBox', () => {
             console.log("setting target box position")
             this.targetBox.setPosition(0,0)
         });       
         
-        this.targetBox = this.add.rectangle(100, 100, 200, 100, 0x000000, 0); // Invisible rectangle trigger area
-        this.targetBox.setPosition(510,2260) 
+        this.targetBox = this.add.rectangle(100, 100, 365, 100, 0x000000, 0); // Invisible rectangle trigger area
+        this.targetBox.setPosition(940,2450) 
         this.physics.add.existing(this.targetBox, true);
+
+        this.popUp = this.add.image(940,2070,'popUp')
+        this.popUp.setInteractive()
+        this.popUp.setVisible(false)
+        this.popUp.on('pointerdown',()=> {this.uiScene.narrator.disableClicks(); this.sceneActive=false; this.scene.stop("DORM_SCENE"); this.scene.start("CAMPUS_SCENE");})
+
+        
 
         this.physics.add.overlap(this.player, this.targetBox, () => {
             if (!this.playerEnteredTrigger) {
@@ -39,9 +67,24 @@ export class DormScene extends Phaser.Scene{
         });
 
         this.wallsGroup = this.physics.add.group();
+        this.input.on('pointerdown', (pointer) => {
+            // Log the position of the cursor when clicked
+            console.log('player position - X:', this.player.x, 'Y:', this.player.y);
+        });
 
     }
     update(){
+        //const playerx = this.player.get.x
+        this.popUp.setPosition(this.player.x+40,this.player.y-35)
+
+        if ((!this.physics.overlap(this.player, this.targetBox)) && (this.playerEnteredTrigger == true)) {
+            // Player left the trigger area, trigger the event
+            this.playerEnteredTrigger = false; // Set the flag to false
+            this.popUp.setVisible(false)
+            console.log("player left area");
+            //this.missionManager.setCriteriaMet(false)
+        }
+        if(this.sceneActive){
         const { left, right, up, down, } = this.cursor //would add up,down if overhead view
         const { W, A, S, D } = this.input.keyboard.addKeys('W,A,S,D');
 
@@ -70,8 +113,17 @@ export class DormScene extends Phaser.Scene{
             //this.player.frame = 0;
         }
     }
+    }
 
     player(){
+
+        this.player = this.physics.add.sprite(0, 0, "player").setOrigin(0, 0)
+        this.player.setPosition(920, 2139)
+        this.player.body.allowGravity = false;
+        this.player.setBodySize(65,120)
+        this.player.setCollideWorldBounds(true)
+
+        this.cameras.main.startFollow(this.player, false, 0.2, 0.2);
         this.anims.create({
             key: "idle",
             frameRate: 10,
@@ -102,15 +154,6 @@ export class DormScene extends Phaser.Scene{
             frames: this.anims.generateFrameNumbers("player", { start: 25, end: 28 }),
             repeat: -1
         });
-
-        this.player = this.physics.add.sprite(0, 0, "player").setOrigin(0, 0)//((window.innerWidth / 2), (window.innerHeight / 2), "player").setOrigin(0, 0)
-        //this.player.setScale(0.2,0.2)
-        this.player.setPosition(494, 2419)
-        this.player.body.allowGravity = false;
-        this.player.setBodySize(65,120)
-        this.player.setCollideWorldBounds(true)
-
-        this.cameras.main.startFollow(this.player, false, 0.2, 0.2);
 
     }
 }

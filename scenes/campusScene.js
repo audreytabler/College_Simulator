@@ -33,7 +33,7 @@ export class CampusScene extends Phaser.Scene {
 
     preload() {
         this.load.image("bg", "/assets/images/backgroundSketch.png")
-        this.load.image("popUp", "/assets/playertest.png")
+        this.load.image("popUp", "/assets/enter.png")
         this.load.spritesheet('player', 'assets/CharacterSpritesheet.png', { frameWidth: 85, frameHeight: 150 });
         this.load.json('narrator', "./assets/narratorDialog.json")
 
@@ -51,10 +51,10 @@ export class CampusScene extends Phaser.Scene {
 
         this.add.image(0,0,"bg").setOrigin(0,0)
 
-        this.popUp = this.add.image(494,2419,'popup')
+        this.popUp = this.add.image(494,2419,'popUp')
         this.popUp.setInteractive()
         this.popUp.setVisible(false)
-        this.popUp.on('pointerdown',()=> {this.uiScene.narrator.disableClicks(); this.scene.start("TEST_SCENE");})
+        this.popUp.on('pointerdown',()=> {this.uiScene.narrator.disableClicks(); this.scene.start("DORM_SCENE"); this.scene.stop("CAMPUS_SCENE")})
 
         this.topRight = this.physics.add.image(0, 0, 'top_right').setOrigin(0, 0);
 
