@@ -23,6 +23,10 @@ export class DormScene extends Phaser.Scene{
         this.load.image("bg", "/assets/dormBG.png")
         this.load.spritesheet('player', 'assets/CharacterSpritesheet.png', { frameWidth: 85, frameHeight: 150 });
         this.load.image("popUp", "/assets/enter.png")
+        
+        this.load.image("tiles","/assets/TX TilesetCombo.png")
+        this.load.tilemapTiledJSON("testMap", "/assets/TileTest2.tmj")
+       // this.load.tilemapTiledJSON('testMap')
     }
     create(){
         
@@ -34,9 +38,20 @@ export class DormScene extends Phaser.Scene{
         this.input.enabled = true;
         this.cursor = this.input.keyboard.createCursorKeys()
 
-        this.add.image(0,0,"bg").setOrigin(0,0)
-        if(this.sceneActive)
+        //this.add.image(0,0,"bg").setOrigin(0,0)
+
+        let map = this.make.tilemap({key: 'testMap'})
+
+        console.log(map.layers)
+        let grassTileset = map.addTilesetImage("TX TilesetCombo","tiles")
+
+        let groundlayer = map.createLayer("ground",grassTileset)
+        let wallLayer = map.createLayer("building",grassTileset)
+
+        //COLLISION STUFF
         this.player()
+        wallLayer.setCollisionByExclusion([-1]);
+        this.physics.add.collider(this.player, wallLayer);
 
         this.scene.get("UI_SCENE").events.on('setTargetBox', () => {
             console.log("setting target box position")
@@ -51,7 +66,6 @@ export class DormScene extends Phaser.Scene{
         this.popUp.setInteractive()
         this.popUp.setVisible(false)
         this.popUp.on('pointerdown',()=> {this.uiScene.narrator.disableClicks(); this.sceneActive=false; this.scene.stop("DORM_SCENE"); this.scene.start("CAMPUS_SCENE");})
-
         
 
         this.physics.add.overlap(this.player, this.targetBox, () => {
@@ -118,7 +132,7 @@ export class DormScene extends Phaser.Scene{
     player(){
 
         this.player = this.physics.add.sprite(0, 0, "player").setOrigin(0, 0)
-        this.player.setPosition(920, 2139)
+        this.player.setPosition(0, 0)//this.player.setPosition(920, 2139)
         this.player.body.allowGravity = false;
         this.player.setBodySize(65,120)
         this.player.setCollideWorldBounds(true)

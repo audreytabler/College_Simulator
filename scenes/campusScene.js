@@ -38,6 +38,7 @@ export class CampusScene extends Phaser.Scene {
         this.load.json('narrator', "./assets/narratorDialog.json")
 
         this.load.image("top_right", "/assets/images/toprightbuilding.png")
+        this.load.tilemapTiledJSON("testMap", "/assets/TestMap.json")
     }
 
     create() {
@@ -50,6 +51,7 @@ export class CampusScene extends Phaser.Scene {
         this.cursor = this.input.keyboard.createCursorKeys()
 
         this.add.image(0,0,"bg").setOrigin(0,0)
+        //this.make.tilemap({key: 'testMap'})
 
         this.popUp = this.add.image(494,2419,'popUp')
         this.popUp.setInteractive()
