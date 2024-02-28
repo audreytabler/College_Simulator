@@ -24,9 +24,10 @@ export class DormScene extends Phaser.Scene{
         this.load.spritesheet('player', 'assets/CharacterSpritesheet.png', { frameWidth: 85, frameHeight: 150 });
         this.load.image("popUp", "/assets/enter.png")
         
+        //tilemap
         this.load.image("tiles","/assets/TX TilesetCombo.png")
         this.load.tilemapTiledJSON("testMap", "/assets/TileTest2.tmj")
-       // this.load.tilemapTiledJSON('testMap')
+
     }
     create(){
         
@@ -38,20 +39,58 @@ export class DormScene extends Phaser.Scene{
         this.input.enabled = true;
         this.cursor = this.input.keyboard.createCursorKeys()
 
-        //this.add.image(0,0,"bg").setOrigin(0,0)
 
+        //TILEMAP STUFF
         let map = this.make.tilemap({key: 'testMap'})
-
-        console.log(map.layers)
         let grassTileset = map.addTilesetImage("TX TilesetCombo","tiles")
 
         let groundlayer = map.createLayer("ground",grassTileset)
         let wallLayer = map.createLayer("building",grassTileset)
 
-        //COLLISION STUFF
+        //COLLISION WITH WALLS STUFF
         this.player()
         wallLayer.setCollisionByExclusion([-1]);
         this.physics.add.collider(this.player, wallLayer);
+        //////////////////
+            //testing map.getObjectLayer stuff
+        //const transportationLayer = map.getObjectLayer("transportation")//.objects[0];
+        const transportLayer = map.getObjectLayer("transportation"); 
+
+        transportLayer.objects.forEach(object => {
+            //if (object.type === 'transportTrigger') {
+                console.log(object)
+                console.log(object.x)
+                const transportRect = this.add.rectangle(object.x, object.y, object.width, object.height);
+                transportRect.setOrigin(0); // Make collisions based on top-left corner
+                transportRect.setAlpha(0); // Keep it invisible
+                this.physics.add.existing(transportRect, true);
+
+                this.physics.add.overlap(this.player, transportRect, () => {
+                    console.log("player overlaps")
+                    //this.scene.start('newSceneKey'); // put the object.scenekey in there
+                });
+            //}
+        });
+       // this.physics.add.existing(transportationLayer, true);
+       // console.log(transportationLayer)
+
+       // this.physics.add.overlap(this.player, transportationLayer, () => {
+           // if (!this.playerEnteredTrigger) {
+                // Player entered the trigger area for the first time, trigger the event
+               // this.playerEnteredTrigger = true; // Set the flag to true
+               // console.log("player entered target box")
+               // this.popUp.setVisible(true)
+               // this.missionManager.setCriteriaMet(true)
+                // this.triggerEvent();
+           // }
+
+        //});
+        //this.physics.add.collider()
+
+
+
+
+        ///////////////////
 
         this.scene.get("UI_SCENE").events.on('setTargetBox', () => {
             console.log("setting target box position")
@@ -132,7 +171,7 @@ export class DormScene extends Phaser.Scene{
     player(){
 
         this.player = this.physics.add.sprite(0, 0, "player").setOrigin(0, 0)
-        this.player.setPosition(0, 0)//this.player.setPosition(920, 2139)
+        this.player.setPosition(0, 400)//this.player.setPosition(920, 2139)
         this.player.body.allowGravity = false;
         this.player.setBodySize(65,120)
         this.player.setCollideWorldBounds(true)

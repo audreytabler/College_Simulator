@@ -51,7 +51,6 @@ export class CampusScene extends Phaser.Scene {
         this.cursor = this.input.keyboard.createCursorKeys()
 
         this.add.image(0,0,"bg").setOrigin(0,0)
-        //this.make.tilemap({key: 'testMap'})
 
         this.popUp = this.add.image(494,2419,'popUp')
         this.popUp.setInteractive()
@@ -71,7 +70,6 @@ export class CampusScene extends Phaser.Scene {
         });
 
         this.player()
-        //this.scene.launch(SCENE_KEYS.UI_SCENE);
 
         this.physics.add.collider(this.player, this.wallsGroup);
 
