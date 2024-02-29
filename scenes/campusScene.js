@@ -85,6 +85,7 @@ export class CampusScene extends Phaser.Scene {
                 this.playerEnteredTrigger = true; // Set the flag to true
                 console.log("player entered area")
                 this.popUp.setVisible(true)
+                this.scene.start("DORM_SCENE");
                // this.missionManager.setCriteriaMet(true)
                 // this.triggerEvent();
             }

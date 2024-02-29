@@ -100,13 +100,64 @@
                 {
                  "height":48,
                  "id":6,
-                 "name":"",
+                 "name":"toDorm",
+                 "properties":[
+                        {
+                         "name":"toSceneKey",
+                         "type":"string",
+                         "value":"DORM_SCENE"
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":128,
                  "x":320,
                  "y":226
+                }, 
+                {
+                 "height":121.212121212121,
+                 "id":9,
+                 "name":"toClass",
+                 "properties":[
+                        {
+                         "name":"toSceneKey",
+                         "type":"string",
+                         "value":"CAMPUS_SCENE"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":66.6666666666667,
+                 "x":1051.51515151515,
+                 "y":700
+                }],
+         "opacity":1,
+         "properties":[
+                {
+                 "name":"toSceneKey",
+                 "type":"string",
+                 "value":""
+                }],
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":7,
+         "name":"signs",
+         "objects":[
+                {
+                 "height":24.2424242424242,
+                 "id":13,
+                 "name":"this is some text",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":72.7272727272727,
+                 "x":766.666666666667,
+                 "y":130.30303030303
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -114,8 +165,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":7,
- "nextobjectid":8,
+ "nextlayerid":8,
+ "nextobjectid":15,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

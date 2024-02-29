@@ -15,12 +15,14 @@ export class DormScene extends Phaser.Scene{
         this.popUp
         this.uiScene
 
+
+
         this.playerEnteredTrigger = false
 
         this.wallsGroup;
     }
     preload(){
-        this.load.image("bg", "/assets/dormBG.png")
+        this.load.image("back", "/assets/dormBG.png")
         this.load.spritesheet('player', 'assets/CharacterSpritesheet.png', { frameWidth: 85, frameHeight: 150 });
         this.load.image("popUp", "/assets/enter.png")
         
@@ -48,12 +50,10 @@ export class DormScene extends Phaser.Scene{
         let wallLayer = map.createLayer("building",grassTileset)
 
         //COLLISION WITH WALLS STUFF
-        this.player()
+        this.loadPlayer()
         wallLayer.setCollisionByExclusion([-1]);
         this.physics.add.collider(this.player, wallLayer);
-        //////////////////
-            //testing map.getObjectLayer stuff
-        //const transportationLayer = map.getObjectLayer("transportation")//.objects[0];
+        ////////////////////////////////////////
         const transportLayer = map.getObjectLayer("transportation"); 
 
         transportLayer.objects.forEach(object => {
@@ -66,8 +66,9 @@ export class DormScene extends Phaser.Scene{
                 this.physics.add.existing(transportRect, true);
 
                 this.physics.add.overlap(this.player, transportRect, () => {
-                    console.log("player overlaps")
-                    //this.scene.start('newSceneKey'); // put the object.scenekey in there
+                    console.log("player overlaps" + object.properties.find(prop => prop.name === 'toSceneKey').value)
+                   // this.scene.start("CAMPUS_SCENE")
+                    this.scene.start(object.properties.find(prop => prop.name === 'toSceneKey').value); 
                 });
             //}
         });
@@ -168,7 +169,7 @@ export class DormScene extends Phaser.Scene{
     }
     }
 
-    player(){
+    loadPlayer(){
 
         this.player = this.physics.add.sprite(0, 0, "player").setOrigin(0, 0)
         this.player.setPosition(0, 400)//this.player.setPosition(920, 2139)
