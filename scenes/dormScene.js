@@ -15,8 +15,6 @@ export class DormScene extends Phaser.Scene{
         this.popUp
         this.uiScene
 
-
-
         this.playerEnteredTrigger = false
 
         this.wallsGroup;
@@ -172,7 +170,7 @@ export class DormScene extends Phaser.Scene{
     loadPlayer(){
 
         this.player = this.physics.add.sprite(0, 0, "player").setOrigin(0, 0)
-        this.player.setPosition(0, 400)//this.player.setPosition(920, 2139)
+        this.player.setPosition(353, 400)//this.player.setPosition(920, 2139)
         this.player.body.allowGravity = false;
         this.player.setBodySize(65,120)
         this.player.setCollideWorldBounds(true)

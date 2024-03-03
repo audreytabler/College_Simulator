@@ -25,7 +25,7 @@ export class Clock extends Phaser.GameObjects.Graphics {
     
     // Function to update the clock time
     update() {
-        const deltaTime = (this.scene.time.now - this.start)/ 1000; // Convert deltaTime to seconds
+        const deltaTime = (this.scene.time.now - this.start)/ 10000; // Convert deltaTime to seconds
         const minutesPassed = deltaTime * this.timeScale;
         this.advanceTime(minutesPassed);
 
