@@ -6,7 +6,7 @@ export class Clock extends Phaser.GameObjects.Graphics {
         super(scene,'Clock');
         this.scene = scene;
         this.time = { hour: 7, minute: 30, period: 'AM' }; // Initial time is 7:30 AM
-        this.timeScale = 0.01; // 0.7 real seconds per in-game minute
+        this.timeScale = 0.001; // 0.7 real seconds per in-game minute
         this.clockText = null;
         this.deltaTime;
         this.start = initialTime;
@@ -14,7 +14,7 @@ export class Clock extends Phaser.GameObjects.Graphics {
         this.totalHours = 7;
 
         // Create a text object to display the clock
-        this.clockText = this.scene.add.text(15, 800, this.getTimeString(), { font: '24px Arial', fill: '#ffffff' });
+        this.clockText = this.scene.add.text(15, 800, this.getTimeString(), { font: '24px Arial', fill: '#000000' });
             const camera = this.scene.cameras.main;
             const x = camera.scrollX + 850; // Adjust as needed
             const y = camera.scrollY + 15; // Adjust as needed
@@ -25,7 +25,7 @@ export class Clock extends Phaser.GameObjects.Graphics {
     
     // Function to update the clock time
     update() {
-        const deltaTime = (this.scene.time.now - this.start)/ 10000; // Convert deltaTime to seconds
+        const deltaTime = (this.scene.time.now - this.start); // Convert deltaTime to seconds
         const minutesPassed = deltaTime * this.timeScale;
         this.advanceTime(minutesPassed);
 
@@ -37,6 +37,7 @@ export class Clock extends Phaser.GameObjects.Graphics {
         }
         // Update the clock display
         this.clockText.setText(this.getTimeString());
+        this.start = this.scene.time.now
     }
 
 

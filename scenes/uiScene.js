@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import DialogBox from '../ui/dialogBox.js'
 import Clock from '../ui/clock.js'
+import Phone from '../ui/phone.js'
 import PlayerStats from '../ui/playerStats.js'
 import MissionManager from '../ui/missionManager.js';
 
@@ -9,6 +10,7 @@ export class UIScene extends Phaser.Scene {
     constructor() {
         super({ key: "UI_SCENE", active: true }); // Make UIScene always active
         this.clock
+        this.phone
         this.narrator;
         this.playerStats;
         this.missionManager
@@ -20,11 +22,16 @@ export class UIScene extends Phaser.Scene {
 
     create() {
 
-        this.clock = new Clock(this,this.time.now);
-        this.clock.setPosition(15,800)
+        //this.clock = new Clock(this,this.time.now);
+        //this.clock.setPosition(15,800)
+
+        this.phone = new Phone(this)
+        this.clock = this.phone.clock
         
         this.narrator = new DialogBox(this, 700, 100, this.cache.json.get('narrator'));
         this.narrator.startDialog(0)
+
+
 
         this.statsOverlay = new PlayerStats(this)
         this.missionManager = new MissionManager(this)
