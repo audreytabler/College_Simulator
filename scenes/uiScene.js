@@ -23,10 +23,12 @@ export class UIScene extends Phaser.Scene {
     create() {
 
         //this.clock = new Clock(this,this.time.now);
-        //this.clock.setPosition(15,800)
+       // this.clock.setPosition(15,800)
+
 
         this.phone = new Phone(this)
         this.clock = this.phone.clock
+
         
         this.narrator = new DialogBox(this, 700, 100, this.cache.json.get('narrator'));
         this.narrator.startDialog(0)

@@ -11,6 +11,8 @@ export class Clock extends Phaser.GameObjects.Graphics {
         this.deltaTime;
         this.start = initialTime;
         this.numDays =1
+        this.dayOfWeek = "Monday"
+        this.weekArray = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
         this.totalHours = 7;
 
         // Create a text object to display the clock
@@ -19,12 +21,13 @@ export class Clock extends Phaser.GameObjects.Graphics {
             const x = camera.scrollX + 850; // Adjust as needed
             const y = camera.scrollY + 15; // Adjust as needed
             this.clockText.setPosition(x, y);
+        this.dayWeekText = this.scene.add.text(95,265,this.dayOfWeek, { font: '18px Arial', fill: '#000000' })
 
     }
 
     
     // Function to update the clock time
-    update() {
+    update() { 
         const deltaTime = (this.scene.time.now - this.start); // Convert deltaTime to seconds
         const minutesPassed = deltaTime * this.timeScale;
         this.advanceTime(minutesPassed);
@@ -34,6 +37,10 @@ export class Clock extends Phaser.GameObjects.Graphics {
             this.totalHours =0
             this.time.hour=12
             this.time.minute=0
+
+            //const dayOfWeekIdx= (this.numDays - 1) % this.weekArray.length
+            this.dayOfWeek = this.weekArray[(this.numDays - 1) % this.weekArray.length]
+            this.updateWeekDay
         }
         // Update the clock display
         this.clockText.setText(this.getTimeString());
@@ -47,12 +54,9 @@ export class Clock extends Phaser.GameObjects.Graphics {
         const totalMinutes = this.time.hour * 60 + this.time.minute + minutes;
         const totalHoursMins = this.totalHours * 60 + this.time.minute + minutes;
         this.totalHours = Math.floor(totalHoursMins / 60)
-        //console.log("total hours is " + this.totalHours)
         this.time.hour = Math.floor(totalMinutes / 60) % 12 || 12; // Ensure hour is between 1 and 12
         this.time.minute = totalMinutes % 60;
 
-        // Determine the period (AM or PM)
-        //this.time.period = totalMinutes < 720 ? 'AM' : 'PM';
         this.time.period = this.totalHours < 12 ? 'AM' : 'PM';
     }
 
@@ -62,6 +66,9 @@ export class Clock extends Phaser.GameObjects.Graphics {
         const hourString = this.time.hour.toString().padStart(2, '0');
         const minuteString = minuteRounded.toString().padStart(2, '0');
         return `${hourString}:${minuteString} ${this.time.period}`;
+    }
+    updateWeekDay(){
+
     }
 }
 

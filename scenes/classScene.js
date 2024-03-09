@@ -1,10 +1,10 @@
 import Phaser from 'phaser'
 
 
-export class DormScene extends Phaser.Scene{
+export class ClassScene extends Phaser.Scene{
     constructor(){
         super({
-            key: "DORM_SCENE"
+            key: "CLASS_SCENE"
         });
         this.sceneActive =true
         this.cameras
@@ -16,8 +16,6 @@ export class DormScene extends Phaser.Scene{
         this.uiScene
 
         this.playerEnteredTrigger = false
-
-        this.wallsGroup;
     }
     preload(){
         //this.load.image("back", "/assets/dormBG.png")
@@ -26,7 +24,7 @@ export class DormScene extends Phaser.Scene{
         
         //tilemap
         this.load.image("tiles","/assets/CollegeTileSet.png")
-        this.load.tilemapTiledJSON("campusMap", "/assets/campusMapJson.tmj")
+        this.load.tilemapTiledJSON("classMap", "/assets/ClassMap.tmj")
 
     }
     create(){
@@ -41,16 +39,14 @@ export class DormScene extends Phaser.Scene{
 
 
         //TILEMAP STUFF
-        let map = this.make.tilemap({key: 'campusMap'})
+        let map = this.make.tilemap({key: 'classMap'})
         let grassTileset = map.addTilesetImage("MainTileset","tiles")
 
-        let groundlayer = map.createLayer("grass",grassTileset)
-        let pathlayer = map.createLayer("details",grassTileset)
-        let wallLayer = map.createLayer("buildings",grassTileset)
+        let groundlayer = map.createLayer("background",grassTileset)
+        let wallLayer = map.createLayer("walls",grassTileset)
 
         //COLLISION WITH WALLS STUFF
         this.loadPlayer()
-        let treesLayer = map.createLayer("trees",grassTileset)
         wallLayer.setCollisionByExclusion([-1]);
         this.physics.add.collider(this.player, wallLayer);
         ////////////////////////////////////////
@@ -67,12 +63,29 @@ export class DormScene extends Phaser.Scene{
 
                 this.physics.add.overlap(this.player, transportRect, () => {
                     console.log("player overlaps" + object.properties.find(prop => prop.name === 'toSceneKey').value)
-                   //this.scene.start("CAMPUS_SCENE")
+                  // this.scene.start("CAMPUS_SCENE")
+                    //this.player.setSpawnLocation(2555,1183)
                     this.scene.start(object.properties.find(prop => prop.name === 'toSceneKey').value); 
                 });
             //}
         });
-        /////////////     
+        /////////////
+        const roomNumLayer = map.getObjectLayer("RoomNumbers"); 
+
+        roomNumLayer.objects.forEach(object => {
+
+                console.log(object)
+                console.log(object.x)
+                const roomRect = this.add.rectangle(object.x, object.y, object.width, object.height);
+                roomRect.setOrigin(0); // Make collisions based on top-left corner
+                roomRect.setAlpha(0); // Keep it invisible
+                this.physics.add.existing(roomRect, true);
+
+                this.physics.add.overlap(this.player, roomRect, () => {
+                    console.log("player overlaps" + object.properties.find(prop => prop.name === 'roomNumber').value)
+                });
+
+        });     
          
         this.input.on('pointerdown', (pointer) => {
             // Log the position of the cursor when clicked
@@ -115,13 +128,12 @@ export class DormScene extends Phaser.Scene{
     loadPlayer(){
 
         this.player = this.physics.add.sprite(0, 0, "player").setOrigin(0, 0)
-        this.player.setPosition(2555,1183)//this.player.setPosition(920, 2139)
+        this.player.setPosition(1433, 2694)//this.player.setPosition(920, 2139)
         this.player.body.allowGravity = false;
         this.player.setBodySize(65,120)
         this.player.setCollideWorldBounds(true)
 
         this.cameras.main.startFollow(this.player, false, 0.2, 0.2);
-        /*
         this.anims.create({
             key: "idle",
             frameRate: 10,
@@ -151,7 +163,7 @@ export class DormScene extends Phaser.Scene{
             frameRate: 7,
             frames: this.anims.generateFrameNumbers("player", { start: 25, end: 28 }),
             repeat: -1
-        });*/
+        });
 
     }
 }
