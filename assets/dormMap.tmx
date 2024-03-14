@@ -3598,7 +3598,7 @@
 </chunk>
   </data>
  </layer>
- <objectgroup id="6" name="interations">
+ <objectgroup id="6" name="interactions">
   <object id="1" x="7552" y="3836" width="205.333" height="328">
    <properties>
     <property name="name" value="shower"/>

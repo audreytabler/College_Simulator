@@ -27,8 +27,8 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
     updateEnergy(increment) {
         this.energyNum = this.energyNum + increment
         //this.energyLevel.createGeometryMask(this.emptyBars)
-        if (this.energyNum > 135)
-        this.energyNum = 135
+        if (this.energyNum > 140)
+        this.energyNum = 140
         if (this.energyNum < 0){
             this.energyNum = 0
             return;
@@ -56,12 +56,12 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
     // Set the bar color to the interpolated color
         //this.focusLevel.fillStyle(interpolatedColor.color, 1);
         
-        if(this.focusNum > 135)
-            this.focusNum = 135
+        if(this.focusNum > 140)
+            this.focusNum = 140
         if (this.focusNum <= 0)
             this.focusNum = 0
-        if (this.focusNum >= 100)
-            this.focusNum = 100
+       // if (this.focusNum >= 100)
+          //  this.focusNum = 100
 
         this.focusLevel.fillRoundedRect(0, 0, this.focusNum, 20, (this.focusNum * 0.07));
     }
@@ -72,8 +72,8 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
         this.mentalLevel.fillStyle(0x73a9c2, 1);
         this.mentalLevel.setMask(this.mask)
         
-        if(this.mentalNum > 135)
-            this.mentalNum = 135
+        if(this.mentalNum > 140)
+            this.mentalNum = 140
         if (this.mentalNum <= 0)
             this.mentalNum = 0
 
@@ -83,7 +83,7 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
     updatePosition() {
         ///////
         this.updateEnergy(-0.1)
-        this.updateFocus(0.1)
+        this.updateFocus(1)
         this.updateMental(-0.2)
         //////
 

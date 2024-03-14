@@ -26,7 +26,7 @@ export class DormScene extends Phaser.Scene{
         
         //tilemap
         this.load.image("tiles","/assets/CollegeTileSet.png")
-        this.load.tilemapTiledJSON("campusMap", "/assets/campusMapJson.tmj")
+        this.load.tilemapTiledJSON("dormMap", "/assets/dormMap.tmj")
 
     }
     create(){
@@ -41,39 +41,41 @@ export class DormScene extends Phaser.Scene{
 
 
         //TILEMAP STUFF
-        let map = this.make.tilemap({key: 'campusMap'})
-        let grassTileset = map.addTilesetImage("MainTileset","tiles")
+        let map = this.make.tilemap({key: 'dormMap'})
+        let dormTileset = map.addTilesetImage("MainTileset","tiles")
 
-        let groundlayer = map.createLayer("grass",grassTileset)
-        let pathlayer = map.createLayer("details",grassTileset)
-        let wallLayer = map.createLayer("buildings",grassTileset)
+        let groundlayer = map.createLayer("outside",dormTileset)
+        let floorlayer = map.createLayer("floor",dormTileset)
+        let wallLayer = map.createLayer("walls",dormTileset)
 
         //COLLISION WITH WALLS STUFF
         this.loadPlayer()
-        let treesLayer = map.createLayer("trees",grassTileset)
+        let chairLayer = map.createLayer("chairBacks",dormTileset)
         wallLayer.setCollisionByExclusion([-1]);
         this.physics.add.collider(this.player, wallLayer);
         ////////////////////////////////////////
-        const transportLayer = map.getObjectLayer("transportation"); 
-
+        const transportLayer = map.getObjectLayer("interactions"); 
+        /*
         transportLayer.objects.forEach(object => {
-            //if (object.type === 'transportTrigger') {
-                console.log(object)
-                console.log(object.x)
-                const transportRect = this.add.rectangle(object.x, object.y, object.width, object.height);
-                transportRect.setOrigin(0); // Make collisions based on top-left corner
-                transportRect.setAlpha(0); // Keep it invisible
-                this.physics.add.existing(transportRect, true);
+            const transportRect = this.add.rectangle(object.x, object.y, object.width, object.height);
+            transportRect.setOrigin(0); // Make collisions based on top-left corner
+            transportRect.setAlpha(0); // Keep it invisible
+            this.physics.add.existing(transportRect, true);
 
+            if(object.properties.find((prop => prop.name === 'name').value) == "transport"){
                 this.physics.add.overlap(this.player, transportRect, () => {
                     console.log("player overlaps" + object.properties.find(prop => prop.name === 'toSceneKey').value)
-                   //this.scene.start("CAMPUS_SCENE")
                     this.scene.start(object.properties.find(prop => prop.name === 'toSceneKey').value); 
                 });
-            //}
-        });
+            }
+            else{
+                this.physics.add.overlap(this.player, transportRect, () => {
+                    console.log("player overlaps" + object.properties.find(prop => prop.name === 'name').value)
+                });
+            }
+        });*/
         /////////////     
-         
+        
         this.input.on('pointerdown', (pointer) => {
             // Log the position of the cursor when clicked
             console.log('player position - X:', this.player.x, 'Y:', this.player.y);
@@ -115,13 +117,13 @@ export class DormScene extends Phaser.Scene{
     loadPlayer(){
 
         this.player = this.physics.add.sprite(0, 0, "player").setOrigin(0, 0)
-        this.player.setPosition(2555,1183)//this.player.setPosition(920, 2139)
+        this.player.setPosition(8159,5305)// this.player.setPosition(2555,1183)//this.player.setPosition(920, 2139)
         this.player.body.allowGravity = false;
         this.player.setBodySize(65,120)
         this.player.setCollideWorldBounds(true)
 
         this.cameras.main.startFollow(this.player, false, 0.2, 0.2);
-        /*
+        
         this.anims.create({
             key: "idle",
             frameRate: 10,
@@ -151,7 +153,7 @@ export class DormScene extends Phaser.Scene{
             frameRate: 7,
             frames: this.anims.generateFrameNumbers("player", { start: 25, end: 28 }),
             repeat: -1
-        });*/
+        });
 
     }
 }
