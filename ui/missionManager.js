@@ -6,25 +6,25 @@ class MissionManager extends Phaser.GameObjects.Graphics {
         if (!MissionManager.instance) {
             MissionManager.instance = this;
             this.currentMission = 0;
-            this.missionText = this.scene.add.text(0,0,'debug text',{ fontSize: '16px', fill:'black',blendMode: 'MULTIPLY' });
+            this.missionText = this.scene.add.text(300,15,'debug text',{ fontFamily: 'sans-serif', fontSize: '16px', fontStyle:'bold', fill:'black',blendMode: 'MULTIPLY' });
             this.criteria;
             this.targetBox;
             this.criteriaMet = false
             this.missionInProgress = false;
 
-            this.scene.events.on('update', this.updatePosition, this);
+            //this.scene.events.on('update', this.updatePosition, this);
         }
         MissionManager.instance.scene = scene
         return MissionManager.instance;
 
     }
 
-    updatePosition(){
+    /*updatePosition(){
         const camera = this.scene.cameras.main;
         const x = camera.scrollX + 300; // Adjust as needed
         const y = camera.scrollY + 15; // Adjust as needed
         this.missionText.setPosition(x, y);
-    }
+    }*/
 
     async startMission(m){
         console.log("mission " + m + " started")
@@ -32,7 +32,7 @@ class MissionManager extends Phaser.GameObjects.Graphics {
         switch(m){
             case "take_shower":
                 this.drawText("Current task: Take a warm shower")
-                this.scene.targetBox.setPosition(450,2260) //= set target box position to shower
+                //this.scene.targetBox.setPosition(450,2260) //= set target box position to shower
 
                 //wait until player is within bounds of targetbox)
                 await this.until(_ => this.criteriaMet == true);
