@@ -8,33 +8,61 @@ export class Phone extends Phaser.GameObjects.Graphics {
         this.scene = scene;
         this.clock;
         this.isPhoneFocused = false;
-
+        this.reminders = ["10:00 AM | Physics | classroom"] //TODO: make reminder object that sorts by time, exports text object? completeable
+                                                            // maybe make method to initialize reminderbutton each day
         // Create phone components
         this.createPhoneComponents();
-        // Set up interactivity
         this.setupInteractivity();
     }
 
     createPhoneComponents() {
-        this.phoneEdge = this.scene.add.rectangle(130,400,180,310,0x808080)
-        this.phoneEdge.setInteractive()
-        this.phoneScreen = this.scene.add.rectangle(130,390,150,260,0xffffff);
-        this.phoneScreen.setInteractive()
+        this.phoneEdge = this.scene.add.rectangle(130,400,180,310,0x808080).setInteractive()
 
-        this.homeButton =  this.scene.add.rectangle(130,537,25,25,0x000000);
-        this.reminders = this.scene.add.rectangle(100,350,35,35,0x226184);
-        this.reminders.setInteractive
-        this.social = this.scene.add.rectangle(150,350,35,35,0x36B540);
-        this.social.setInteractive
-        this.game = this.scene.add.rectangle(100,400,35,35,0x98F5F9);
-        this.game.setInteractive
+        this.phoneScreen = this.scene.add.rectangle(130,390,150,260,0xffffff).setInteractive();
+
+        this.homeButton =  this.scene.add.rectangle(130,537,25,25,0x000000).setInteractive();
+        this.reminderButton = this.scene.add.rectangle(100,350,35,35,0x226184).setInteractive();
+        this.socialButton = this.scene.add.rectangle(150,350,35,35,0x36B540).setInteractive();
+        this.videoButton = this.scene.add.rectangle(100,400,35,35,0xDD7C53).setInteractive();
+
+        this.homeContainer = this.scene.add.container(0,0)
+        this.homeContainer.add([this.reminderButton,this.socialButton,this.videoButton])
+        //this.homeContainer.setVisible(true)
+
+        this.reminderText = this.scene.add.text(70,315,'* debug text\n* more debug\n* reminder 3\n*10AM Physics',{ fontSize: '16px', fill:'black'});
+        this.reminderContainer = this.scene.add.container(0,0)
+        this.reminderContainer.add(this.reminderText)
 
 
+        //social containers
+        this.textingButton = this.scene.add.rectangle(130,350,130,35,0x36B540).setInteractive();
+        this.textLabel = this.scene.add.text(70,340,'text friend',{ fontSize: '18px', fill:'black'});
+        this.hangoutButton = this.scene.add.rectangle(130,400,130,35,0x226184).setInteractive();
+        this.hangoutLabel = this.scene.add.text(70,390,'plan hangout',{ fontSize: '18px', fill:'black'});
+        this.callButton = this.scene.add.rectangle(130,450,130,35,0x226184).setInteractive();
+        this.callLabel = this.scene.add.text(70,440,'call home',{ fontSize: '18px', fill:'black'});
+        this.socialContainer = this.scene.add.container(0,0)
+        this.socialContainer.add([this.textingButton,this.textLabel,this.hangoutButton,this.hangoutLabel,this.callButton,this.callLabel])
+
+        //video container
+
+        this.funVideos = this.scene.add.rectangle(130,350,120,50,0xE68E7B).setInteractive();
+        this.educationVideos = this.scene.add.rectangle(130,410,120,50,0x686971).setInteractive();
+        this.newsVideos = this.scene.add.rectangle(130,470,120,50,0x749F9A).setInteractive();
+
+        this.videoContainer = this.scene.add.container(0,0)
+        this.videoContainer.add([this.funVideos,this.educationVideos,this.newsVideos])
+
+        // // // // // // //
         this.clock = new Clock(this.scene,this.scene.time.now);
         this.clock.clockText.setPosition(75,285)
         this.clock.dayWeekText.setPosition(95,265)
+
+
         // Initially unfocus the phone
-      this.unfocusPhone();
+        this.hideAllContainers()
+        this.homeContainer.setVisible(true)
+        this.unfocusPhone();
     }
 
     setupInteractivity() {
@@ -53,15 +81,29 @@ export class Phone extends Phaser.GameObjects.Graphics {
         // Add click handler for the phone's home button
         this.homeButton.on('pointerdown', () => {
                 // Toggle between home screen and app screen
-                this.isHomeScreenVisible ? this.hidePhoneComponents() : this.showHomeScreen();
+                this.hideAllContainers()
+                this.homeContainer.setVisible(true)
         });
+        this.reminderButton.on('pointerdown', () => {
+            this.hideAllContainers();
+            this.reminderContainer.setVisible(true)
 
+        });
+        this.socialButton.on('pointerdown', () => {
+            this.hideAllContainers()
+            this.socialContainer.setVisible(true)
+        });
+        this.videoButton.on('pointerdown', () => {
+            this.hideAllContainers()
+            this.videoContainer.setVisible(true)
+
+        });
     }
 
     focusPhone() {
         // Animate the phone to focus position
         this.scene.tweens.add({
-            targets: [this.phoneEdge, this.phoneScreen,this.homeButton,this.clock.clockText,this.clock.dayWeekText,this.reminders,this.social,this.game],
+            targets: [this.phoneEdge, this.phoneScreen,this.homeButton,this.clock.clockText,this.clock.dayWeekText,this.homeContainer,this.reminderContainer,this.socialContainer,this.videoContainer],
             y: '-=250',
             duration: 500,
             ease: 'Power2',
@@ -74,7 +116,7 @@ export class Phone extends Phaser.GameObjects.Graphics {
     unfocusPhone() {
         // Animate the phone to unfocus position
         this.scene.tweens.add({
-            targets: [this.phoneEdge, this.phoneScreen,this.homeButton,this.clock.clockText,this.clock.dayWeekText,this.reminders,this.social,this.game],
+            targets: [this.phoneEdge, this.phoneScreen,this.homeButton,this.clock.clockText,this.clock.dayWeekText,this.homeContainer, this.reminderContainer,this.socialContainer,this.videoContainer],
             y: '+=250',
             duration: 500,
             ease: 'Power2',
@@ -82,6 +124,13 @@ export class Phone extends Phaser.GameObjects.Graphics {
                 this.isPhoneFocused = false;
             }
         });
+    }
+
+    hideAllContainers(){
+        this.homeContainer.setVisible(false)
+        this.reminderContainer.setVisible(false)
+        this.socialContainer.setVisible(false)
+        this.videoContainer.setVisible(false)
     }
 
 }

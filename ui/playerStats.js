@@ -81,9 +81,11 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
     }
 
     updatePosition() {
-       // this.updateEnergy(-0.1)
-       // this.updateFocus(0.1)
-       // this.updatemental(-0.2)
+        ///////
+        this.updateEnergy(-0.1)
+        this.updateFocus(0.1)
+        this.updateMental(-0.2)
+        //////
 
         const camera = this.scene.cameras.main;
         const x = camera.scrollX + 20; // Adjust as needed

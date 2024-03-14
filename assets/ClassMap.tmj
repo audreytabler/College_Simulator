@@ -279,8 +279,8 @@
                  "type":"",
                  "visible":true,
                  "width":68,
-                 "x":1273,
-                 "y":2436
+                 "x":1285,
+                 "y":2433
                 }, 
                 {
                  "height":126,
@@ -296,7 +296,7 @@
                  "type":"",
                  "visible":true,
                  "width":68,
-                 "x":1598,
+                 "x":1592,
                  "y":2431
                 }, 
                 {
@@ -420,7 +420,7 @@
                         {
                          "name":"toSceneKey",
                          "type":"string",
-                         "value":"DORM_SCENE"
+                         "value":"CAMPUS_SCENE"
                         }],
                  "rotation":0,
                  "type":"",

@@ -24,7 +24,7 @@ const game = new Phaser.Game({
         arcade: {
             // gravity: { y: 50 },
             debug: true,
-        },ss
+        },
     },
     });
 game.scene.add("CAMPUS_SCENE", CampusScene);
