@@ -61,8 +61,8 @@ export class CampusScene extends Phaser.Scene {
 
         transportLayer.objects.forEach(object => {
             //if (object.type === 'transportTrigger') {
-                console.log(object)
-                console.log(object.x)
+                //console.log(object)
+                //console.log(object.x)
                 const transportRect = this.add.rectangle(object.x, object.y, object.width, object.height);
                 transportRect.setOrigin(0); // Make collisions based on top-left corner
                 transportRect.setAlpha(0); // Keep it invisible

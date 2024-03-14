@@ -1,23 +1,26 @@
 import Phaser from 'phaser'
 
 
+
 export class DormScene extends Phaser.Scene{
     constructor(){
         super({
             key: "DORM_SCENE"
         });
-        this.sceneActive =true
         this.cameras
         this.player
         this.playerSpeed = 400
         this.cursor
-        this.targetBox
-        this.popUp
+
+        this.popUpText;
+        this.popUpBox;
+        this.popX;
+        this.popY;
+
         this.uiScene
 
         this.playerEnteredTrigger = false
 
-        this.wallsGroup;
     }
     preload(){
         //this.load.image("back", "/assets/dormBG.png")
@@ -38,13 +41,15 @@ export class DormScene extends Phaser.Scene{
         this.physics.world.setBounds(0, 0, 9035, 6347);
         this.input.enabled = true;
         this.cursor = this.input.keyboard.createCursorKeys()
-
+        this.usableObject = " "
 
         //TILEMAP STUFF
         let map = this.make.tilemap({key: 'dormMap'})
         let dormTileset = map.addTilesetImage("MainTileset","tiles")
 
-        let groundlayer = map.createLayer("outside",dormTileset)
+        let groundlayer = map.createLayer("grass",dormTileset)
+        groundlayer.setScrollFactor(0.8)
+        let subfloorlayer = map.createLayer("subfloor",dormTileset)
         let floorlayer = map.createLayer("floor",dormTileset)
         let wallLayer = map.createLayer("walls",dormTileset)
 
@@ -55,25 +60,38 @@ export class DormScene extends Phaser.Scene{
         this.physics.add.collider(this.player, wallLayer);
         ////////////////////////////////////////
         const transportLayer = map.getObjectLayer("interactions"); 
-        /*
+        
         transportLayer.objects.forEach(object => {
+            console.log(object)
             const transportRect = this.add.rectangle(object.x, object.y, object.width, object.height);
             transportRect.setOrigin(0); // Make collisions based on top-left corner
             transportRect.setAlpha(0); // Keep it invisible
             this.physics.add.existing(transportRect, true);
-
-            if(object.properties.find((prop => prop.name === 'name').value) == "transport"){
+            let hello = null;
+    if (object.properties && Array.isArray(object.properties)) {
+        const nameProperty = object.properties.find(prop => prop.name === 'name');
+        hello = nameProperty ? nameProperty.value : null; // Use null if name property is not found
+    } 
+            if(hello === "transport"){
                 this.physics.add.overlap(this.player, transportRect, () => {
-                    console.log("player overlaps" + object.properties.find(prop => prop.name === 'toSceneKey').value)
+                    console.log("player overlaps" + hello)
                     this.scene.start(object.properties.find(prop => prop.name === 'toSceneKey').value); 
                 });
             }
             else{
                 this.physics.add.overlap(this.player, transportRect, () => {
-                    console.log("player overlaps" + object.properties.find(prop => prop.name === 'name').value)
+                    this.usableObject = hello
+                    this.popUpText.setText("use " +this.usableObject)
+                    
                 });
             }
-        });*/
+        });
+
+        this.popUpText = this.add.text(8159, 5305, "use " + (this.usableObject), { 
+            fontFamily: 'sans-serif', 
+            fontSize: '24px', 
+            color: '#ffffff'
+        });
         /////////////     
         
         this.input.on('pointerdown', (pointer) => {
@@ -83,7 +101,6 @@ export class DormScene extends Phaser.Scene{
 
     }
     update(){
-        if(this.sceneActive){
         const { left, right, up, down, } = this.cursor //would add up,down if overhead view
         const { W, A, S, D } = this.input.keyboard.addKeys('W,A,S,D');
 
@@ -112,7 +129,6 @@ export class DormScene extends Phaser.Scene{
             //this.player.frame = 0;
         }
     }
-    }
 
     loadPlayer(){
 
@@ -120,7 +136,7 @@ export class DormScene extends Phaser.Scene{
         this.player.setPosition(8159,5305)// this.player.setPosition(2555,1183)//this.player.setPosition(920, 2139)
         this.player.body.allowGravity = false;
         this.player.setBodySize(65,120)
-        this.player.setCollideWorldBounds(true)
+        //this.player.setCollideWorldBounds(true)
 
         this.cameras.main.startFollow(this.player, false, 0.2, 0.2);
         
