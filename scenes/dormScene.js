@@ -59,11 +59,13 @@ export class DormScene extends Phaser.Scene{
         wallLayer.setCollisionByExclusion([-1]);
         this.physics.add.collider(this.player, wallLayer);
         ////////////////////////////////////////
-        const transportLayer = map.getObjectLayer("interactions"); 
+        this.transportLayer = map.getObjectLayer("interactions"); 
+        this.overlapArray=[]
         
-        transportLayer.objects.forEach(object => {
-            console.log(object)
+        this.transportLayer.objects.forEach(object => {
+            //console.log(object)
             const transportRect = this.add.rectangle(object.x, object.y, object.width, object.height);
+            
             transportRect.setOrigin(0); // Make collisions based on top-left corner
             transportRect.setAlpha(0); // Keep it invisible
             this.physics.add.existing(transportRect, true);
@@ -73,21 +75,27 @@ export class DormScene extends Phaser.Scene{
         hello = nameProperty ? nameProperty.value : null; // Use null if name property is not found
     } 
             if(hello === "transport"){
+
+                //console.log("transport log, x is " + this.uiScene.playerSpawnX + " y is " + this.uiScene.playerSpawnY)
                 this.physics.add.overlap(this.player, transportRect, () => {
-                    console.log("player overlaps" + hello)
+                    this.uiScene.playerSpawnX = object.properties.find(prop => prop.name === 'playerSpawnX').value
+                    this.uiScene.playerSpawnY = object.properties.find(prop => prop.name === 'playerSpawnY').value
                     this.scene.start(object.properties.find(prop => prop.name === 'toSceneKey').value); 
                 });
             }
             else{
                 this.physics.add.overlap(this.player, transportRect, () => {
                     this.usableObject = hello
-                    this.popUpText.setText("use " +this.usableObject)
+                    this.playerEnteredTrigger = true
+                    this.popUpText.setVisible(true)
+                    this.popUpText.setText(this.usableObject)
+                    this.popUpText.setPosition(transportRect.x,transportRect.y)
                     
                 });
             }
+            this.overlapArray.push(transportRect)
         });
-
-        this.popUpText = this.add.text(8159, 5305, "use " + (this.usableObject), { 
+        this.popUpText = this.add.text(8159, 5305, " " + (this.usableObject), { 
             fontFamily: 'sans-serif', 
             fontSize: '24px', 
             color: '#ffffff'
@@ -101,6 +109,12 @@ export class DormScene extends Phaser.Scene{
 
     }
     update(){
+        //this.playerEnteredTrigger = false
+        if ((!this.physics.overlap(this.player, this.overlapArray)) && (this.playerEnteredTrigger == true)) {
+            // Player left the trigger area, trigger the event
+            this.playerEnteredTrigger = false; // Set the flag to false
+            this.popUpText.setVisible(false)
+        }
         const { left, right, up, down, } = this.cursor //would add up,down if overhead view
         const { W, A, S, D } = this.input.keyboard.addKeys('W,A,S,D');
 
@@ -133,7 +147,9 @@ export class DormScene extends Phaser.Scene{
     loadPlayer(){
 
         this.player = this.physics.add.sprite(0, 0, "player").setOrigin(0, 0)
-        this.player.setPosition(8159,5305)// this.player.setPosition(2555,1183)//this.player.setPosition(920, 2139)
+        const playerX = this.uiScene.playerSpawnX
+        const playerY = this.uiScene.playerSpawnY
+        this.player.setPosition(playerX,playerY)//this.player.setPosition(920, 2139)
         this.player.body.allowGravity = false;
         this.player.setBodySize(65,120)
         //this.player.setCollideWorldBounds(true)

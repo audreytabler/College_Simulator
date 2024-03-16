@@ -289,6 +289,16 @@
                  "name":"",
                  "properties":[
                         {
+                         "name":"playerSpawnX",
+                         "type":"int",
+                         "value":6838
+                        }, 
+                        {
+                         "name":"playerSpawnY",
+                         "type":"int",
+                         "value":7131
+                        }, 
+                        {
                          "name":"toSceneKey",
                          "type":"string",
                          "value":"DORM_SCENE"
@@ -305,6 +315,16 @@
                  "id":2,
                  "name":"",
                  "properties":[
+                        {
+                         "name":"playerSpawnX",
+                         "type":"int",
+                         "value":2551
+                        }, 
+                        {
+                         "name":"playerSpawnY",
+                         "type":"int",
+                         "value":1195
+                        }, 
                         {
                          "name":"toSceneKey",
                          "type":"string",
@@ -323,9 +343,19 @@
                  "name":"",
                  "properties":[
                         {
+                         "name":"playerSpawnX",
+                         "type":"int",
+                         "value":1132
+                        }, 
+                        {
+                         "name":"playerSpawnY",
+                         "type":"int",
+                         "value":2862
+                        }, 
+                        {
                          "name":"toSceneKey",
                          "type":"string",
-                         "value":""
+                         "value":"UNION_SCENE"
                         }],
                  "rotation":0,
                  "type":"",
@@ -364,7 +394,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {
@@ -739,7 +768,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {
@@ -1026,7 +1054,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {

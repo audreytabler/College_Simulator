@@ -69,7 +69,9 @@ export class CampusScene extends Phaser.Scene {
                 this.physics.add.existing(transportRect, true);
 
                 this.physics.add.overlap(this.player, transportRect, () => {
-                    console.log("player overlaps" + object.properties.find(prop => prop.name === 'toSceneKey').value)
+                    //console.log("player overlaps" + object.properties.find(prop => prop.name === 'toSceneKey').value)
+                    this.uiScene.playerSpawnX = object.properties.find(prop => prop.name === 'playerSpawnX').value
+                    this.uiScene.playerSpawnY = object.properties.find(prop => prop.name === 'playerSpawnY').value
                    //this.scene.start("CAMPUS_SCENE")
                     this.scene.start(object.properties.find(prop => prop.name === 'toSceneKey').value); 
                 });
@@ -116,9 +118,12 @@ export class CampusScene extends Phaser.Scene {
     }
 
     loadPlayer(){
-
+        console.log("transport log, x is " + this.uiScene.playerSpawnX + " y is " + this.uiScene.playerSpawnY)
         this.player = this.physics.add.sprite(0, 0, "player").setOrigin(0, 0)
-        this.player.setPosition(2555,1183)//this.player.setPosition(920, 2139)
+        const playerX = this.uiScene.playerSpawnX
+        const playerY = this.uiScene.playerSpawnY
+        this.player.setPosition(playerX,playerY)
+        //this.player.setPosition(this.uiScene.playerSpawnX,this.uiScene.playerSpawnY)//this.player.setPosition(1261,1183)//this.player.setPosition(2555,1183)//this.player.setPosition(920, 2139)
         this.player.body.allowGravity = false;
         this.player.setBodySize(65,120)
         this.player.setCollideWorldBounds(true)

@@ -15,6 +15,8 @@ export class UIScene extends Phaser.Scene {
         this.playerStats;
         this.missionManager
         this.activeScene;
+        this.playerSpawnX =8159
+        this.playerSpawnY = 5325
     }
     preload(){
         this.load.json('narrator', "./assets/narratorDialog.json")

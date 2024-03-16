@@ -27,6 +27,7 @@ const game = new Phaser.Game({
         },
     },
     });
+    
 game.scene.add("CAMPUS_SCENE", CampusScene);
 game.scene.add("CLASS_SCENE", ClassScene);
 game.scene.add("TEST_SCENE", TestScene);
@@ -35,4 +36,3 @@ game.scene.add("UI_SCENE", UIScene);
 game.scene.add("TITLE_SCENE", TitleScene);
 //game.scene.start("CAMPUS_SCENE")
 game.scene.start("DORM_SCENE")
-
