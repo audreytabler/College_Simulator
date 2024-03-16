@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import eventsCenter from '../ui/eventCenter';
 
 
 
@@ -70,10 +71,10 @@ export class DormScene extends Phaser.Scene{
             transportRect.setAlpha(0); // Keep it invisible
             this.physics.add.existing(transportRect, true);
             let hello = null;
-    if (object.properties && Array.isArray(object.properties)) {
-        const nameProperty = object.properties.find(prop => prop.name === 'name');
-        hello = nameProperty ? nameProperty.value : null; // Use null if name property is not found
-    } 
+            if (object.properties && Array.isArray(object.properties)) {
+                const nameProperty = object.properties.find(prop => prop.name === 'name');
+                hello = nameProperty ? nameProperty.value : null; // Use null if name property is not found
+            } 
             if(hello === "transport"){
 
                 //console.log("transport log, x is " + this.uiScene.playerSpawnX + " y is " + this.uiScene.playerSpawnY)
@@ -87,19 +88,36 @@ export class DormScene extends Phaser.Scene{
                 this.physics.add.overlap(this.player, transportRect, () => {
                     this.usableObject = hello
                     this.playerEnteredTrigger = true
+                    //this.popUpBox = this.add.rectangle(transportRect.x+50,transportRect.y+20, 100, 30,0x226184).setDepth(this.popUpText.depth - 1);;
                     this.popUpText.setVisible(true)
+                    this.popUpBox.setVisible(true)
+                    this.popUpBox.width=(this.usableObject.toString().length * 15)
                     this.popUpText.setText(this.usableObject)
-                    this.popUpText.setPosition(transportRect.x,transportRect.y)
+                    this.popUpText.setPosition(transportRect.x+50,transportRect.y+55)
+                    this.popUpBox.setPosition(transportRect.x+80,transportRect.y+70)
+                    if(hello === "wash hands"){
+                        this.popUpText.setPosition(transportRect.x+10,transportRect.y+60)
+                        this.popUpBox.setPosition(transportRect.x+40,transportRect.y+75)  
+                    }
                     
                 });
             }
             this.overlapArray.push(transportRect)
         });
+        this.popUpBox = this.add.rectangle(8159+50, 5305+20, 75, 30,0x226184,0.5).setInteractive()
+        this.popUpBox.setVisible(false)
         this.popUpText = this.add.text(8159, 5305, " " + (this.usableObject), { 
             fontFamily: 'sans-serif', 
             fontSize: '24px', 
             color: '#ffffff'
         });
+        
+        this.popUpBox.on('pointerdown', () => {
+            // Toggle between home screen and app screen
+            //console.log("emitting " + hello)
+            eventsCenter.emit(this.usableObject)
+
+    });
         /////////////     
         
         this.input.on('pointerdown', (pointer) => {
@@ -113,6 +131,7 @@ export class DormScene extends Phaser.Scene{
         if ((!this.physics.overlap(this.player, this.overlapArray)) && (this.playerEnteredTrigger == true)) {
             // Player left the trigger area, trigger the event
             this.playerEnteredTrigger = false; // Set the flag to false
+            this.popUpBox.setVisible(false)
             this.popUpText.setVisible(false)
         }
         const { left, right, up, down, } = this.cursor //would add up,down if overhead view

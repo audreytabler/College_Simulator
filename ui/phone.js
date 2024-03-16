@@ -8,7 +8,7 @@ export class Phone extends Phaser.GameObjects.Graphics {
         this.scene = scene;
         this.clock;
         this.isPhoneFocused = false;
-        this.reminders = ["10:00 AM | Physics | classroom"] //TODO: make reminder object that sorts by time, exports text object? completeable
+        this.reminderArray = ["\n\n*10 AM PYS | room 102","\n\n*11 AM BIO | room 107","\n\n*1 PM ENG | room 105"] //TODO: make reminder object that sorts by time, exports text object? completeable
                                                             // maybe make method to initialize reminderbutton each day
         // Create phone components
         this.createPhoneComponents();
@@ -16,9 +16,9 @@ export class Phone extends Phaser.GameObjects.Graphics {
     }
 
     createPhoneComponents() {
-        this.phoneEdge = this.scene.add.rectangle(130,400,180,310,0x808080).setInteractive()
+        this.phoneEdge = this.scene.add.rectangle(130,400,190,310,0x808080).setInteractive()
 
-        this.phoneScreen = this.scene.add.rectangle(130,390,150,260,0xffffff).setInteractive();
+        this.phoneScreen = this.scene.add.rectangle(130,390,160,260,0xffffff).setInteractive();
 
         this.homeButton =  this.scene.add.rectangle(130,537,25,25,0x000000).setInteractive();
         this.reminderButton = this.scene.add.rectangle(100,350,35,35,0x226184).setInteractive();
@@ -29,7 +29,7 @@ export class Phone extends Phaser.GameObjects.Graphics {
         this.homeContainer.add([this.reminderButton,this.socialButton,this.videoButton])
         //this.homeContainer.setVisible(true)
 
-        this.reminderText = this.scene.add.text(70,315,'* debug text\n* more debug\n* reminder 3\n*10AM Physics',{ fontSize: '16px', fill:'black'});
+        this.reminderText = this.scene.add.text(53,315,this.reminderArray.toString(),{ fontSize: '14px', fill:'black',fontFamily:'sans-serif',});
         this.reminderContainer = this.scene.add.container(0,0)
         this.reminderContainer.add(this.reminderText)
 
@@ -131,6 +131,10 @@ export class Phone extends Phaser.GameObjects.Graphics {
         this.reminderContainer.setVisible(false)
         this.socialContainer.setVisible(false)
         this.videoContainer.setVisible(false)
+    }
+
+    updateReminderList(){ //TODO: When a new reminder is added, sort by time
+
     }
 
 }

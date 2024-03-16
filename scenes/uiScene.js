@@ -4,6 +4,7 @@ import Clock from '../ui/clock.js'
 import Phone from '../ui/phone.js'
 import PlayerStats from '../ui/playerStats.js'
 import MissionManager from '../ui/missionManager.js';
+import eventsCenter from '../ui/eventCenter.js';
 
 
 export class UIScene extends Phaser.Scene {
@@ -52,9 +53,13 @@ export class UIScene extends Phaser.Scene {
             console.log('Active scene:'+ this.activeScene);
         });*/
 
-        this.events.emit('setTargetBox'); 
+       // this.events.emit('setTargetBox'); 
         
-
+        /*this.scene.get(this.activeScene).events.on('shower', (sceneKey) => {
+            this.activeScene = sceneKey;
+            console.log("Shower Started...");
+        });*/
+        eventsCenter.on('shower',this.shower,this)
         
     }
 
@@ -70,6 +75,9 @@ export class UIScene extends Phaser.Scene {
         this.activeScene = nScene
         console.log("ui: new scene is " + this.activeScene)
 
+    }
+    shower(){
+        console.log("shower from ui")
     }
 
 }
