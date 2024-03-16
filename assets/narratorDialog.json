@@ -48,7 +48,18 @@
             "dialog":[
                 {
                     "name": "Narrator",
-                    "text": "You feel refreshed and your mind seems much clearer now! (+20 Focus)"
+                    "text": "You feel refreshed and your mind seems much clearer now! (+20 Focus)",
+                    "stat": "focus",
+                    "increment": 20,
+                    "mins":30
+                }
+            ]
+        },
+        {
+            "dialog":[
+                {
+                    "name": "Narrator",
+                    "text": ""
                 },
                 {
                     "name": "Narrator",

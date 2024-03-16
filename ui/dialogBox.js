@@ -65,13 +65,16 @@ class DialogBox extends Phaser.GameObjects.Graphics {
     this.scene.input.on('pointerdown', function () {
       if (this.isAnimating)
           this.clickToSkip = true
+      else if (this.currentIndex == this.dialogLength -1){
+        this.nextDialog();
+        console.log("stat handler called")
+        this.statHandler()
+      }
       else if (this.currentIndex < this.dialogLength)
         this.nextDialog();
       else if (this.dialogEnabled){ 
-        this.hide(); 
-        this.goal = this.data.dialogList[this.dialogIndex-1].dialog[this.currentIndex-1].goal
-        console.log(this.goal)
-        this.scene.missionManager.startMission(this.goal)
+        //this.statHandler();
+        this.hide();
       }
   }, this);
 }
@@ -109,17 +112,18 @@ class DialogBox extends Phaser.GameObjects.Graphics {
 }
 
 
-  startDialog(index){ //stardialog with given index
+  startDialogg(index){ //stardialog with given index
+    this.dialogEnabled=true;
     if (index>=this.data.dialogList.length)
     this.dialogIndex = this.data.dialogList.length - 1
     else this.dialogIndex = index
-
+    //console.log(this.data.dialogList[this.dialogIndex].dialog[this.currentIndex].text)
    this.dialogLength = this.data.dialogList[index].dialog.length; //length of conversation
    this.currentIndex = 0;
     //which conversation
-   
-   
    this.nextDialog();
+   this.statHandler()
+   
   }
 
   startDialog(){ //will go off of whatever the last index is
@@ -147,6 +151,7 @@ class DialogBox extends Phaser.GameObjects.Graphics {
   }
 
   hide() {
+
     this.dialogIndex++;
     this.dialogBox.setVisible(false);
     this.dialogText.setVisible(false);
@@ -155,6 +160,30 @@ class DialogBox extends Phaser.GameObjects.Graphics {
     this.isAnimating = false;
     this.clickToSkip = false;
     this.dialogEnabled = false
+  }
+
+  statHandler(){
+    let stat = this.data.dialogList[this.dialogIndex].dialog[this.currentIndex-1].goal
+    if(stat !=null){
+      this.goal = this.data.dialogList[this.dialogIndex].dialog[this.currentIndex-1].goal
+      console.log(this.goal)
+      this.scene.missionManager.startMission(this.goal)
+    }
+    if(this.data.dialogList[this.dialogIndex].dialog[this.currentIndex-1].stat){
+      stat = this.data.dialogList[this.dialogIndex].dialog[this.currentIndex-1].stat
+      if(stat === "energy"){
+
+      }
+      else if (stat === "social"){
+
+      }
+      else if (stat === "focus"){
+        console.log("focus called")
+        this.scene.statsOverlay.updateFocus(this.data.dialogList[this.dialogIndex].dialog[this.currentIndex-1].increment)
+        this.scene.phone.clock.advanceTime
+      }
+    }
+
   }
 }
 

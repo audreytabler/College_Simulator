@@ -6,15 +6,15 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
         this.scene = scene;
         this.energyNum = 135 * 1;
         this.focusNum = 4;
-        this.mentalNum = 135 * 1;
+        this.socialNum = 135 * 1;
         this.emptyBars;
         this.energyLevel;
         this.focusLevel;
-        this.mentalLevel;
+        this.socialLevel;
 
         this.energyText;
         this.focusText;
-        this.mentalText;
+        this.socialText;
 
         //this.newText = this.scene.add.text(0,0,'hello',{ fontSize: '16px', fill: 'white' });
         
@@ -66,25 +66,25 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
         this.focusLevel.fillRoundedRect(0, 0, this.focusNum, 20, (this.focusNum * 0.07));
     }
 
-    updateMental(increment) {
-        this.mentalNum = this.mentalNum + increment
-        this.mentalLevel.clear();
-        this.mentalLevel.fillStyle(0x73a9c2, 1);
-        this.mentalLevel.setMask(this.mask)
+    updateSocial(increment) {
+        this.socialNum = this.socialNum + increment
+        this.socialLevel.clear();
+        this.socialLevel.fillStyle(0x73a9c2, 1);
+        this.socialLevel.setMask(this.mask)
         
-        if(this.mentalNum > 140)
-            this.mentalNum = 140
-        if (this.mentalNum <= 0)
-            this.mentalNum = 0
+        if(this.socialNum > 140)
+            this.socialNum = 140
+        if (this.socialNum <= 0)
+            this.socialNum = 0
 
-        this.mentalLevel.fillRoundedRect(0, 0, this.mentalNum, 20, (this.mentalNum * 0.07));
+        this.socialLevel.fillRoundedRect(0, 0, this.socialNum, 20, (this.socialNum * 0.07));
     }
 
     updatePosition() {
         ///////
-        this.updateEnergy(-0.1)
-        this.updateFocus(1)
-        this.updateMental(-0.2)
+        this.updateEnergy(-0.05)
+        //this.updateFocus(1)
+        //this.updateSocial(-0.2)
         //////
 
         const camera = this.scene.cameras.main;
@@ -93,7 +93,7 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
         this.emptyBars.setPosition(x, y);
         this.energyLevel.setPosition(x, y);
         this.focusLevel.setPosition(x, y + 25);
-        this.mentalLevel.setPosition(x, y + 50);
+        this.socialLevel.setPosition(x, y + 50);
 
         this.energyText.setPosition(x+7,y+2)
         this.energyText.setText('energy: ' + Math.round(this.energyNum/1.4) + '%')
@@ -101,8 +101,8 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
         this.focusText.setPosition(x+7,y+27)
         this.focusText.setText('focus: ' + Math.round(this.focusNum/1.4) + '%')
 
-        this.mentalText.setPosition(x+7,y+52)
-        this.mentalText.setText('mental: ' + Math.round(this.mentalNum/1.4) + '%')
+        this.socialText.setPosition(x+7,y+52)
+        this.socialText.setText('social: ' + Math.round(this.socialNum/1.4) + '%')
         //this.dialogText.setPosition(x+10,y+10)
     }
 
@@ -111,7 +111,7 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
         this.emptyBars.fillStyle(0xFFFFFF, 0.7);
         this.emptyBars.fillRoundedRect(0, 0, 140, 20, 10); //blank energy
         this.emptyBars.fillRoundedRect(0, 25, 140, 20, 10); //blank focus
-        this.emptyBars.fillRoundedRect(0, 50, 140, 20, 10); //blank mental
+        this.emptyBars.fillRoundedRect(0, 50, 140, 20, 10); //blank social
         this.mask = this.emptyBars.createGeometryMask();
 
         //yellow energy level bar
@@ -141,29 +141,29 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
             this.focusText.setVisible(false)
         });
 
-        //blue mental bar
-        this.mentalLevel = this.scene.add.graphics();
-        this.mentalLevel.fillStyle(0x73a9c2, 1);
-        this.mentalLevel.fillRoundedRect(0, 0, this.mentalNum, 20, 10);
-        //this.mentalLevel.fillRoundedRect(0, 0, 10, 20, 10-(10*0.7));
-        this.mentalLevel.setInteractive(new Phaser.Geom.Rectangle(7, 3, 140, 20, 10), Phaser.Geom.Rectangle.Contains);
-        this.mentalLevel.on('pointerover',() => {
-            this.mentalText.setVisible(true)
+        //blue social bar
+        this.socialLevel = this.scene.add.graphics();
+        this.socialLevel.fillStyle(0x73a9c2, 1);
+        this.socialLevel.fillRoundedRect(0, 0, this.socialNum, 20, 10);
+        //this.socialLevel.fillRoundedRect(0, 0, 10, 20, 10-(10*0.7));
+        this.socialLevel.setInteractive(new Phaser.Geom.Rectangle(7, 3, 140, 20, 10), Phaser.Geom.Rectangle.Contains);
+        this.socialLevel.on('pointerover',() => {
+            this.socialText.setVisible(true)
         });
-        this.mentalLevel.on('pointerout',() => {
-            this.mentalText.setVisible(false)
+        this.socialLevel.on('pointerout',() => {
+            this.socialText.setVisible(false)
         });
 
         this.energyText = this.scene.add.text(0,0,'debug text',{ fontSize: '16px', fill:'purple',blendMode: 'MULTIPLY' });
         this.focusText = this.scene.add.text(0,25,'debug text',{ fontSize: '16px', fill:'purple',blendMode: 'MULTIPLY' })
-        this.mentalText = this.scene.add.text(0,50,'debug text',{ fontSize: '16px', fill:'purple',blendMode: 'MULTIPLY' })
+        this.socialText = this.scene.add.text(0,50,'debug text',{ fontSize: '16px', fill:'purple',blendMode: 'MULTIPLY' })
         this.energyText.setVisible(false)
         this.focusText.setVisible(false)
-        this.mentalText.setVisible(false)
+        this.socialText.setVisible(false)
 
         this.updateFocus(0)
         this.updateEnergy(0)
-        this.updateMental(0)
+        this.updateSocial(0)
 
         this.scene.events.on('update', this.updatePosition, this);
     }

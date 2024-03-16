@@ -13,7 +13,7 @@ export class UIScene extends Phaser.Scene {
         this.clock
         this.phone
         this.narrator;
-        this.playerStats;
+        this.statsOverlay;-
         this.missionManager
         this.activeScene;
         this.playerSpawnX =8159
@@ -78,6 +78,7 @@ export class UIScene extends Phaser.Scene {
     }
     shower(){
         console.log("shower from ui")
+        this.narrator.startDialogg(2)
     }
 
 }
