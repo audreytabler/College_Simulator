@@ -2,7 +2,6 @@ import './style.css'
 import Phaser from 'phaser'
 import {TitleScene} from './scenes/titleScene.js'
 import { CampusScene } from './scenes/campusScene.js';
-import {TestScene} from './scenes/testScene.js'
 import {DormScene} from './scenes/dormScene.js'
 import {UIScene} from './scenes/uiScene.js'
 import {ClassScene} from './scenes/classScene.js'
@@ -30,7 +29,6 @@ const game = new Phaser.Game({
     
 game.scene.add("CAMPUS_SCENE", CampusScene);
 game.scene.add("CLASS_SCENE", ClassScene);
-game.scene.add("TEST_SCENE", TestScene);
 game.scene.add("DORM_SCENE", DormScene);
 game.scene.add("UI_SCENE", UIScene);
 game.scene.add("TITLE_SCENE", TitleScene);
