@@ -180,7 +180,7 @@ class DialogBox extends Phaser.GameObjects.Graphics {
       else if (stat === "focus"){
         console.log("focus called")
         this.scene.statsOverlay.updateFocus(this.data.dialogList[this.dialogIndex].dialog[this.currentIndex-1].increment)
-        this.scene.phone.clock.advanceTime
+        this.scene.phone.clock.advanceTime(this.data.dialogList[this.dialogIndex].dialog[this.currentIndex-1].mins)
       }
     }
 

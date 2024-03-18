@@ -5,7 +5,7 @@ export class Clock extends Phaser.GameObjects.Graphics {
     constructor(scene, initialTime) {
         super(scene,'Clock');
         this.scene = scene;
-        this.time = { hour: 7, minute: 30, period: 'AM' }; // Initial time is 7:30 AM
+        this.time = { hour: 7, minute: 30, period: 'PM' }; // Initial time is 7:30 AM
         this.timeScale = 0.001; // 0.7 real seconds per in-game minute
         this.clockText = null;
         this.deltaTime;
@@ -13,7 +13,7 @@ export class Clock extends Phaser.GameObjects.Graphics {
         this.numDays =1
         this.dayOfWeek = "Monday"
         this.weekArray = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-        this.totalHours = 7;
+        this.totalHours = 14;
 
         // Create a text object to display the clock
         this.clockText = this.scene.add.text(15, 800, this.getTimeString(), { font: '24px Arial', fill: '#000000' });
@@ -31,17 +31,6 @@ export class Clock extends Phaser.GameObjects.Graphics {
         const deltaTime = (this.scene.time.now - this.start); // Convert deltaTime to seconds
         const minutesPassed = deltaTime * this.timeScale;
         this.advanceTime(minutesPassed);
-
-        if (this.totalHours >= 24 ) {
-            this.numDays++; // Increment numDays
-            this.totalHours =0
-            this.time.hour=12
-            this.time.minute=0
-
-            //const dayOfWeekIdx= (this.numDays - 1) % this.weekArray.length
-            this.dayOfWeek = this.weekArray[(this.numDays - 1) % this.weekArray.length]
-            this.updateWeekDay
-        }
         // Update the clock display
         this.clockText.setText(this.getTimeString());
         this.start = this.scene.time.now
@@ -58,6 +47,18 @@ export class Clock extends Phaser.GameObjects.Graphics {
         this.time.minute = totalMinutes % 60;
 
         this.time.period = this.totalHours < 12 ? 'AM' : 'PM';
+
+        if (this.totalHours >= 24 ) {
+            this.numDays++; // Increment numDays
+            /*
+            this.totalHours =0
+            this.time.hour=12
+            this.time.minute=0*/
+            this.totalHours = this.totalHours - 24
+            this.time.hour = 12 + this.totalHours
+            this.time.minute = (totalMinutes - (this.totalHours*60)) %60
+            this.updateWeekDay()
+        }
     }
 
     // Function to format the time as a string
@@ -68,7 +69,8 @@ export class Clock extends Phaser.GameObjects.Graphics {
         return `${hourString}:${minuteString} ${this.time.period}`;
     }
     updateWeekDay(){
-
+        this.dayOfWeek = this.weekArray[(this.numDays - 1) % this.weekArray.length]
+        this.dayWeekText.setText(this.dayOfWeek)
     }
 }
 
