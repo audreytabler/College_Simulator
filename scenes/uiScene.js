@@ -60,6 +60,7 @@ export class UIScene extends Phaser.Scene {
             console.log("Shower Started...");
         });*/
         eventsCenter.on('shower',this.shower,this)
+        eventsCenter.on('class',this.class,this)
         
     }
 
@@ -77,8 +78,10 @@ export class UIScene extends Phaser.Scene {
 
     }
     shower(){
-        console.log("shower from ui")
         this.narrator.startDialogg(2)
+    }
+    class(){
+        this.narrator
     }
 
 }

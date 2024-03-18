@@ -10,6 +10,7 @@ class MissionManager extends Phaser.GameObjects.Graphics {
             this.criteria;
             this.targetBox;
             this.criteriaMet = false
+            this.criteria
             this.missionInProgress = false;
 
             //this.scene.events.on('update', this.updatePosition, this);
@@ -36,7 +37,13 @@ class MissionManager extends Phaser.GameObjects.Graphics {
 
                 //wait until player is within bounds of targetbox)
                 await this.until(_ => this.criteriaMet == true);
-                console.log("criteria met!")
+                console.log("criteria met! showered")
+                this.scene.narrator.startDialog()  
+                break;
+            case "first_class":
+                this.drawText("Current task: Head to your first class")
+                await this.until(_ => this.criteriaMet == true);
+                console.log("criteria met! went to class")
                 this.scene.narrator.startDialog()  
                 break;
             case "find_dorm":

@@ -14,6 +14,7 @@ export class ClassScene extends Phaser.Scene{
         this.targetBox
         this.popUp
         this.uiScene
+        this.popUpBox;
 
         this.playerEnteredTrigger = false
     }
@@ -73,19 +74,31 @@ export class ClassScene extends Phaser.Scene{
         const roomNumLayer = map.getObjectLayer("RoomNumbers"); 
 
         roomNumLayer.objects.forEach(object => {
+            const roomRect = this.add.rectangle(object.x, object.y, object.width, object.height);
+            roomRect.setOrigin(0); // Make collisions based on top-left corner
+            roomRect.setAlpha(0); // Keep it invisible
+            this.physics.add.existing(roomRect, true);
 
-                console.log(object)
-                console.log(object.x)
-                const roomRect = this.add.rectangle(object.x, object.y, object.width, object.height);
-                roomRect.setOrigin(0); // Make collisions based on top-left corner
-                roomRect.setAlpha(0); // Keep it invisible
-                this.physics.add.existing(roomRect, true);
-
-                this.physics.add.overlap(this.player, roomRect, () => {
-                    console.log("player overlaps" + object.properties.find(prop => prop.name === 'roomNumber').value)
-                });
-
-        });     
+            this.physics.add.overlap(this.player, roomRect, () => {
+                //console.log("player overlaps" + object.properties.find(prop => prop.name === 'roomNumber').value)
+                this.usableObject = object.properties.find(prop => prop.name === 'roomNumber').value
+                this.playerEnteredTrigger = true
+                //this.popUpBox = this.add.rectangle(transportRect.x+50,transportRect.y+20, 100, 30,0x226184).setDepth(this.popUpText.depth - 1);;
+                this.popUpText.setVisible(true)
+                this.popUpBox.setVisible(true)
+                this.popUpBox.width=(this.usableObject.toString().length * 15)
+                this.popUpText.setText(this.usableObject)
+                this.popUpText.setPosition(roomRect.x,roomRect.y)
+                this.popUpBox.setPosition(roomRect.x+30,roomRect.y+15)
+            });
+        });   
+        this.popUpBox = this.add.rectangle(8159+50, 5305+20, 75, 30,0x226184,0.5).setInteractive()
+        this.popUpBox.setVisible(false)
+        this.popUpText = this.add.text(8159, 5305, " " + (this.usableObject), { 
+            fontFamily: 'sans-serif', 
+            fontSize: '24px', 
+            color: '#ffffff',
+        });  
          
         this.input.on('pointerdown', (pointer) => {
             // Log the position of the cursor when clicked
