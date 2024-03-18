@@ -17,6 +17,7 @@ export class DormScene extends Phaser.Scene{
         this.popUpBox;
         this.popX;
         this.popY;
+        this.emitter;
 
         this.uiScene
 
@@ -31,6 +32,7 @@ export class DormScene extends Phaser.Scene{
         //tilemap
         this.load.image("tiles","/assets/CollegeTileSet.png")
         this.load.tilemapTiledJSON("dormMap", "/assets/dormMap.tmj")
+        this.load.image("fog","./assets/fog.png")
 
     }
     create(){
@@ -93,8 +95,8 @@ export class DormScene extends Phaser.Scene{
                     this.popUpBox.setVisible(true)
                     this.popUpBox.width=(this.usableObject.toString().length * 15)
                     this.popUpText.setText(this.usableObject)
-                    this.popUpText.setPosition(transportRect.x+50,transportRect.y+55)
-                    this.popUpBox.setPosition(transportRect.x+80,transportRect.y+70)
+                    this.popUpText.setPosition(transportRect.x+30,transportRect.y+55)
+                    this.popUpBox.setPosition(transportRect.x+60,transportRect.y+70)
                     if(hello === "wash hands"){
                         this.popUpText.setPosition(transportRect.x+10,transportRect.y+60)
                         this.popUpBox.setPosition(transportRect.x+40,transportRect.y+75)  
@@ -109,13 +111,24 @@ export class DormScene extends Phaser.Scene{
         this.popUpText = this.add.text(8159, 5305, " " + (this.usableObject), { 
             fontFamily: 'sans-serif', 
             fontSize: '24px', 
-            color: '#ffffff'
+            color: '#ffffff',
         });
         
         this.popUpBox.on('pointerdown', () => {
-            // Toggle between home screen and app screen
-            //console.log("emitting " + hello)
             eventsCenter.emit(this.usableObject)
+
+            console.log(this.usableObject)
+            if(this.usableObject ==="shower"){
+                this.emitter =this.add.particles(7640,4500,"fog",{
+                    //this holds everything for emitter
+                    speed:60,
+                    gravityY:400,
+                    scale:1,
+                    duration: 500,
+                    emitting:false
+                  })
+                  this.emitter.start()
+            }
 
     });
         /////////////     
