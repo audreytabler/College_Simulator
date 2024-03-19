@@ -79,7 +79,7 @@ export class UIScene extends Phaser.Scene {
 
     }
     shower(){
-        this.narrator.startDialogg(2)
+        this.narrator.startDialogg(0)
         this.missionManager.shower()
     }
     class(){

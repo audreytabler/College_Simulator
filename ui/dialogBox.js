@@ -17,14 +17,15 @@ class DialogBox extends Phaser.GameObjects.Graphics {
     this.goal;
     this.data =data //data holds json data
     this.dialogLength //how many bubbles in a conversation
-    this.dialogIndex = 0;
+    this.dialogIndex = 1;
     this.currentIndex //current index within a conversation
 
     this.isVisible = false;
     this.clicksAllowed = true;
 
-    //console.log("data is " + this.data.dialogList.length)
     this.dialogList =[] 
+    this.dialogQueue = []
+    this.statMessage;
 
     const x = (scene.sys.game.config.width -(width*0.6))/2; // Adjust as needed
     const y = scene.sys.game.config.height - height - 10; // Adjust as needed
@@ -72,7 +73,6 @@ class DialogBox extends Phaser.GameObjects.Graphics {
   handleClicks(){
     if(this.clicksAllowed){
       this.clickableBox.on('pointerdown', () => {
-        console.log(this.clickableBox)
       if (this.isAnimating)
           this.clickToSkip = true
       else if (this.currentIndex == this.dialogLength -1){
@@ -122,19 +122,24 @@ class DialogBox extends Phaser.GameObjects.Graphics {
 }
   startStatUpdate(name){
     if (name === "shower")
-      message = this.data.statUpdates[0]
+    this.statMessage = this.data.statUpdates[0]
     else if (name === "class")
-    message = this.data.statUpdates[1]
+    this.statMessage = this.data.statUpdates[1]
     else if (name === "sleep")
-    message = this.data.statUpdates[2]
+    this.statMessage = this.data.statUpdates[2]
   }
 
   startDialogg(index){ //start dialog with given index
+    this.dialogQueue.push(index)
+    console.log("startDialogg(idx): " + this.dialogQueue)
+    if(this.dialogEnabled == true){
+      return
+    }
+
     this.dialogEnabled=true;
     if (index>=this.data.dialogList.length)
     this.dialogIndex = this.data.dialogList.length - 1
     else this.dialogIndex = index
-    //console.log(this.data.dialogList[this.dialogIndex].dialog[this.currentIndex].text)
    this.dialogLength = this.data.dialogList[index].dialog.length; //length of conversation
    this.currentIndex = 0;
     //which conversation
@@ -144,6 +149,11 @@ class DialogBox extends Phaser.GameObjects.Graphics {
   }
 
   startDialog(){ //will go off of whatever the last index is
+    this.dialogQueue.push(this.dialogIndex)
+    console.log("startDialog(): " + this.dialogQueue)
+    if(this.dialogEnabled == true){
+      return
+    }
     this.dialogEnabled=true;
     if (this.dialogIndex >= this.data.dialogList.length)
       this.dialogIndex = this.data.dialogList.length - 1
@@ -168,6 +178,9 @@ class DialogBox extends Phaser.GameObjects.Graphics {
   }
 
   hide() {
+    if(this.dialogQueue.length >1 && this.dialogQueue[1] == this.dialogQueue[0])
+      this.dialogQueue.shift()
+    this.dialogQueue.shift();
 
     this.dialogIndex++;
     this.dialogBox.setVisible(false);
@@ -177,6 +190,8 @@ class DialogBox extends Phaser.GameObjects.Graphics {
     this.isAnimating = false;
     this.clickToSkip = false;
     this.dialogEnabled = false
+    if(this.dialogQueue.length >0){
+      this.startDialogg(this.dialogQueue[0])}
   }
 
   statHandler(){
@@ -185,13 +200,17 @@ class DialogBox extends Phaser.GameObjects.Graphics {
       this.goal = this.data.dialogList[this.dialogIndex].dialog[this.currentIndex-1].goal
       this.scene.missionManager.startMission(this.goal)
     }
-    if(this.data.dialogList[this.dialogIndex].dialog[this.currentIndex-1].stat){
+    if(this.data.dialogList[this.dialogIndex].dialog[this.currentIndex-1].stat){2
       stat = this.data.dialogList[this.dialogIndex].dialog[this.currentIndex-1].stat
       if(stat === "energy"){
-
+        console.log("energy called")
+        this.scene.statsOverlay.updateEnergy(this.data.dialogList[this.dialogIndex].dialog[this.currentIndex-1].increment)
+        this.scene.phone.clock.advanceTime(this.data.dialogList[this.dialogIndex].dialog[this.currentIndex-1].mins)
       }
       else if (stat === "social"){
-
+        console.log("social called")
+        this.scene.statsOverlay.updateEnergy(this.data.dialogList[this.dialogIndex].dialog[this.currentIndex-1].increment)
+        this.scene.phone.clock.advanceTime(this.data.dialogList[this.dialogIndex].dialog[this.currentIndex-1].mins)
       }
       else if (stat === "focus"){
         console.log("focus called")

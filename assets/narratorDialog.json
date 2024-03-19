@@ -1,6 +1,17 @@
 {
     "dialogList": [
         {
+            "dialog":[
+                {
+                    "name": "Narrator",
+                    "text": "You feel refreshed and your mind seems much clearer now! (+20 Focus)",
+                    "stat": "focus",
+                    "increment": 20,
+                    "mins":30
+                }
+            ]
+        },
+        {
             "dialog": [
                 {
                     "name": "Narrator",
@@ -40,18 +51,12 @@
             "dialog":[
                 {
                     "name": "Narrator",
-                    "text": "Great! You've made it to the shower. Click the button to turn it on"
-                }
-            ]
-        },
-        {
-            "dialog":[
+                    "text": "Great! You feel ready for class! Check the reminder app on your phone to see what time your first class is at today (click the box on the bottom left of the screen)"
+                },
                 {
                     "name": "Narrator",
-                    "text": "You feel refreshed and your mind seems much clearer now! (+20 Focus)",
-                    "stat": "focus",
-                    "increment": 20,
-                    "mins":30
+                    "text": "After you've found out what time your first class is at, head out of the dorm (go out to the left and then head downwards) to get to the main campus",
+                    "goal": "find_campus"
                 }
             ]
         },
@@ -142,6 +147,44 @@
                     "text": "The seeds will grow on their own, but you can also click on them to water them!"
                 }
             ]
+        }
+    ],
+    "statUpdates":[
+        {"name":"shower",
+        "text": "You feel refreshed and your mind seems much clearer now! (+20 Focus)",
+        "stat": "focus",
+        "increment": 20,
+        "mins":30},
+
+        {"name":"class",
+        "text": "You attended class! (-20 Focus, +20 class points)",
+        "stat": "class",
+        "increment": 20,
+        "mins":50},
+        
+        {"name":"sleep",
+        "text": "one hour of sleep",
+        "stat":"energy",
+        "increment":13,
+        "mins":60
+        },
+        {"name":"study",
+        "text": "one hour of study",
+        "stat":"class",
+        "increment":20,
+        "mins":60
+        },
+        {"name":"call-home",
+        "text": "calling home",
+        "stat":"social",
+        "increment":20,
+        "mins":60
+        },
+        {"name":"video",
+        "text": "educational videos for one hour",
+        "stat":"focus",
+        "increment":20,
+        "mins":60
         }
     ]
 }

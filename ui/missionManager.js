@@ -13,6 +13,8 @@ class MissionManager extends Phaser.GameObjects.Graphics {
             this.criteria
             this.missionInProgress = false;
 
+            //eventsCenter.on('shower',this.shower,this)
+
             //this.scene.events.on('update', this.updatePosition, this);
         }
         MissionManager.instance.scene = scene
@@ -33,13 +35,25 @@ class MissionManager extends Phaser.GameObjects.Graphics {
         switch(m){
             case "take_shower":
                 this.drawText("Current task: Take a warm shower")
+                this.criteria = "shower"
                 //this.scene.targetBox.setPosition(450,2260) //= set target box position to shower
 
                 //wait until player is within bounds of targetbox)
                 await this.until(_ => this.criteriaMet == true);
                 console.log("criteria met! showered")
-                this.scene.narrator.startDialog()  
+                this.scene.narrator.startDialogg(2)  
                 break;
+            case "find_campus":
+                    this.drawText("Current task: Leave dorm to find campus")
+                    this.criteria = "campus"
+                    this.criteriaMet = false;
+                    //this.scene.targetBox.setPosition(450,2260) //= set target box position to shower
+    
+                    //wait until player is within bounds of targetbox)
+                    await this.until(_ => this.criteriaMet == true);
+                    console.log("criteria met! found campus")
+                    this.scene.narrator.startDialog()  
+                    break;
             case "first_class":
                 this.drawText("Current task: Head to your first class")
                 await this.until(_ => this.criteriaMet == true);
@@ -77,6 +91,13 @@ class MissionManager extends Phaser.GameObjects.Graphics {
         this.criteriaMet = val
     }
 
+    shower(){
+        console.log("shower recieved from mission manager")
+        if(this.criteria === "shower"){
+            this.criteriaMet = true;
+        }
+    }
+
     until(conditionFunction) {
         const poll = resolve => {
           if(conditionFunction()) resolve();
@@ -85,9 +106,6 @@ class MissionManager extends Phaser.GameObjects.Graphics {
       
         return new Promise(poll);
       }
-
-
-
 
 }
 export default MissionManager;

@@ -117,7 +117,7 @@ export class DormScene extends Phaser.Scene{
         this.popUpBox.on('pointerdown', () => {
             eventsCenter.emit(this.usableObject)
 
-            console.log(this.usableObject)
+            //console.log(this.usableObject)
             if(this.usableObject ==="shower"){
                 this.emitter =this.add.particles(7640,4500,"fog",{
                     //this holds everything for emitter
