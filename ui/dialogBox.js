@@ -31,6 +31,8 @@ class DialogBox extends Phaser.GameObjects.Graphics {
     this.dialogBox = scene.add.graphics();
     this.dialogBox.fillStyle(0xFFFFFF, 0.7); // White background color
     this.dialogBox.fillRoundedRect(0, 0, width, height,15);
+    this.clickableBox = this.scene.add.rectangle(x+350,y+50,width,height,0x36B540).setInteractive();
+    this.clickableBox.setAlpha(0.01)
 
     this.dialogBox.setPosition(x, y);
     this.dialogText = scene.make.text({
@@ -62,7 +64,7 @@ class DialogBox extends Phaser.GameObjects.Graphics {
 
   handleClicks(){
     if(this.clicksAllowed){
-    this.scene.input.on('pointerdown', function () {
+      this.clickableBox.on('pointerdown', () => {
       if (this.isAnimating)
           this.clickToSkip = true
       else if (this.currentIndex == this.dialogLength -1){
@@ -110,9 +112,16 @@ class DialogBox extends Phaser.GameObjects.Graphics {
 
     animateCharacter();
 }
+  startStatUpdate(name){
+    if (name === "shower")
+      message = this.data.statUpdates[0]
+    else if (name === "class")
+    message = this.data.statUpdates[1]
+    else if (name === "sleep")
+    message = this.data.statUpdates[2]
+  }
 
-
-  startDialogg(index){ //stardialog with given index
+  startDialogg(index){ //start dialog with given index
     this.dialogEnabled=true;
     if (index>=this.data.dialogList.length)
     this.dialogIndex = this.data.dialogList.length - 1
