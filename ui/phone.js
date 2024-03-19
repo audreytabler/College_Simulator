@@ -67,7 +67,10 @@ export class Phone extends Phaser.GameObjects.Graphics {
 
     setupInteractivity() {
         this.scene.input.on('pointerdown', (pointer, gameObject) => {
-            if (gameObject.toString() == "[object Object]") {
+            //console.log(gameObject.constructor.name)
+           // let hi = gameObject.rectangle.getData('name')
+            //console.log(hi)
+            if ((gameObject.toString() == "[object Object]")) {
                 if (!this.isPhoneFocused) 
                     this.focusPhone();
             } 
@@ -87,7 +90,6 @@ export class Phone extends Phaser.GameObjects.Graphics {
         this.reminderButton.on('pointerdown', () => {
             this.hideAllContainers();
             this.reminderContainer.setVisible(true)
-
         });
         this.socialButton.on('pointerdown', () => {
             this.hideAllContainers()

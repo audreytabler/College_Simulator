@@ -61,6 +61,7 @@ export class UIScene extends Phaser.Scene {
         });*/
         eventsCenter.on('shower',this.shower,this)
         eventsCenter.on('class',this.class,this)
+        eventsCenter.on('sleep',this.sleep,this)
         
     }
 
@@ -74,14 +75,18 @@ export class UIScene extends Phaser.Scene {
 
     newScene(nScene){
         this.activeScene = nScene
-        console.log("ui: new scene is " + this.activeScene)
+        //console.log("ui: new scene is " + this.activeScene)
 
     }
     shower(){
         this.narrator.startDialogg(2)
+        this.missionManager.shower()
     }
     class(){
-        this.narrator
+        this.narrator.startDialogg(3)
+    }
+    sleep(){
+        //popup box to select how many hours
     }
 
 }

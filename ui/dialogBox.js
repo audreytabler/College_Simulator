@@ -33,6 +33,13 @@ class DialogBox extends Phaser.GameObjects.Graphics {
     this.dialogBox.fillRoundedRect(0, 0, width, height,15);
     this.clickableBox = this.scene.add.rectangle(x+350,y+50,width,height,0x36B540).setInteractive();
     this.clickableBox.setAlpha(0.01)
+    this.clickableBox.setData('name', 'clickable box')
+    
+    //this.clickableBox.toString() => {{return "clickable box";}
+    this.clickableBox.toString = function() {
+      // Customize the output based on your requirements
+      return "clickable box";
+  };
 
     this.dialogBox.setPosition(x, y);
     this.dialogText = scene.make.text({
@@ -65,11 +72,12 @@ class DialogBox extends Phaser.GameObjects.Graphics {
   handleClicks(){
     if(this.clicksAllowed){
       this.clickableBox.on('pointerdown', () => {
+        console.log(this.clickableBox)
       if (this.isAnimating)
           this.clickToSkip = true
       else if (this.currentIndex == this.dialogLength -1){
         this.nextDialog();
-        console.log("stat handler called")
+       // console.log("stat handler called")
         this.statHandler()
       }
       else if (this.currentIndex < this.dialogLength)
@@ -175,7 +183,6 @@ class DialogBox extends Phaser.GameObjects.Graphics {
     let stat = this.data.dialogList[this.dialogIndex].dialog[this.currentIndex-1].goal
     if(stat !=null){
       this.goal = this.data.dialogList[this.dialogIndex].dialog[this.currentIndex-1].goal
-      console.log(this.goal)
       this.scene.missionManager.startMission(this.goal)
     }
     if(this.data.dialogList[this.dialogIndex].dialog[this.currentIndex-1].stat){
