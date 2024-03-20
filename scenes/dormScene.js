@@ -116,6 +116,7 @@ export class DormScene extends Phaser.Scene{
         
         this.popUpBox.on('pointerdown', () => {
             eventsCenter.emit(this.usableObject)
+            //console.log("emitted " + this.usableObject)
 
             //console.log(this.usableObject)
             if(this.usableObject ==="shower"){

@@ -12,6 +12,7 @@ class MissionManager extends Phaser.GameObjects.Graphics {
             this.criteriaMet = false
             this.criteria
             this.missionInProgress = false;
+            this.roomToFind;
 
             //eventsCenter.on('shower',this.shower,this)
 
@@ -32,50 +33,32 @@ class MissionManager extends Phaser.GameObjects.Graphics {
     async startMission(m){
         console.log("mission " + m + " started")
         this.missionInProgress = true
-        switch(m){
-            case "take_shower":
-                this.drawText("Current task: Take a warm shower")
-                this.criteria = "shower"
-                //this.scene.targetBox.setPosition(450,2260) //= set target box position to shower
-
-                //wait until player is within bounds of targetbox)
-                await this.until(_ => this.criteriaMet == true);
-                console.log("criteria met! showered")
-                this.scene.narrator.startDialogg(2)  
-                break;
-            case "find_campus":
-                    this.drawText("Current task: Leave dorm to find campus")
-                    this.criteria = "campus"
-                    this.criteriaMet = false;
-                    //this.scene.targetBox.setPosition(450,2260) //= set target box position to shower
-    
-                    //wait until player is within bounds of targetbox)
-                    await this.until(_ => this.criteriaMet == true);
-                    console.log("criteria met! found campus")
-                    this.scene.narrator.startDialog()  
-                    break;
-            case "first_class":
-                this.drawText("Current task: Head to your first class")
-                await this.until(_ => this.criteriaMet == true);
-                console.log("criteria met! went to class")
-                this.scene.narrator.startDialog()  
-                break;
-            case "find_dorm":
-                this.drawText("Bring your items to your dorm (room #111)")
-                this.scene.targetBox.setPosition(0,0) //= set target box position to front of dorm door
-                this.criteria//check player inventory contains items
-                break;
-            case "meet_neighbors":
-                    this.drawText("Meet your new neighbors!")
-                    this.targetBox.setPosition(0,0) //= set target box position to front of dorm door
-                    this.criteria//check player inventory contains items
-                    break;
-            case "find_dining hall":
-                this.drawText("Follow your roommate to the dining hall")
-                this.scene.targetBox.setPosition(0,0) //= set target box position to orientation
-                break;
+        this.criteriaMet = false
+        this.criteria = m
+        if (m === "shower"){
+            this.drawText("Current task: Take a warm shower")
+            await this.until(_ => this.criteriaMet == true);
+            this.scene.narrator.startDialogg(2)
+            this.endMission()
+            return;
         }
-
+        else if (m === "CAMPUS_SCENE"){
+            this.drawText("Current task: Leave dorm to find campus")
+            await this.until(_ => this.criteriaMet == true);
+           // this.scene.narrator.startDialog() 
+        }
+        else if (m === "CLASS_SCENE"){
+            this.drawText("Current task: Find the science building (top right path)")
+            await this.until(_ => this.criteriaMet == true);
+            //this.scene.narrator.startDialog() 
+        }
+        else if (m === "find_room"){
+            this.drawText("Current task: Find room 102")
+            await this.until(_ => this.criteriaMet == true);
+            //this.scene.narrator.startDialog() 
+        }
+        this.scene.narrator.startDialog()
+        this.endMission()
     }
     endMission(){
         //play checkbox animation next to current mission and then trigger next dialogue
@@ -92,8 +75,13 @@ class MissionManager extends Phaser.GameObjects.Graphics {
     }
 
     shower(){
-        console.log("shower recieved from mission manager")
+        console.log("showered was called in mission manager")
         if(this.criteria === "shower"){
+            this.criteriaMet = true;
+        }
+    }
+    enteredMap(map){
+        if(this.criteria===map){
             this.criteriaMet = true;
         }
     }

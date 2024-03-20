@@ -20,6 +20,8 @@ class DialogBox extends Phaser.GameObjects.Graphics {
     this.dialogIndex = 1;
     this.currentIndex //current index within a conversation
 
+    this.storedDialogIdx = this.dialogIndex //store dialog index in case a custom dialog idx is called out of order this will remember prior
+
     this.isVisible = false;
     this.clicksAllowed = true;
 
@@ -131,7 +133,6 @@ class DialogBox extends Phaser.GameObjects.Graphics {
 
   startDialogg(index){ //start dialog with given index
     this.dialogQueue.push(index)
-    console.log("startDialogg(idx): " + this.dialogQueue)
     if(this.dialogEnabled == true){
       return
     }
@@ -150,7 +151,6 @@ class DialogBox extends Phaser.GameObjects.Graphics {
 
   startDialog(){ //will go off of whatever the last index is
     this.dialogQueue.push(this.dialogIndex)
-    console.log("startDialog(): " + this.dialogQueue)
     if(this.dialogEnabled == true){
       return
     }
@@ -160,6 +160,7 @@ class DialogBox extends Phaser.GameObjects.Graphics {
 
    this.dialogLength = this.data.dialogList[this.dialogIndex].dialog.length; //length of conversation
    this.currentIndex = 0;
+   this.dialogIndex = this.storedDialogIdx
 
    this.nextDialog();
   }
@@ -182,7 +183,9 @@ class DialogBox extends Phaser.GameObjects.Graphics {
       this.dialogQueue.shift()
     this.dialogQueue.shift();
 
+    
     this.dialogIndex++;
+    this.storedDialogIdx = this.dialogIndex;
     this.dialogBox.setVisible(false);
     this.dialogText.setVisible(false);
     this.dialogText.setText('');

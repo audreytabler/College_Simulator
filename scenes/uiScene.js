@@ -75,6 +75,7 @@ export class UIScene extends Phaser.Scene {
 
     newScene(nScene){
         this.activeScene = nScene
+        this.missionManager.enteredMap(nScene)
         //console.log("ui: new scene is " + this.activeScene)
 
     }
