@@ -37,6 +37,7 @@ export class DormScene extends Phaser.Scene{
     }
     create(){
         
+        
         this.scene.get("UI_SCENE").newScene(this.sys.settings.key)
         this.uiScene = this.scene.get("UI_SCENE")
 
@@ -46,19 +47,31 @@ export class DormScene extends Phaser.Scene{
         this.cursor = this.input.keyboard.createCursorKeys()
         this.usableObject = " "
 
+        //LIGHTING STUFF
+        //8373 Y: 5369
+         var deskLight  = this.lights.addLight(8373, 5480, 700);
+        //var sunLight = this.lights.addLight(8018,5538,8000,255*65536+255*256+255,1)
+        //var sunLight = this.add.pointlight(8018,5538,8000)
+
+        //CHANGE AMBIENT COLOR TO MAKE IT NIGHT white is day,, 0x555555
+        this.lights.enable().setAmbientColor(0xF7F7F7);
+        
+        //this.player.setCollideWorldBounds(true)
+
         //TILEMAP STUFF
         let map = this.make.tilemap({key: 'dormMap'})
         let dormTileset = map.addTilesetImage("MainTileset","tiles")
 
         let groundlayer = map.createLayer("grass",dormTileset)
         groundlayer.setScrollFactor(0.8)
-        let subfloorlayer = map.createLayer("subfloor",dormTileset)
-        let floorlayer = map.createLayer("floor",dormTileset)
-        let wallLayer = map.createLayer("walls",dormTileset)
+        groundlayer.setPipeline('Light2D')
+        let subfloorlayer = map.createLayer("subfloor",dormTileset).setPipeline('Light2D')
+        let floorlayer = map.createLayer("floor",dormTileset).setPipeline('Light2D')
+        let wallLayer = map.createLayer("walls",dormTileset).setPipeline('Light2D')
 
         //COLLISION WITH WALLS STUFF
         this.loadPlayer()
-        let chairLayer = map.createLayer("chairBacks",dormTileset)
+        let chairLayer = map.createLayer("chairBacks",dormTileset).setPipeline('Light2D')
         wallLayer.setCollisionByExclusion([-1]);
         this.physics.add.collider(this.player, wallLayer);
         ////////////////////////////////////////
@@ -147,7 +160,6 @@ export class DormScene extends Phaser.Scene{
             this.playerEnteredTrigger = false; // Set the flag to false
             this.popUpBox.setVisible(false)
             this.popUpText.setVisible(false)
-            this.player.setMaxVelocity(this.playerSpeed)
         }
         const { left, right, up, down, } = this.cursor //would add up,down if overhead view
         const { W, A, S, D } = this.input.keyboard.addKeys('W,A,S,D');
@@ -186,9 +198,14 @@ export class DormScene extends Phaser.Scene{
         this.player.setPosition(playerX,playerY)//this.player.setPosition(920, 2139)
         this.player.body.allowGravity = false;
         this.player.setBodySize(65,120)
+        this.player.setMaxVelocity(this.playerSpeed)
+        this.player.setPipeline('Light2D')
+       // var light  = this.lights.addLight(500, 250, 200);
+        //this.lights.enable().setAmbientColor(0x555555);
         //this.player.setCollideWorldBounds(true)
 
         this.cameras.main.startFollow(this.player, false, 0.2, 0.2);
+        //this.cameras.main.setPostPipeline('Light2D')
         
         this.anims.create({
             key: "idle",
