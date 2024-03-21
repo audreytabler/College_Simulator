@@ -130,8 +130,14 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
         this.hide();
 
         let statIncrement = 12.5 * this.numHours;
+        this.scene.clock.advanceTime(this.numHours * 60)
         if(this.action === "sleep"){ //increase energy by 12.5 per hour slept
             this.scene.statsOverlay.updateEnergy(statIncrement)
+        }
+        if(this.action === "study"){ //decrease focus, but increase academic score
+            this.scene.statsOverlay.updateFocus(-statIncrement)
+            //increase academic score when added
+
         }
     }
 }
