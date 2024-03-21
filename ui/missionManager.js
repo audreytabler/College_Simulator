@@ -23,13 +23,6 @@ class MissionManager extends Phaser.GameObjects.Graphics {
 
     }
 
-    /*updatePosition(){
-        const camera = this.scene.cameras.main;
-        const x = camera.scrollX + 300; // Adjust as needed
-        const y = camera.scrollY + 15; // Adjust as needed
-        this.missionText.setPosition(x, y);
-    }*/
-
     async startMission(m){
         console.log("mission " + m + " started")
         this.missionInProgress = true

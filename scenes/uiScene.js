@@ -4,6 +4,7 @@ import Clock from '../ui/clock.js'
 import Phone from '../ui/phone.js'
 import PlayerStats from '../ui/playerStats.js'
 import MissionManager from '../ui/missionManager.js';
+import TaskConfirm from '../ui/taskConfirmPopup.js';
 import eventsCenter from '../ui/eventCenter.js';
 
 
@@ -13,6 +14,7 @@ export class UIScene extends Phaser.Scene {
         this.clock
         this.phone
         this.narrator;
+        this.taskConfirm
         this.statsOverlay;-
         this.missionManager
         this.activeScene;
@@ -38,9 +40,11 @@ export class UIScene extends Phaser.Scene {
 
 
 
+
         this.statsOverlay = new PlayerStats(this)
         this.missionManager = new MissionManager(this)
         this.missionManager.drawText("CURRENT TASK: ")
+        this.taskConfirm = new TaskConfirm(this,this.clock)
         this.newScene()
 
         /*this.scene.get(SCENE_KEYS.CAMPUS_SCENE).events.on('sceneActivated', (sceneKey) => {
@@ -62,6 +66,7 @@ export class UIScene extends Phaser.Scene {
         eventsCenter.on('shower',this.shower,this)
         eventsCenter.on('class',this.class,this)
         eventsCenter.on('sleep',this.sleep,this)
+        eventsCenter.on('study',this.study,this)
         
     }
 
@@ -88,6 +93,12 @@ export class UIScene extends Phaser.Scene {
     }
     sleep(){
         //popup box to select how many hours
+        this.taskConfirm.action = "sleep"
+        this.taskConfirm.display()
+    }
+    study(){
+        this.taskConfirm.action = "study"
+        this.taskConfirm.display()
     }
 
 }

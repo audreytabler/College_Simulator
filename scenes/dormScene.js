@@ -147,6 +147,7 @@ export class DormScene extends Phaser.Scene{
             this.playerEnteredTrigger = false; // Set the flag to false
             this.popUpBox.setVisible(false)
             this.popUpText.setVisible(false)
+            this.player.setMaxVelocity(this.playerSpeed)
         }
         const { left, right, up, down, } = this.cursor //would add up,down if overhead view
         const { W, A, S, D } = this.input.keyboard.addKeys('W,A,S,D');
