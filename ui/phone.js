@@ -8,7 +8,7 @@ export class Phone extends Phaser.GameObjects.Graphics {
         this.scene = scene;
         this.clock;
         this.isPhoneFocused = false;
-        this.reminderArray = ["\n\n*10 AM PYS | room 102","\n\n*11 AM BIO | room 107","\n\n*1 PM ENG | room 105"] //TODO: make reminder object that sorts by time, exports text object? completeable
+        this.reminderArray = ["\n\n• 10 AM PYS | room 102","\n\n• 11 AM BIO | room 107","\n\n• 1 PM ENG | room 105"] //TODO: make reminder object that sorts by time, exports text object? completeable
                                                             // maybe make method to initialize reminderbutton each day
         // Create phone components
         this.createPhoneComponents();
@@ -24,12 +24,14 @@ export class Phone extends Phaser.GameObjects.Graphics {
         this.reminderButton = this.scene.add.rectangle(100,350,35,35,0x226184).setInteractive();
         this.socialButton = this.scene.add.rectangle(150,350,35,35,0x36B540).setInteractive();
         this.videoButton = this.scene.add.rectangle(100,400,35,35,0xDD7C53).setInteractive();
-
+        this.appIcons = this.scene.add.text(89,325,'≡    ☺',{ fontSize: '35px',fontFamily:'fantasy', fill:'white'})
+        this.appIcons2 = this.scene.add.text(88,377,'▶',{ fontSize: '36px',fontFamily:'fantasy', fill:'white'})
         this.homeContainer = this.scene.add.container(0,0)
-        this.homeContainer.add([this.reminderButton,this.socialButton,this.videoButton])
+        this.homeContainer.add([this.reminderButton,this.socialButton,this.videoButton,this.appIcons,this.appIcons2])
+
         //this.homeContainer.setVisible(true)
 
-        this.reminderText = this.scene.add.text(53,315,this.reminderArray.toString(),{ fontSize: '14px', fill:'black',fontFamily:'sans-serif',});
+        this.reminderText = this.scene.add.text(53,315,("\n》ACTIVITIES TODAY《" +this.reminderArray.toString()),{ fontSize: '14px', fill:'black',fontFamily:'sans-serif',});
         this.reminderContainer = this.scene.add.container(0,0)
         this.reminderContainer.add(this.reminderText)
 
@@ -38,7 +40,7 @@ export class Phone extends Phaser.GameObjects.Graphics {
         this.textingButton = this.scene.add.rectangle(130,350,130,35,0x36B540).setInteractive();
         this.textLabel = this.scene.add.text(70,340,'text friend',{ fontSize: '18px', fill:'black'});
         this.hangoutButton = this.scene.add.rectangle(130,400,130,35,0x226184).setInteractive();
-        this.hangoutLabel = this.scene.add.text(70,390,'plan hangout',{ fontSize: '18px', fill:'black'});
+        this.hangoutLabel = this.scene.add.text(70,390,'plan event',{ fontSize: '18px', fill:'black'});
         this.callButton = this.scene.add.rectangle(130,450,130,35,0x226184).setInteractive();
         this.callLabel = this.scene.add.text(70,440,'call home',{ fontSize: '18px', fill:'black'});
         this.socialContainer = this.scene.add.container(0,0)
