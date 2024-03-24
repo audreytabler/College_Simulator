@@ -10,6 +10,9 @@ export class DormScene extends Phaser.Scene{
         });
         this.cameras
         this.player
+        this.playerGroup
+        this.hair
+        this.shirt
         this.playerSpeed = 400
         this.cursor
 
@@ -22,11 +25,16 @@ export class DormScene extends Phaser.Scene{
         this.uiScene
 
         this.playerEnteredTrigger = false
+        this.testVar=2
 
     }
     preload(){
         //this.load.image("back", "/assets/dormBG.png")
-        this.load.spritesheet('player', 'assets/CharacterSpritesheet2.png', { frameWidth: 85, frameHeight: 150 });
+        //character creation.. get variables for the end of the filepath for skin & hair files loaded in
+        this.load.spritesheet('player', 'assets/CharacterSpritesheetBald'+this.testVar+'.png', { frameWidth: 85, frameHeight: 150 });
+        this.load.spritesheet('hair', ('assets/CharacterSpriteHair1.png'), { frameWidth: 85, frameHeight: 150 });
+        this.load.spritesheet('shirt', 'assets/CharacterSpritesheetShirt.png', { frameWidth: 85, frameHeight: 150 });
+        
         this.load.image("popUp", "/assets/enter.png")
         
         //tilemap
@@ -36,7 +44,6 @@ export class DormScene extends Phaser.Scene{
 
     }
     create(){
-        
         
         this.scene.get("UI_SCENE").newScene(this.sys.settings.key)
         this.uiScene = this.scene.get("UI_SCENE")
@@ -74,6 +81,8 @@ export class DormScene extends Phaser.Scene{
         let chairLayer = map.createLayer("chairBacks",dormTileset).setPipeline('Light2D')
         wallLayer.setCollisionByExclusion([-1]);
         this.physics.add.collider(this.player, wallLayer);
+        this.physics.add.collider(this.hair, wallLayer);
+        this.physics.add.collider(this.shirt, wallLayer);
         ////////////////////////////////////////
         this.transportLayer = map.getObjectLayer("interactions"); 
         this.overlapArray=[]
@@ -167,39 +176,88 @@ export class DormScene extends Phaser.Scene{
         if (left.isDown || A.isDown){
             this.player.setVelocityX(-this.playerSpeed);
             this.player.play("left",true)
+
+            this.hair.setVelocityX(-this.playerSpeed);
+            this.hair.play("lefth",true)
+
+            this.shirt.setVelocityX(-this.playerSpeed);
+            this.shirt.play("lefts",true)
         }
         else if (right.isDown || D.isDown){
             this.player.setVelocityX(this.playerSpeed);
             this.player.play("right",true)
+
+            this.hair.setVelocityX(this.playerSpeed);
+            this.hair.play("righth",true)
+            this.shirt.setVelocityX(this.playerSpeed);
+            this.shirt.play("rights",true)
         }
         else if (up.isDown || W.isDown){
             this.player.setVelocityY(-this.playerSpeed)
             this.player.play("back",true)
+
+            this.hair.setVelocityY(-this.playerSpeed)
+            this.hair.play("backh",true)
+
+            this.shirt.setVelocityY(-this.playerSpeed)
+            this.shirt.play("backs",true)
 
         }
         else if (down.isDown || S.isDown){
         
             this.player.setVelocityY(this.playerSpeed)
             this.player.play("forward",true)
+
+            this.hair.setVelocityY(this.playerSpeed)
+            this.hair.play("forwardh",true)
+
+            this.shirt.setVelocityY(this.playerSpeed)
+            this.shirt.play("forwards",true)
         }
         else {
             this.player.setVelocityX(0);
             this.player.setVelocityY(0);
+            this.hair.setVelocityX(0);
+            this.hair.setVelocityY(0)
+            this.shirt.setVelocityX(0);
+            this.shirt.setVelocityY(0)
             this.player.play("idle",true)
+            this.hair.play("idleh",true)
+            this.shirt.play("idles",true)
             //this.player.frame = 0;
         }
     }
 
     loadPlayer(){
-
-        this.player = this.physics.add.sprite(0, 0, "player").setOrigin(0, 0)
+        this.playerGroup = this.add.group(0,0)
         const playerX = this.uiScene.playerSpawnX
         const playerY = this.uiScene.playerSpawnY
+        this.player = this.physics.add.sprite(0, 0, "player").setOrigin(0, 0)
+        this.hair = this.physics.add.sprite(playerX, playerY, "hair").setOrigin(0, 0)
+        this.shirt = this.physics.add.sprite(playerX, playerY, "shirt").setOrigin(0, 0)
+        this.hair.setPosition(playerX,playerY)
         this.player.setPosition(playerX,playerY)//this.player.setPosition(920, 2139)
+        //this.playerGroup.add(this.player,this.hair)
+        //this.playerGroup.add([this.player,this.hair])
+        //this.playerGroup
+
+        
+        
         this.player.body.allowGravity = false;
         this.player.setBodySize(65,120)
         this.player.setMaxVelocity(this.playerSpeed)
         this.player.setPipeline('Light2D')
+        this.hair.body.allowGravity = false;
+        this.hair.setMaxVelocity(this.playerSpeed)
+        this.hair.setBodySize(65,120)
+        this.hair.setTint(0x6DD79A)
+        this.hair.setPipeline('Light2D')
+        this.shirt.body.allowGravity = false;
+        this.shirt.setMaxVelocity(this.playerSpeed)
+        this.shirt.setBodySize(65,120)
+        this.shirt.setTint(0x2596be)
+        this.shirt.setPipeline('Light2D')
+       
        // var light  = this.lights.addLight(500, 250, 200);
         //this.lights.enable().setAmbientColor(0x555555);
         //this.player.setCollideWorldBounds(true)
@@ -237,6 +295,73 @@ export class DormScene extends Phaser.Scene{
             frames: this.anims.generateFrameNumbers("player", { start: 25, end: 28 }),
             repeat: -1
         });
+
+        ///////
+        this.anims.create({
+            key: "idleh",
+            frameRate: 10,
+            frames: this.anims.generateFrameNumbers("hair", { start: 0, end: 0 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "forwardh",
+            frameRate: 10,
+            frames: this.anims.generateFrameNumbers("hair", { start: 10, end: 14 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "lefth",
+            frameRate: 7,
+            frames: this.anims.generateFrameNumbers("hair", { start: 15, end: 17 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "righth",
+            frameRate: 7,
+            frames: this.anims.generateFrameNumbers("hair", { start: 20, end: 22 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "backh",
+            frameRate: 7,
+            frames: this.anims.generateFrameNumbers("hair", { start: 25, end: 28 }),
+            repeat: -1
+        });
+        //////
+
+        this.anims.create({
+            key: "idles",
+            frameRate: 10,
+            frames: this.anims.generateFrameNumbers("shirt", { start: 0, end: 0 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "forwards",
+            frameRate: 10,
+            frames: this.anims.generateFrameNumbers("shirt", { start: 10, end: 14 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "lefts",
+            frameRate: 7,
+            frames: this.anims.generateFrameNumbers("shirt", { start: 15, end: 17 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "rights",
+            frameRate: 7,
+            frames: this.anims.generateFrameNumbers("shirt", { start: 20, end: 22 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "backs",
+            frameRate: 7,
+            frames: this.anims.generateFrameNumbers("shirt", { start: 25, end: 28 }),
+            repeat: -1
+        });
+
+        
+
 
     }
 }
