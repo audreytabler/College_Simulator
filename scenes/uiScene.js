@@ -20,6 +20,10 @@ export class UIScene extends Phaser.Scene {
         this.activeScene;
         this.playerSpawnX =8159
         this.playerSpawnY = 5325
+        this.skinTone =3
+        this.hairType=1;
+        this.hairColor =0x9884CD
+        this.shirtColor = 0x818A92
     }
     preload(){
         this.load.json('narrator', "./assets/narratorDialog.json")
@@ -30,7 +34,7 @@ export class UIScene extends Phaser.Scene {
         //this.clock = new Clock(this,this.time.now);
        // this.clock.setPosition(15,800)
 
-
+        
         this.phone = new Phone(this)
         this.clock = this.phone.clock
 
@@ -100,5 +104,7 @@ export class UIScene extends Phaser.Scene {
         this.taskConfirm.action = "study"
         this.taskConfirm.display()
     }
+
+    
 
 }
