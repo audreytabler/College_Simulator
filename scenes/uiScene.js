@@ -18,13 +18,15 @@ export class UIScene extends Phaser.Scene {
         this.statsOverlay;
         this.missionManager
         this.activeScene;
-        this.playerSpawnX =8159
-        this.playerSpawnY = 5325
-        
+        this.playerSpawnX =8159 //6830    6830.0000000000055 Y: 7111.666666666748
+        this.playerSpawnY =5325 //   7111
+
         this.skinTone =3
         this.hairType=1;
         this.hairColor =0x9884CD
         this.shirtColor = 0x818A92
+
+        this.ambientColor = 0xF7F7F7;
     }
     preload(){
         this.load.json('narrator', "./assets/narratorDialog.json")
@@ -50,6 +52,9 @@ export class UIScene extends Phaser.Scene {
         eventsCenter.on('class',this.class,this)
         eventsCenter.on('sleep',this.sleep,this)
         eventsCenter.on('study',this.study,this)
+
+        eventsCenter.on('sunUp',this.sunUp,this)
+        eventsCenter.on('sunDown',this.sunDown,this)
         
     }
 
@@ -80,6 +85,13 @@ export class UIScene extends Phaser.Scene {
         this.taskConfirm.action = "study"
         this.taskConfirm.display()
     }
+    sunUp(){
+        this.ambientColor = 0xF7F7F7
+    }
+    sunDown(){
+        this.ambientColor = 0x5A5A59
+    }
+    
 
     
 

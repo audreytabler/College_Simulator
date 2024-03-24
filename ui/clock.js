@@ -1,11 +1,13 @@
 import Phaser from 'phaser';
+import eventsCenter from '../ui/eventCenter';
 
 
 export class Clock extends Phaser.GameObjects.Graphics {
     constructor(scene, initialTime) {
         super(scene,'Clock');
         this.scene = scene;
-        this.time = { hour: 7, minute: 30, period: 'PM' }; // Initial time is 7:30 AM
+        this.time = { hour: 7, minute: 30, period: 'AM' }; // Initial time is 7:30 AM
+        this.sunUp = true
         this.timeScale = 0.001; // 0.7 real seconds per in-game minute
         this.clockText = null;
         this.deltaTime;
@@ -13,7 +15,7 @@ export class Clock extends Phaser.GameObjects.Graphics {
         this.numDays =1
         this.dayOfWeek = "Monday"
         this.weekArray = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-        this.totalHours = 14;
+        this.totalHours = 7;
 
         // Create a text object to display the clock
         this.clockText = this.scene.add.text(15, 800, this.getTimeString(), { font: '24px Arial', fill: '#000000' });
@@ -34,6 +36,15 @@ export class Clock extends Phaser.GameObjects.Graphics {
         // Update the clock display
         this.clockText.setText(this.getTimeString());
         this.start = this.scene.time.now
+        if(((this.totalHours > 6) && this.totalHours <19) && !(this.sunUp)){
+            this.sunUp = true;
+            eventsCenter.emit("sunUp")
+        }
+        if((this.totalHours >=19) && (this.sunUp)){
+            console.log("total hours is " + this.totalHours)
+            this.sunUp = false;
+            eventsCenter.emit("sunDown")
+        }
     }
 
 

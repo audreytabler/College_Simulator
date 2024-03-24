@@ -41,7 +41,8 @@ export class DormScene extends Phaser.Scene{
 
     }
     create(){
-        
+        eventsCenter.on('sunUp',this.fadeToDay,this)
+        eventsCenter.on('sunDown',this.fadeToNight,this)
         this.scene.get("UI_SCENE").newScene(this.sys.settings.key)
         this.uiScene = this.scene.get("UI_SCENE")
 
@@ -58,8 +59,7 @@ export class DormScene extends Phaser.Scene{
         //this.lights.enable().setAmbientColor(0x555555);
 
         //CHANGE AMBIENT COLOR TO MAKE IT NIGHT white is day,, 0x555555
-        this.lights.enable().setAmbientColor(0xF7F7F7);
-    
+        this.lights.enable().setAmbientColor(this.uiScene.ambientColor);
 
         //TILEMAP STUFF
         let map = this.make.tilemap({key: 'dormMap'})
@@ -101,7 +101,7 @@ export class DormScene extends Phaser.Scene{
                     this.uiScene.playerSpawnX = object.properties.find(prop => prop.name === 'playerSpawnX').value
                     this.uiScene.playerSpawnY = object.properties.find(prop => prop.name === 'playerSpawnY').value
                     if(!this.playerEnteredTrigger){
-                    this.cameras.main.fadeOut(1000, 0, 0, 0)
+                    this.cameras.main.fadeOut(500, 0, 0, 0)
                     this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                         this.scene.start(object.properties.find(prop => prop.name === 'toSceneKey').value); 
                     })
@@ -157,9 +157,10 @@ export class DormScene extends Phaser.Scene{
         this.input.on('pointerdown', (pointer) => {
             // Log the position of the cursor when clicked
             console.log('player position - X:', this.player.x, 'Y:', this.player.y);
+           // this.fadeToNight()
         });
        // this.setTheAmbient(0x555555)
-        this.fadeToNight()
+        //this.fadeToDay()
 
     }
     update(){
@@ -343,28 +344,48 @@ export class DormScene extends Phaser.Scene{
             frames: this.anims.generateFrameNumbers("shirt", { start: 25, end: 28 }),
             repeat: -1
         });
-    }
+        }
 
     }
 
     fadeToNight(){
         const initialAmbientColor = Phaser.Display.Color.ValueToColor(0xF7F7F7);
-        const targetAmbientColor = Phaser.Display.Color.ValueToColor(0x555555);
+        const targetAmbientColor = Phaser.Display.Color.ValueToColor(0x5A5A59);
         var lightTween = this.tweens.add({
             targets: this.lights,
             x: 1,
             ease: 'Linear',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
-            duration: 1000,
+            duration: 2000,
             onUpdate: (tween) => {
                 // Called on every tween update
-                const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(initialAmbientColor,targetAmbientColor,1000,tween.elapsed)
+                const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(initialAmbientColor,targetAmbientColor,2000,tween.elapsed)
                 const ambientColor = Phaser.Display.Color.GetColor(colorObject.r,colorObject.g,colorObject.b)
     
                 this.lights.setAmbientColor(ambientColor)
-            }            // -1: infinity
+            }            
             
+        });
+
+        lightTween.play()
         
-            // interpolation: null,
+    }
+
+    fadeToDay(){
+        const initialAmbientColor = Phaser.Display.Color.ValueToColor(0x5A5A59);
+        const targetAmbientColor = Phaser.Display.Color.ValueToColor(0xF7F7F7);
+        var lightTween = this.tweens.add({
+            targets: this.lights,
+            x: 1,
+            ease: 'Linear',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
+            duration: 2000,
+            onUpdate: (tween) => {
+                // Called on every tween update
+                const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(initialAmbientColor,targetAmbientColor,2000,tween.elapsed)
+                const ambientColor = Phaser.Display.Color.GetColor(colorObject.r,colorObject.g,colorObject.b)
+    
+                this.lights.setAmbientColor(ambientColor)
+            }            
+            
         });
 
         lightTween.play()

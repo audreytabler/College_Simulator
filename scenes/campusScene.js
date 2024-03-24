@@ -36,8 +36,15 @@ export class CampusScene extends Phaser.Scene {
         this.physics.world.setBounds(0, 0, 9035, 6347);
         this.input.enabled = true;
         this.cursor = this.input.keyboard.createCursorKeys()
-
-        this.lights.enable().setAmbientColor(0xF7F7F7);
+//1434.3333333333353 Y: 1137
+        this.lights.addLight(1320, 850, 1000)
+//1944.6666666666692 Y: 1009
+        this.lights.addLight(1890, 790, 1000)
+        this.lights.addLight(1970, 790, 1000)
+        this.lights.addLight(2050, 790, 1000)
+        this.lights.addLight(2470, 790, 1000)
+        this.lights.addLight(2720, 790, 1000)
+        this.lights.enable().setAmbientColor(this.uiScene.ambientColor);
 
 
         //TILEMAP STUFF
@@ -74,7 +81,7 @@ export class CampusScene extends Phaser.Scene {
                     this.uiScene.playerSpawnY = object.properties.find(prop => prop.name === 'playerSpawnY').value
                    //this.scene.start("CAMPUS_SCENE")
                     if(!this.playerEnteredTrigger){
-                    this.cameras.main.fadeOut(1000, 0, 0, 0)
+                    this.cameras.main.fadeOut(500, 0, 0, 0)
                     this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                         this.scene.start(object.properties.find(prop => prop.name === 'toSceneKey').value); 
                     })
@@ -90,6 +97,7 @@ export class CampusScene extends Phaser.Scene {
             // Log the position of the cursor when clicked
             console.log('player position - X:', this.player.x, 'Y:', this.player.y);
         });
+        this.fadeToNight()
 
     }
     update(){
@@ -271,6 +279,49 @@ export class CampusScene extends Phaser.Scene {
                 repeat: -1
             });
         }
+    }
+    fadeToNight(){
+        const initialAmbientColor = Phaser.Display.Color.ValueToColor(0xF7F7F7);
+        const targetAmbientColor = Phaser.Display.Color.ValueToColor(0x5A5A59);
+        var lightTween = this.tweens.add({
+            targets: this.lights,
+            x: 1,
+            ease: 'Linear',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
+            duration: 2000,
+            onUpdate: (tween) => {
+                // Called on every tween update
+                const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(initialAmbientColor,targetAmbientColor,2000,tween.elapsed)
+                const ambientColor = Phaser.Display.Color.GetColor(colorObject.r,colorObject.g,colorObject.b)
+    
+                this.lights.setAmbientColor(ambientColor)
+            }            
+            
+        });
+
+        lightTween.play()
+        
+    }
+
+    fadeToDay(){
+        const initialAmbientColor = Phaser.Display.Color.ValueToColor(0x5A5A59);
+        const targetAmbientColor = Phaser.Display.Color.ValueToColor(0xF7F7F7);
+        var lightTween = this.tweens.add({
+            targets: this.lights,
+            x: 1,
+            ease: 'Linear',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
+            duration: 2000,
+            onUpdate: (tween) => {
+                // Called on every tween update
+                const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(initialAmbientColor,targetAmbientColor,2000,tween.elapsed)
+                const ambientColor = Phaser.Display.Color.GetColor(colorObject.r,colorObject.g,colorObject.b)
+    
+                this.lights.setAmbientColor(ambientColor)
+            }            
+            
+        });
+
+        lightTween.play()
+        
     }
 
 }
