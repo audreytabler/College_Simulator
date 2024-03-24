@@ -51,6 +51,8 @@ export class ClassScene extends Phaser.Scene{
         this.loadPlayer()
         wallLayer.setCollisionByExclusion([-1]);
         this.physics.add.collider(this.player, wallLayer);
+        this.physics.add.collider(this.hair, wallLayer);
+        this.physics.add.collider(this.shirt, wallLayer);
         ////////////////////////////////////////
         const transportLayer = map.getObjectLayer("transportation"); 
         this.overlapArray=[]
@@ -117,33 +119,75 @@ export class ClassScene extends Phaser.Scene{
         if (left.isDown || A.isDown){
             this.player.setVelocityX(-this.playerSpeed);
             this.player.play("left",true)
+
+            this.hair.setVelocityX(-this.playerSpeed);
+            this.hair.play("lefth",true)
+
+            this.shirt.setVelocityX(-this.playerSpeed);
+            this.shirt.play("lefts",true)
         }
         else if (right.isDown || D.isDown){
             this.player.setVelocityX(this.playerSpeed);
             this.player.play("right",true)
+
+            this.hair.setVelocityX(this.playerSpeed);
+            this.hair.play("righth",true)
+            this.shirt.setVelocityX(this.playerSpeed);
+            this.shirt.play("rights",true)
         }
         else if (up.isDown || W.isDown){
             this.player.setVelocityY(-this.playerSpeed)
             this.player.play("back",true)
+
+            this.hair.setVelocityY(-this.playerSpeed)
+            this.hair.play("backh",true)
+
+            this.shirt.setVelocityY(-this.playerSpeed)
+            this.shirt.play("backs",true)
 
         }
         else if (down.isDown || S.isDown){
         
             this.player.setVelocityY(this.playerSpeed)
             this.player.play("forward",true)
+
+            this.hair.setVelocityY(this.playerSpeed)
+            this.hair.play("forwardh",true)
+
+            this.shirt.setVelocityY(this.playerSpeed)
+            this.shirt.play("forwards",true)
         }
         else {
             this.player.setVelocityX(0);
             this.player.setVelocityY(0);
+            this.hair.setVelocityX(0);
+            this.hair.setVelocityY(0)
+            this.shirt.setVelocityX(0);
+            this.shirt.setVelocityY(0)
             this.player.play("idle",true)
+            this.hair.play("idleh",true)
+            this.shirt.play("idles",true)
         }
     
     }
 
     loadPlayer(){
+        let playerX=1433
+        let playerY=2694
+        this.player = this.physics.add.sprite(playerX, playerY, "player").setOrigin(0, 0)
+        this.hair = this.physics.add.sprite(playerX, playerY, "hair").setOrigin(0, 0)
+        this.shirt = this.physics.add.sprite(playerX, playerY, "shirt").setOrigin(0, 0)
+    
+        this.player.setBodySize(65,120)
+        this.player.setMaxVelocity(this.playerSpeed)
+        this.hair.setMaxVelocity(this.playerSpeed)
+        this.hair.setBodySize(65,120)
+        this.hair.setTint(this.uiScene.hairColor)
+        this.shirt.setMaxVelocity(this.playerSpeed)
+        this.shirt.setBodySize(65,120)
+        this.shirt.setTint(this.uiScene.shirtColor) 
+       // this.player.setPosition(1433, 2694)//this.player.setPosition(920, 2139)
 
-        this.player = this.physics.add.sprite(0, 0, "player").setOrigin(0, 0)
-        this.player.setPosition(1433, 2694)//this.player.setPosition(920, 2139)
         this.player.body.allowGravity = false;
         this.player.setBodySize(65,120)
         this.player.setCollideWorldBounds(true)

@@ -5,7 +5,7 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
         super(scene, 'PlayerStats');
         this.scene = scene;
         this.energyNum = 135 * 1;
-        this.focusNum = 4;
+        this.focusNum = 70;
         this.socialNum = 135 * 1;
         this.emptyBars;
         this.energyLevel;

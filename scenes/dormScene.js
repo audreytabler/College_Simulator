@@ -33,8 +33,6 @@ export class DormScene extends Phaser.Scene{
         this.load.spritesheet('hair', ('assets/CharacterSpriteHair'+this.uiScene.hairType+'.png'), { frameWidth: 85, frameHeight: 150 });
         this.load.spritesheet('shirt', 'assets/CharacterSpritesheetShirt.png', { frameWidth: 85, frameHeight: 150 });
         
-        this.load.image("popUp", "/assets/enter.png")
-        
         //tilemap
         this.load.image("tiles","/assets/CollegeTileSet.png")
         this.load.tilemapTiledJSON("dormMap", "/assets/dormMap.tmj")
@@ -53,7 +51,6 @@ export class DormScene extends Phaser.Scene{
         this.usableObject = " "
 
         //LIGHTING STUFF
-        //8373 Y: 5369
         var deskLight  = this.lights.addLight(8373, 5480, 700);
 
         // var light  = this.lights.addLight(500, 250, 200);
@@ -247,6 +244,7 @@ export class DormScene extends Phaser.Scene{
 
         this.cameras.main.startFollow(this.player, false, 0.2, 0.2);
         this.cameras.main.setPostPipeline('Light2D')
+        if (this.anims.get('righth') == undefined) {
         
         this.anims.create({
             key: "idle",
@@ -342,6 +340,7 @@ export class DormScene extends Phaser.Scene{
             frames: this.anims.generateFrameNumbers("shirt", { start: 25, end: 28 }),
             repeat: -1
         });
+    }
 
     }
 }
