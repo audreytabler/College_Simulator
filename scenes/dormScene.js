@@ -22,17 +22,18 @@ export class DormScene extends Phaser.Scene{
         this.popY;
         this.emitter;
 
-        this.uiScene
+        this.uiScene//=this.scene.get("UI_SCENE")
 
         this.playerEnteredTrigger = false
-        this.testVar=2
+        //////
 
     }
     preload(){
         //this.load.image("back", "/assets/dormBG.png")
         //character creation.. get variables for the end of the filepath for skin & hair files loaded in
-        this.load.spritesheet('player', 'assets/CharacterSpritesheetBald'+this.testVar+'.png', { frameWidth: 85, frameHeight: 150 });
-        this.load.spritesheet('hair', ('assets/CharacterSpriteHair1.png'), { frameWidth: 85, frameHeight: 150 });
+        this.uiScene = this.scene.get("UI_SCENE")
+        this.load.spritesheet('player', 'assets/CharacterSpritesheetBald'+this.uiScene.skinTone+'.png', { frameWidth: 85, frameHeight: 150 });
+        this.load.spritesheet('hair', ('assets/CharacterSpriteHair'+this.uiScene.hairType+'.png'), { frameWidth: 85, frameHeight: 150 });
         this.load.spritesheet('shirt', 'assets/CharacterSpritesheetShirt.png', { frameWidth: 85, frameHeight: 150 });
         
         this.load.image("popUp", "/assets/enter.png")
@@ -105,7 +106,14 @@ export class DormScene extends Phaser.Scene{
                 this.physics.add.overlap(this.player, transportRect, () => {
                     this.uiScene.playerSpawnX = object.properties.find(prop => prop.name === 'playerSpawnX').value
                     this.uiScene.playerSpawnY = object.properties.find(prop => prop.name === 'playerSpawnY').value
-                    this.scene.start(object.properties.find(prop => prop.name === 'toSceneKey').value); 
+                    if(!this.playerEnteredTrigger){
+                    this.cameras.main.fadeOut(1000, 0, 0, 0)
+                    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                        this.scene.start(object.properties.find(prop => prop.name === 'toSceneKey').value); 
+                    })
+                }
+                    this.playerEnteredTrigger = true
+                    
                 });
             }
             else{
@@ -250,12 +258,12 @@ export class DormScene extends Phaser.Scene{
         this.hair.body.allowGravity = false;
         this.hair.setMaxVelocity(this.playerSpeed)
         this.hair.setBodySize(65,120)
-        this.hair.setTint(0x6DD79A)
+        this.hair.setTint(this.uiScene.hairColor)
         this.hair.setPipeline('Light2D')
         this.shirt.body.allowGravity = false;
         this.shirt.setMaxVelocity(this.playerSpeed)
         this.shirt.setBodySize(65,120)
-        this.shirt.setTint(0x2596be)
+        this.shirt.setTint(this.uiScene.shirtColor)
         this.shirt.setPipeline('Light2D')
        
        // var light  = this.lights.addLight(500, 250, 200);

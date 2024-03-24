@@ -53,6 +53,7 @@ export class CampusScene extends Phaser.Scene {
 
         //COLLISION WITH WALLS STUFF
         this.loadPlayer()
+        this.overlapArray=[]
         let treesLayer = map.createLayer("trees",grassTileset)
         wallLayer.setCollisionByExclusion([-1]);
         this.physics.add.collider(this.player, wallLayer);
@@ -73,8 +74,15 @@ export class CampusScene extends Phaser.Scene {
                     this.uiScene.playerSpawnX = object.properties.find(prop => prop.name === 'playerSpawnX').value
                     this.uiScene.playerSpawnY = object.properties.find(prop => prop.name === 'playerSpawnY').value
                    //this.scene.start("CAMPUS_SCENE")
-                    this.scene.start(object.properties.find(prop => prop.name === 'toSceneKey').value); 
+                   if(!this.playerEnteredTrigger){
+                    this.cameras.main.fadeOut(1000, 0, 0, 0)
+                    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                        this.scene.start(object.properties.find(prop => prop.name === 'toSceneKey').value); 
+                    })
+                }
+                    this.playerEnteredTrigger = true 
                 });
+                this.overlapArray.push(transportRect)
             //}
         });
         /////////////     
@@ -86,6 +94,10 @@ export class CampusScene extends Phaser.Scene {
 
     }
     update(){
+        if ((!this.physics.overlap(this.player, this.overlapArray)) && (this.playerEnteredTrigger == true)) {
+            // Player left the trigger area, trigger the event
+            this.playerEnteredTrigger = false; // Set the flag to false
+        }
         if(this.sceneActive){
         const { left, right, up, down, } = this.cursor //would add up,down if overhead view
         const { W, A, S, D } = this.input.keyboard.addKeys('W,A,S,D');
