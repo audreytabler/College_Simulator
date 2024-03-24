@@ -22,6 +22,7 @@ export class DormScene extends Phaser.Scene{
         this.uiScene//=this.scene.get("UI_SCENE")
 
         this.playerEnteredTrigger = false
+        this.testLight;
         //////
 
     }
@@ -151,12 +152,14 @@ export class DormScene extends Phaser.Scene{
                 this.emitter.start()
             }
 
-    });
+        });
         
         this.input.on('pointerdown', (pointer) => {
             // Log the position of the cursor when clicked
             console.log('player position - X:', this.player.x, 'Y:', this.player.y);
         });
+       // this.setTheAmbient(0x555555)
+        this.fadeToNight()
 
     }
     update(){
@@ -343,4 +346,29 @@ export class DormScene extends Phaser.Scene{
     }
 
     }
+
+    fadeToNight(){
+        const initialAmbientColor = Phaser.Display.Color.ValueToColor(0xF7F7F7);
+        const targetAmbientColor = Phaser.Display.Color.ValueToColor(0x555555);
+        var lightTween = this.tweens.add({
+            targets: this.lights,
+            x: 1,
+            ease: 'Linear',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
+            duration: 1000,
+            onUpdate: (tween) => {
+                // Called on every tween update
+                const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(initialAmbientColor,targetAmbientColor,1000,tween.elapsed)
+                const ambientColor = Phaser.Display.Color.GetColor(colorObject.r,colorObject.g,colorObject.b)
+    
+                this.lights.setAmbientColor(ambientColor)
+            }            // -1: infinity
+            
+        
+            // interpolation: null,
+        });
+
+        lightTween.play()
+        
+    }
+
 }

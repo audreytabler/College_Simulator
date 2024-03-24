@@ -271,7 +271,6 @@ export class CampusScene extends Phaser.Scene {
                 repeat: -1
             });
         }
-    
-        }
-
     }
+
+}
