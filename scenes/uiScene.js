@@ -15,11 +15,12 @@ export class UIScene extends Phaser.Scene {
         this.phone
         this.narrator;
         this.taskConfirm
-        this.statsOverlay;-
+        this.statsOverlay;
         this.missionManager
         this.activeScene;
         this.playerSpawnX =8159
         this.playerSpawnY = 5325
+        
         this.skinTone =3
         this.hairType=1;
         this.hairColor =0x9884CD
@@ -30,10 +31,6 @@ export class UIScene extends Phaser.Scene {
     }
 
     create() {
-
-        //this.clock = new Clock(this,this.time.now);
-       // this.clock.setPosition(15,800)
-
         
         this.phone = new Phone(this)
         this.clock = this.phone.clock
@@ -43,30 +40,12 @@ export class UIScene extends Phaser.Scene {
         this.narrator.startDialog(0)
 
 
-
-
         this.statsOverlay = new PlayerStats(this)
         this.missionManager = new MissionManager(this)
         this.missionManager.drawText("CURRENT TASK: ")
         this.taskConfirm = new TaskConfirm(this,this.clock)
         this.newScene()
 
-        /*this.scene.get(SCENE_KEYS.CAMPUS_SCENE).events.on('sceneActivated', (sceneKey) => {
-            this.activeScene = sceneKey;
-            console.log('Active scene:', this.activeScene);
-        });*/
-        
-        /*this.scene.get(this.activeScene).events.on('sceneActivated', (sceneKey) => {
-            this.activeScene = sceneKey;
-            console.log('Active scene:'+ this.activeScene);
-        });*/
-
-       // this.events.emit('setTargetBox'); 
-        
-        /*this.scene.get(this.activeScene).events.on('shower', (sceneKey) => {
-            this.activeScene = sceneKey;
-            console.log("Shower Started...");
-        });*/
         eventsCenter.on('shower',this.shower,this)
         eventsCenter.on('class',this.class,this)
         eventsCenter.on('sleep',this.sleep,this)
@@ -75,17 +54,14 @@ export class UIScene extends Phaser.Scene {
     }
 
     update() {
-        //this.events.emit('setTargetBox'); 
         // Update the clock
         this.clock.update();
-        //this.newScene()
     
     }
 
     newScene(nScene){
         this.activeScene = nScene
         this.missionManager.enteredMap(nScene)
-        //console.log("ui: new scene is " + this.activeScene)
 
     }
     shower(){

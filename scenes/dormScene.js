@@ -10,7 +10,6 @@ export class DormScene extends Phaser.Scene{
         });
         this.cameras
         this.player
-        this.playerGroup
         this.hair
         this.shirt
         this.playerSpeed = 400
@@ -18,8 +17,6 @@ export class DormScene extends Phaser.Scene{
 
         this.popUpText;
         this.popUpBox;
-        this.popX;
-        this.popY;
         this.emitter;
 
         this.uiScene//=this.scene.get("UI_SCENE")
@@ -57,14 +54,14 @@ export class DormScene extends Phaser.Scene{
 
         //LIGHTING STUFF
         //8373 Y: 5369
-         var deskLight  = this.lights.addLight(8373, 5480, 700);
-        //var sunLight = this.lights.addLight(8018,5538,8000,255*65536+255*256+255,1)
-        //var sunLight = this.add.pointlight(8018,5538,8000)
+        var deskLight  = this.lights.addLight(8373, 5480, 700);
+
+        // var light  = this.lights.addLight(500, 250, 200);
+        //this.lights.enable().setAmbientColor(0x555555);
 
         //CHANGE AMBIENT COLOR TO MAKE IT NIGHT white is day,, 0x555555
         this.lights.enable().setAmbientColor(0xF7F7F7);
-        
-        //this.player.setCollideWorldBounds(true)
+    
 
         //TILEMAP STUFF
         let map = this.make.tilemap({key: 'dormMap'})
@@ -89,7 +86,6 @@ export class DormScene extends Phaser.Scene{
         this.overlapArray=[]
         
         this.transportLayer.objects.forEach(object => {
-            //console.log(object)
             const transportRect = this.add.rectangle(object.x, object.y, object.width, object.height);
             
             transportRect.setOrigin(0); // Make collisions based on top-left corner
@@ -146,9 +142,6 @@ export class DormScene extends Phaser.Scene{
         
         this.popUpBox.on('pointerdown', () => {
             eventsCenter.emit(this.usableObject)
-            //console.log("emitted " + this.usableObject)
-
-            //console.log(this.usableObject)
             if(this.usableObject ==="shower"){
                 this.emitter =this.add.particles(7640,4500,"fog",{
                     //this holds everything for emitter
@@ -157,12 +150,11 @@ export class DormScene extends Phaser.Scene{
                     scale:1,
                     duration: 500,
                     emitting:false
-                  })
-                  this.emitter.start()
+                })
+                this.emitter.start()
             }
 
     });
-        /////////////     
         
         this.input.on('pointerdown', (pointer) => {
             // Log the position of the cursor when clicked
@@ -171,7 +163,6 @@ export class DormScene extends Phaser.Scene{
 
     }
     update(){
-        //this.playerEnteredTrigger = false
         if ((!this.physics.overlap(this.player, this.overlapArray)) && (this.playerEnteredTrigger == true)) {
             // Player left the trigger area, trigger the event
             this.playerEnteredTrigger = false; // Set the flag to false
@@ -232,46 +223,30 @@ export class DormScene extends Phaser.Scene{
             this.player.play("idle",true)
             this.hair.play("idleh",true)
             this.shirt.play("idles",true)
-            //this.player.frame = 0;
         }
     }
 
     loadPlayer(){
-        this.playerGroup = this.add.group(0,0)
         const playerX = this.uiScene.playerSpawnX
         const playerY = this.uiScene.playerSpawnY
-        this.player = this.physics.add.sprite(0, 0, "player").setOrigin(0, 0)
+        this.player = this.physics.add.sprite(playerX, playerY, "player").setOrigin(0, 0)
         this.hair = this.physics.add.sprite(playerX, playerY, "hair").setOrigin(0, 0)
         this.shirt = this.physics.add.sprite(playerX, playerY, "shirt").setOrigin(0, 0)
-        this.hair.setPosition(playerX,playerY)
-        this.player.setPosition(playerX,playerY)//this.player.setPosition(920, 2139)
-        //this.playerGroup.add(this.player,this.hair)
-        //this.playerGroup.add([this.player,this.hair])
-        //this.playerGroup
-
-        
-        
-        this.player.body.allowGravity = false;
+    
         this.player.setBodySize(65,120)
         this.player.setMaxVelocity(this.playerSpeed)
         this.player.setPipeline('Light2D')
-        this.hair.body.allowGravity = false;
         this.hair.setMaxVelocity(this.playerSpeed)
         this.hair.setBodySize(65,120)
         this.hair.setTint(this.uiScene.hairColor)
         this.hair.setPipeline('Light2D')
-        this.shirt.body.allowGravity = false;
         this.shirt.setMaxVelocity(this.playerSpeed)
         this.shirt.setBodySize(65,120)
         this.shirt.setTint(this.uiScene.shirtColor)
-        this.shirt.setPipeline('Light2D')
-       
-       // var light  = this.lights.addLight(500, 250, 200);
-        //this.lights.enable().setAmbientColor(0x555555);
-        //this.player.setCollideWorldBounds(true)
+        this.shirt.setPipeline('Light2D')   
 
         this.cameras.main.startFollow(this.player, false, 0.2, 0.2);
-        //this.cameras.main.setPostPipeline('Light2D')
+        this.cameras.main.setPostPipeline('Light2D')
         
         this.anims.create({
             key: "idle",
@@ -367,9 +342,6 @@ export class DormScene extends Phaser.Scene{
             frames: this.anims.generateFrameNumbers("shirt", { start: 25, end: 28 }),
             repeat: -1
         });
-
-        
-
 
     }
 }

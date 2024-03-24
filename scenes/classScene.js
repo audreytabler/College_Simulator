@@ -6,12 +6,10 @@ export class ClassScene extends Phaser.Scene{
         super({
             key: "CLASS_SCENE"
         });
-        this.sceneActive =true
         this.cameras
         this.player
         this.playerSpeed = 400
         this.cursor
-        this.targetBox
         this.popUp
         this.uiScene
         this.popUpBox;
@@ -20,8 +18,10 @@ export class ClassScene extends Phaser.Scene{
         this.playerEnteredTrigger = false
     }
     preload(){
-        //this.load.image("back", "/assets/dormBG.png")
-        this.load.spritesheet('player', 'assets/CharacterSpritesheet2.png', { frameWidth: 85, frameHeight: 150 });
+        this.uiScene = this.scene.get("UI_SCENE")
+        this.load.spritesheet('player', 'assets/CharacterSpritesheetBald'+this.uiScene.skinTone+'.png', { frameWidth: 85, frameHeight: 150 });
+        this.load.spritesheet('hair', ('assets/CharacterSpriteHair'+this.uiScene.hairType+'.png'), { frameWidth: 85, frameHeight: 150 });
+        this.load.spritesheet('shirt', 'assets/CharacterSpritesheetShirt.png', { frameWidth: 85, frameHeight: 150 });
         this.load.image("popUp", "/assets/enter.png")
         
         //tilemap
@@ -56,18 +56,12 @@ export class ClassScene extends Phaser.Scene{
         this.overlapArray=[]
 
         transportLayer.objects.forEach(object => {
-            //if (object.type === 'transportTrigger') {
-               // console.log(object)
-               // console.log(object.x)
                 const transportRect = this.add.rectangle(object.x, object.y, object.width, object.height);
                 transportRect.setOrigin(0); // Make collisions based on top-left corner
                 transportRect.setAlpha(0); // Keep it invisible
                 this.physics.add.existing(transportRect, true);
 
                 this.physics.add.overlap(this.player, transportRect, () => {
-                    //console.log("player overlaps" + object.properties.find(prop => prop.name === 'toSceneKey').value)
-                  // this.scene.start("CAMPUS_SCENE")
-                    //this.player.setSpawnLocation(2555,1183)
                     if(!this.playerEnteredTrigger){
                         this.cameras.main.fadeOut(1000, 0, 0, 0)
                         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
@@ -75,10 +69,8 @@ export class ClassScene extends Phaser.Scene{
                         })
                     }
                     this.playerEnteredTrigger = true 
-                    
                     this.overlapArray.push(transportRect)
                 });
-            //}
         });
         /////////////
         const roomNumLayer = map.getObjectLayer("RoomNumbers"); 
@@ -90,10 +82,8 @@ export class ClassScene extends Phaser.Scene{
             this.physics.add.existing(roomRect, true);
 
             this.physics.add.overlap(this.player, roomRect, () => {
-                //console.log("player overlaps" + object.properties.find(prop => prop.name === 'roomNumber').value)
                 this.usableObject = object.properties.find(prop => prop.name === 'roomNumber').value
                 this.playerEnteredTrigger = true
-                //this.popUpBox = this.add.rectangle(transportRect.x+50,transportRect.y+20, 100, 30,0x226184).setDepth(this.popUpText.depth - 1);;
                 this.popUpText.setVisible(true)
                 this.popUpBox.setVisible(true)
                 this.popUpBox.width=(this.usableObject.toString().length * 15)
@@ -109,7 +99,7 @@ export class ClassScene extends Phaser.Scene{
             fontSize: '24px', 
             color: '#ffffff',
         });  
-         
+        
         this.input.on('pointerdown', (pointer) => {
             // Log the position of the cursor when clicked
             console.log('player position - X:', this.player.x, 'Y:', this.player.y);
@@ -121,7 +111,6 @@ export class ClassScene extends Phaser.Scene{
             // Player left the trigger area, trigger the event
             this.playerEnteredTrigger = false;
         }
-        if(this.sceneActive){
         const { left, right, up, down, } = this.cursor //would add up,down if overhead view
         const { W, A, S, D } = this.input.keyboard.addKeys('W,A,S,D');
 
@@ -147,9 +136,8 @@ export class ClassScene extends Phaser.Scene{
             this.player.setVelocityX(0);
             this.player.setVelocityY(0);
             this.player.play("idle",true)
-            //this.player.frame = 0;
         }
-    }
+    
     }
 
     loadPlayer(){
@@ -161,6 +149,7 @@ export class ClassScene extends Phaser.Scene{
         this.player.setCollideWorldBounds(true)
 
         this.cameras.main.startFollow(this.player, false, 0.2, 0.2);
+        /*
         this.anims.create({
             key: "idle",
             frameRate: 10,
@@ -190,7 +179,7 @@ export class ClassScene extends Phaser.Scene{
             frameRate: 7,
             frames: this.anims.generateFrameNumbers("player", { start: 25, end: 28 }),
             repeat: -1
-        });
+        });*/
 
     }
 }

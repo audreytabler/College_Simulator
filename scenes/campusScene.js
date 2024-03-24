@@ -14,23 +14,18 @@ export class CampusScene extends Phaser.Scene {
         this.player
         this.playerSpeed = 400
         this.cursor
-        this.targetBox
-        this.popUp
         this.uiScene
 
         this.playerEnteredTrigger = false
-
-        this.wallsGroup;
     }
     preload(){
-        //this.load.image("back", "/assets/dormBG.png")
-        this.load.spritesheet('player', 'assets/CharacterSpritesheet2.png', { frameWidth: 85, frameHeight: 150 });
-        this.load.image("popUp", "/assets/enter.png")
+        this.uiScene = this.scene.get("UI_SCENE")
+        this.load.spritesheet('player', 'assets/CharacterSpritesheetBald'+this.uiScene.skinTone+'.png', { frameWidth: 85, frameHeight: 150 });
+        this.load.spritesheet('hair', ('assets/CharacterSpriteHair'+this.uiScene.hairType+'.png'), { frameWidth: 85, frameHeight: 150 });
+        this.load.spritesheet('shirt', 'assets/CharacterSpritesheetShirt.png', { frameWidth: 85, frameHeight: 150 });
         
-        //tilemap
         this.load.image("tiles","/assets/CollegeTileSet.png")
         this.load.tilemapTiledJSON("campusMap", "/assets/campusMapJson.tmj")
-
     }
     create(){
         
@@ -53,11 +48,11 @@ export class CampusScene extends Phaser.Scene {
 
         //COLLISION WITH WALLS STUFF
         this.loadPlayer()
-        this.overlapArray=[]
         let treesLayer = map.createLayer("trees",grassTileset)
         wallLayer.setCollisionByExclusion([-1]);
         this.physics.add.collider(this.player, wallLayer);
         ////////////////////////////////////////
+        this.overlapArray=[]
         const transportLayer = map.getObjectLayer("transportation"); 
 
         transportLayer.objects.forEach(object => {
@@ -74,7 +69,7 @@ export class CampusScene extends Phaser.Scene {
                     this.uiScene.playerSpawnX = object.properties.find(prop => prop.name === 'playerSpawnX').value
                     this.uiScene.playerSpawnY = object.properties.find(prop => prop.name === 'playerSpawnY').value
                    //this.scene.start("CAMPUS_SCENE")
-                   if(!this.playerEnteredTrigger){
+                    if(!this.playerEnteredTrigger){
                     this.cameras.main.fadeOut(1000, 0, 0, 0)
                     this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                         this.scene.start(object.properties.find(prop => prop.name === 'toSceneKey').value); 
@@ -135,7 +130,6 @@ export class CampusScene extends Phaser.Scene {
         const playerX = this.uiScene.playerSpawnX
         const playerY = this.uiScene.playerSpawnY
         this.player.setPosition(playerX,playerY)
-        //this.player.setPosition(this.uiScene.playerSpawnX,this.uiScene.playerSpawnY)//this.player.setPosition(1261,1183)//this.player.setPosition(2555,1183)//this.player.setPosition(920, 2139)
         this.player.body.allowGravity = false;
         this.player.setBodySize(65,120)
         this.player.setCollideWorldBounds(true)
