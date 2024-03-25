@@ -6,7 +6,7 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
         this.scene = scene;
         this.energyNum = 135 * 1;
         this.focusNum = 70;
-        this.socialNum = 135 * 1;
+        this.socialNum = 70 * 1;
         this.emptyBars;
         this.energyLevel;
         this.focusLevel;
@@ -82,7 +82,7 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
 
     updatePosition() {
         ///////
-        this.updateEnergy(-0.05)
+        //this.updateEnergy(-0.05)
         //this.updateFocus(1)
         //this.updateSocial(-0.2)
         //////

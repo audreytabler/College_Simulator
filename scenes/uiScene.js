@@ -11,7 +11,8 @@ import eventsCenter from '../ui/eventCenter.js';
 export class UIScene extends Phaser.Scene {
     constructor() {
         super({ key: "UI_SCENE", active: true }); // Make UIScene always active
-        this.clock
+        
+    this.clock
         this.phone
         this.narrator;
         this.taskConfirm
@@ -23,10 +24,12 @@ export class UIScene extends Phaser.Scene {
 
         this.skinTone=1
         this.hairType=1;
-        this.hairColor =0xFFFFFF
-        this.shirtColor = 0xFFFFFF
+        this.hairColor =0x6D4C41
+        this.shirtColor = 0x6999B4
 
         this.ambientColor = 0xF7F7F7;
+
+        this.tutorialInProgress = true;
     }
     preload(){
         this.load.json('narrator', "./assets/narratorDialog.json")
@@ -76,14 +79,24 @@ export class UIScene extends Phaser.Scene {
     class(){
         this.narrator.startDialogg(3)
     }
+    checkClassRoom(room){
+        if(this.tutorialInProgress){
+            this.missionManager.checkClassRoom(room) 
+            this.tutorialInProgress = false
+            return
+        }
+
+        
+        
+    }
     sleep(){
         //popup box to select how many hours
         this.taskConfirm.action = "sleep"
-        this.taskConfirm.display()
+        this.taskConfirm.display(true)
     }
     study(){
         this.taskConfirm.action = "study"
-        this.taskConfirm.display()
+        this.taskConfirm.display(true)
     }
     sunUp(){
         this.ambientColor = 0xF7F7F7
@@ -91,8 +104,5 @@ export class UIScene extends Phaser.Scene {
     sunDown(){
         this.ambientColor = 0x5A5A59
     }
-    
-
-    
 
 }

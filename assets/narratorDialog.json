@@ -84,8 +84,43 @@
                 "text": "You found the academic building! This is the building where most STEM classes will be located."
             },{
                 "name": "Narrator",
-                "text": "Go ahead and find the room your class is located in",
-                "goal":"find_room"
+                "text": "Go ahead and find where your first class is-- check your phone if you have forgotten which room it is in.",
+                "goal":"107"
+            }
+        ]},
+        {"dialog":[
+            {
+                "name": "Narrator",
+                "text": "This is where your first class of the day will be located. You will be able to enter the room 10 minutes before class is scheduled to start (via clicking the room number again)"
+            },{
+                "name": "Narrator",
+                "text": "You can spend spare time on your phone (which can raise different stats depending on what you choose), or explore the building to find where your other classes are located."
+            },
+            {
+                "name": "Narrator",
+                "text": "If you accidentally miss a class, visit your professor's office hours to find out what to spend time studying to help make up the class knowledge points missed."
+            },
+            {
+                "name": "Narrator",
+                "text": "Keep in mind that it is a good idea to stay on top of class work. If you let tasks pile up for too long it can become overwhelming to start."
+            },
+            {
+                "name": "Narrator",
+                "text": "You now have the freedom to proceed with your day however you would like from here. Explore around campus and talk to people for more helpful hints and ways to get involved in the community!"
+            },
+            {
+                "name": "Narrator",
+                "text": "Have fun!"
+            }
+
+        ]},
+        {"dialog":[
+            {
+                "name": "Narrator",
+                "text": "Great! Your next class is starting in 10 minutes "
+            },{
+                "name": "Narrator",
+                "text": "You probably have the hang of things now! Explore around campus and your phone to discover"
             }
         ]},
         {
@@ -137,18 +172,6 @@
                 {
                     "name": "Narrator",
                     "text": "At the top of the screen you will see your current task, why don't you try finding your way to your first class of the day! It is in the English building on the west side of campus!"
-                }
-            ]
-        },
-        {
-            "dialog": [
-                {
-                    "name": 2,
-                    "text": "Great job! Plant as many seeds as you'd like!"
-                },
-                {
-                    "name": "Narrator",
-                    "text": "The seeds will grow on their own, but you can also click on them to water them!"
                 }
             ]
         }

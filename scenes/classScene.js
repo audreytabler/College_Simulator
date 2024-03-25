@@ -24,7 +24,6 @@ export class ClassScene extends Phaser.Scene{
         this.load.spritesheet('shirt', 'assets/CharacterSpritesheetShirt.png', { frameWidth: 85, frameHeight: 150 });
         this.load.image("popUp", "/assets/enter.png")
         
-        //tilemap
         this.load.image("tiles","/assets/CollegeTileSet.png")
         this.load.tilemapTiledJSON("classMap", "/assets/ClassMap.tmj")
 
@@ -74,7 +73,7 @@ export class ClassScene extends Phaser.Scene{
                     this.overlapArray.push(transportRect)
                 });
         });
-        /////////////
+        //////////////////////////////////////////
         const roomNumLayer = map.getObjectLayer("RoomNumbers"); 
 
         roomNumLayer.objects.forEach(object => {
@@ -92,15 +91,27 @@ export class ClassScene extends Phaser.Scene{
                 this.popUpText.setText(this.usableObject)
                 this.popUpText.setPosition(roomRect.x,roomRect.y)
                 this.popUpBox.setPosition(roomRect.x+30,roomRect.y+15)
+
             });
         });   
         this.popUpBox = this.add.rectangle(8159+50, 5305+20, 75, 30,0x226184,0.5).setInteractive()
         this.popUpBox.setVisible(false)
+        this.popUpBox.setInteractive()
+        this.popUpBox.setInteractive()
         this.popUpText = this.add.text(8159, 5305, " " + (this.usableObject), { 
             fontFamily: 'sans-serif', 
             fontSize: '24px', 
             color: '#ffffff',
         });  
+        this.popUpBox.on('pointerover',() => {
+            this.popUpBox.setScale(1.3)
+        });
+        this.popUpBox.on('pointerout',() => {
+            this.popUpBox.setScale(1)
+        });
+        this.popUpBox.on('pointerdown', () => {
+            this.uiScene.checkClassRoom(this.usableObject)
+        })
         
         this.input.on('pointerdown', (pointer) => {
             // Log the position of the cursor when clicked

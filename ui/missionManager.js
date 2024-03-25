@@ -13,9 +13,7 @@ class MissionManager extends Phaser.GameObjects.Graphics {
             this.criteria
             this.missionInProgress = false;
             this.roomToFind;
-
             //eventsCenter.on('shower',this.shower,this)
-
             //this.scene.events.on('update', this.updatePosition, this);
         }
         MissionManager.instance.scene = scene
@@ -45,11 +43,12 @@ class MissionManager extends Phaser.GameObjects.Graphics {
             await this.until(_ => this.criteriaMet == true);
             //this.scene.narrator.startDialog() 
         }
-        else if (m === "find_room"){
-            this.drawText("Current task: Find room 102")
+        else if (m === "107"){
+            this.drawText("Current task: Select room 107")
             await this.until(_ => this.criteriaMet == true);
-            //this.scene.narrator.startDialog() 
+           // this.scene.narrator.startDialog() 
         }
+        
         this.scene.narrator.startDialog()
         this.endMission()
     }
@@ -76,6 +75,11 @@ class MissionManager extends Phaser.GameObjects.Graphics {
     enteredMap(map){
         if(this.criteria===map){
             this.criteriaMet = true;
+        }
+    }
+    checkClassRoom(room){
+        if(this.criteria === room){
+            this.criteriaMet = true
         }
     }
 

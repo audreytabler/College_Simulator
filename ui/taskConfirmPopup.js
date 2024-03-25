@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 
 export class TaskConfirm extends Phaser.GameObjects.Graphics {
-    constructor(scene,clock,stats) {
+    constructor(scene,clock) {
         super(scene, 'taskConfirm');
         this.scene = scene
         this.clock = clock
@@ -16,16 +16,24 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
         this.confirm;
         this.cancel;
 
+        this.isHours = true
+
         this.action
-        this.stats = stats
         this.setUpDisplay()
     }
-    display(){
+    display(isHours){
+        this.isHours = isHours
+        if(isHours){
         this.numHours = 1
+        this.text.setText(("How many hours would you like to "+this.action+" for?"))
+        }
+        if(!isHours){
+            this.numHours = 15
+            this.text.setText(("How many minutes would you like to "+this.action+" for?"))    
+        }
+        
         this.shadedBG.setVisible(true)
         this.text.setVisible(true)
-        this.text.setText(("How many hours would you like to "+this.action+" for?"))
-        this.numHours = 1;
         this.numHoursText.setText(this.numHours)
         this.numHoursText.setVisible(true)
         this.upArrow.setVisible(true)
@@ -34,7 +42,6 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
         this.confirm.setVisible(true)
         this.cancel.setVisible(true)
         this.decorContainer.setVisible(true)
-
     }
 
     hide(){
@@ -128,16 +135,41 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
 
     confirmTask(){
         this.hide();
-
-        let statIncrement = 12.5 * this.numHours;
-        this.scene.clock.advanceTime(this.numHours * 60)
+        let statIncrement =0;
+        
+        if(this.isHours){
+            statIncrement = 14 * this.numHours;
+            this.scene.clock.advanceTime(this.numHours * 60)
+        }
+        else{
+            statIncrement = 0.6 * this.numHours;
+            this.scene.clock.advanceTime(this.numHours)
+        }
         if(this.action === "sleep"){ //increase energy by 12.5 per hour slept
             this.scene.statsOverlay.updateEnergy(statIncrement)
         }
         if(this.action === "study"){ //decrease focus, but increase academic score
             this.scene.statsOverlay.updateFocus(-statIncrement)
+            this.scene.statsOverlay.updateEnergy(-statIncrement)
             //increase academic score when added
-
+        }
+        if(this.action === "chat"){ 
+            this.scene.statsOverlay.updateSocial(statIncrement)
+            this.scene.statsOverlay.updateEnergy(-statIncrement)
+        }
+        if(this.action === "text friend"){ 
+            this.scene.statsOverlay.updateSocial(statIncrement)
+            this.scene.statsOverlay.updateEnergy(-statIncrement)
+        }
+        if(this.action === "scroll on social media"){ 
+            this.scene.statsOverlay.updateSocial(statIncrement*0.5)
+            this.scene.statsOverlay.updateFocus(statIncrement*0.5)
+            this.scene.statsOverlay.updateEnergy(-statIncrement)
+        }
+        if(this.action === "view flash cards"){ 
+            this.scene.statsOverlay.updateFocus(-statIncrement)
+            //increase academic score
+            this.scene.statsOverlay.updateEnergy(-statIncrement*0.5)
         }
     }
 }
