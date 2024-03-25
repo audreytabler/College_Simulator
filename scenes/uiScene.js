@@ -21,10 +21,10 @@ export class UIScene extends Phaser.Scene {
         this.playerSpawnX =8159 //6830    6830.0000000000055 Y: 7111.666666666748
         this.playerSpawnY =5325 //   7111
 
-        this.skinTone =3
+        this.skinTone=1
         this.hairType=1;
-        this.hairColor =0x9884CD
-        this.shirtColor = 0x818A92
+        this.hairColor =0xFFFFFF
+        this.shirtColor = 0xFFFFFF
 
         this.ambientColor = 0xF7F7F7;
     }

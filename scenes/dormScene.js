@@ -40,6 +40,7 @@ export class DormScene extends Phaser.Scene{
         this.load.image("fog","./assets/fog.png")
 
     }
+    
     create(){
         eventsCenter.on('sunUp',this.fadeToDay,this)
         eventsCenter.on('sunDown',this.fadeToNight,this)
@@ -73,6 +74,7 @@ export class DormScene extends Phaser.Scene{
         let wallLayer = map.createLayer("walls",dormTileset).setPipeline('Light2D')
 
         //COLLISION WITH WALLS STUFF
+        
         this.loadPlayer()
         let chairLayer = map.createLayer("chairBacks",dormTileset).setPipeline('Light2D')
         wallLayer.setCollisionByExclusion([-1]);
@@ -81,6 +83,13 @@ export class DormScene extends Phaser.Scene{
         this.physics.add.collider(this.shirt, wallLayer);
         ////////////////////////////////////////
         this.transportLayer = map.getObjectLayer("interactions"); 
+        this.popUpBox = this.add.rectangle(8159+50, 5305+20, 75, 30,0x226184,0.5).setInteractive()
+        this.popUpBox.setVisible(false)
+        this.popUpText = this.add.text(8159, 5305, " " + (this.usableObject), { 
+            fontFamily: 'sans-serif', 
+            fontSize: '24px', 
+            color: '#ffffff',
+        });
         this.overlapArray=[]
         
         this.transportLayer.objects.forEach(object => {
@@ -130,12 +139,16 @@ export class DormScene extends Phaser.Scene{
             }
             this.overlapArray.push(transportRect)
         });
-        this.popUpBox = this.add.rectangle(8159+50, 5305+20, 75, 30,0x226184,0.5).setInteractive()
-        this.popUpBox.setVisible(false)
-        this.popUpText = this.add.text(8159, 5305, " " + (this.usableObject), { 
-            fontFamily: 'sans-serif', 
-            fontSize: '24px', 
-            color: '#ffffff',
+        
+        this.popUpBox.on('pointerover',() => {
+            this.popUpBox.setScale(1.3)
+            //this.popUpText.setFontSize('30px')
+            //this.popUpText.setPosition(this.popUpText.x-20,this.popUpText.y-20)
+        });
+        this.popUpBox.on('pointerout',() => {
+            this.popUpBox.setScale(1)
+            //this.popUpText.setFontSize('24px')
+            //this.popUpText.setPosition(this.popUpText.x+20,this.popUpText.y+20)
         });
         
         this.popUpBox.on('pointerdown', () => {
@@ -230,6 +243,7 @@ export class DormScene extends Phaser.Scene{
     loadPlayer(){
         const playerX = this.uiScene.playerSpawnX
         const playerY = this.uiScene.playerSpawnY
+        
         this.player = this.physics.add.sprite(playerX, playerY, "player").setOrigin(0, 0)
         this.hair = this.physics.add.sprite(playerX, playerY, "hair").setOrigin(0, 0)
         this.shirt = this.physics.add.sprite(playerX, playerY, "shirt").setOrigin(0, 0)
