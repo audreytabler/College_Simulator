@@ -23,23 +23,11 @@
                 },
                 {
                     "name": "Narrator",
-                    "text": "You use energy for each task you complete. Getting eight hours of sleep will give you a full energy bar to use for the next day. You can also increase your energy throughout the day by consuming snacks or energy drinks."
+                    "text": "Your goal is to use your energy in order to keep the rest of the stats from dropping too low. Sleep or use  to restore energy."
                 },
                 {
                     "name": "Narrator",
-                    "text": "Keeping your focus high makes tasks easier to complete. Be careful not to over expend your focus though, critically low levels of focus can lead to burnout."
-                },
-                {
-                    "name": "Narrator",
-                    "text": "Focus can be increased through means such as by going to the gym, hobbies, cleaning, ect or spending time in quiet spaces such as in your dorm or at the library."
-                },
-                {
-                    "name": "Narrator",
-                    "text": "Your social level represents your current social fulfilment. If you notice it getting low, you could consider getting involved in a campus event or sending a text to someone you know to see what they're up to!"
-                },
-                {
-                    "name": "Narrator",
-                    "text": "You slept for eight hours last night so your energy bar is full! Your focus levels are a little lackluster this morning-- how about a nice warm shower to help clear your mind? (use WASD or arrow keys to move)",
+                    "text": "You slept for eight hours last night so your energy bar is full! Your focus levels are a little low this morning-- how about a shower to help clear your mind? (use WASD or arrow keys to move)",
                     "goal":"shower"
                 }
             ]
@@ -48,7 +36,7 @@
             "dialog":[
                 {
                     "name": "Narrator",
-                    "text": "Great! You feel ready for class! Check the reminder app on your phone to see what time your first class is at today (your phone is the box displaying the time at the bottom of the screen, click it to view apps)"
+                    "text": "Great! You feel ready for class! Check the reminder app on your phone to see what time your first class is at today (access your phone by clicking the item displaying the time at the bottom of the screen. Once it's focused, you can use the darker box at the bottom to return to the home screen)"
                 },
                 {
                     "name": "Narrator",
@@ -65,7 +53,7 @@
                 },
                 {
                     "name": "Narrator",
-                    "text": "You have a bit of time to explore before your first class starts, but it is wise to know where your classroom is ahead of time before class starts."
+                    "text": "You should have a bit of time to explore before your first class starts, but it is wise to know where your classroom is ahead of time before class starts."
                 },
                 {
                     "name": "Narrator",
