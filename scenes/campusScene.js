@@ -97,13 +97,16 @@ export class CampusScene extends Phaser.Scene {
             // Log the position of the cursor when clicked
             console.log('player position - X:', this.player.x, 'Y:', this.player.y);
         });
-        this.fadeToNight()
+        //this.fadeToNight()
 
     }
     update(){
         if ((!this.physics.overlap(this.player, this.overlapArray)) && (this.playerEnteredTrigger == true)) {
             // Player left the trigger area, trigger the event
             this.playerEnteredTrigger = false; // Set the flag to false
+        }
+        if(!this.uiScene.characterMovable){
+            return
         }
         const { left, right, up, down, } = this.cursor //would add up,down if overhead view
         const { W, A, S, D } = this.input.keyboard.addKeys('W,A,S,D');

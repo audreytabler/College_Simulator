@@ -185,6 +185,9 @@ export class DormScene extends Phaser.Scene{
         }
         const { left, right, up, down, } = this.cursor //would add up,down if overhead view
         const { W, A, S, D } = this.input.keyboard.addKeys('W,A,S,D');
+        if(!this.uiScene.characterMovable){
+            return
+        }
 
         if (left.isDown || A.isDown){
             this.player.setVelocityX(-this.playerSpeed);

@@ -18,7 +18,6 @@ export class TitleScene extends Phaser.Scene{
         this.hair
 
         this.uiScene
-
     }
     preload(){
         this.load.image("base1","/assets/CharacterSpritesheetBald1.png")
@@ -50,7 +49,7 @@ export class TitleScene extends Phaser.Scene{
         const skinData=[
             { x: 480, color: 0xe5c0af, num:1},
             { x: 500, color: 0xb0896f, num:2},
-            { x: 520, color: 0x886b58, num:3}, 
+            { x: 520, color: 0x886b58, num:2}, 
             { x: 540, color: 0x47352b, num:4},
         ]
 
@@ -69,7 +68,8 @@ export class TitleScene extends Phaser.Scene{
         const styleData=[
             { x: 480, color: 0xe5c0af, num:1},
             { x: 500, color: 0xb0896f, num:2},
-            { x: 520, color: 0x886b58, num:3}
+            { x: 520, color: 0x886b58, num:3},
+            { x: 540, color: 0x886b58, num:4}
         ]
         styleData.forEach(styleData => {
             const circle = this.add.text(styleData.x,265,styleData.num,{ fontFamily: 'courier new',fontStyle: 'bold', fontSize: '20px', color: '#FFFFFF'})

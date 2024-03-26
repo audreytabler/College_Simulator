@@ -15,8 +15,7 @@
             "dialog": [
                 {
                     "name": "Narrator",
-                    "text": "Good morning and happy Monday! Use the arrow keys or WASD to move around your dorm room. (click to progress dialog)"
-                    ,"goal":"index 0 goal"
+                    "text": "Good morning and happy Monday! (click to progress dialog)"
                 },
                 {
                     "name": "Narrator",
@@ -33,16 +32,14 @@
                 {
                     "name": "Narrator",
                     "text": "Focus can be increased through means such as by going to the gym, hobbies, cleaning, ect or spending time in quiet spaces such as in your dorm or at the library."
-                ,"goal":"focus number goal"
                 },
                 {
                     "name": "Narrator",
-                    "text": "Your social level represents your current social fulfilment. If you notice it getting low, you could consider getting involved in a campus event or sending a text to someone you know to see what they're up to!",
-                    "goal":"previous text goal"
+                    "text": "Your social level represents your current social fulfilment. If you notice it getting low, you could consider getting involved in a campus event or sending a text to someone you know to see what they're up to!"
                 },
                 {
                     "name": "Narrator",
-                    "text": "You slept for eight hours last night so your energy bar is full! It appears your focus levels are a little lackluster this morning-- how about a nice warm shower to help clear your mind?",
+                    "text": "You slept for eight hours last night so your energy bar is full! Your focus levels are a little lackluster this morning-- how about a nice warm shower to help clear your mind? (use WASD or arrow keys to move)",
                     "goal":"shower"
                 }
             ]
@@ -51,11 +48,11 @@
             "dialog":[
                 {
                     "name": "Narrator",
-                    "text": "Great! You feel ready for class! Check the reminder app on your phone to see what time your first class is at today (click the box on the bottom left of the screen)"
+                    "text": "Great! You feel ready for class! Check the reminder app on your phone to see what time your first class is at today (your phone is the box displaying the time at the bottom of the screen, click it to view apps)"
                 },
                 {
                     "name": "Narrator",
-                    "text": "After you've found out what time your first class is at, head out of the dorm (go out to the left and then head downwards) to get to the main campus",
+                    "text": "After you've found out what time your first class is at, head out of the dorm (go out to the left hallway and then head downwards) to get to the main campus",
                     "goal": "CAMPUS_SCENE"
                 }
             ]
@@ -182,6 +179,12 @@
         "stat": "focus",
         "increment": 20,
         "mins":30},
+
+        {"name":"shower",
+        "text": "You've already taken a shower today",
+        "stat": "focus",
+        "increment": 0,
+        "mins":0},
 
         {"name":"class",
         "text": "You attended class! (-20 Focus, +20 class points)",

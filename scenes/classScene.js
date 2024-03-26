@@ -120,6 +120,9 @@ export class ClassScene extends Phaser.Scene{
 
     }
     update(){
+        if(!this.uiScene.characterMovable){
+            return
+        }
         if ((!this.physics.overlap(this.player, this.overlapArray)) && (this.playerEnteredTrigger == true)) {
             // Player left the trigger area, trigger the event
             this.playerEnteredTrigger = false;

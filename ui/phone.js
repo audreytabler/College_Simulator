@@ -8,7 +8,7 @@ export class Phone extends Phaser.GameObjects.Graphics {
         this.scene = scene;
         this.clock;
         this.isPhoneFocused = false;
-        this.reminderArray = ["\n\n• 10 AM PYS | room 102","\n\n• 11 AM BIO | room 107","\n\n• 1 PM ENG | room 105"] //TODO: make reminder object that sorts by time, exports text object? completeable
+        this.reminderArray = ["\n\n• 10 AM PYS | room 107","\n\n• 11 AM BIO | room 102","\n\n• 1 PM ENG | room 105"] //TODO: make reminder object that sorts by time, exports text object? completeable
                                                             // maybe make method to initialize reminderbutton each day
         // Create phone components
         this.createPhoneComponents();
