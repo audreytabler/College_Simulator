@@ -13,6 +13,7 @@ class MissionManager extends Phaser.GameObjects.Graphics {
             this.criteria
             this.missionInProgress = false;
             this.roomToFind;
+            this.uiScene = scene
             //eventsCenter.on('shower',this.shower,this)
             //this.scene.events.on('update', this.updatePosition, this);
         }
@@ -27,11 +28,17 @@ class MissionManager extends Phaser.GameObjects.Graphics {
         this.criteriaMet = false
         this.criteria = m
         if (m === "shower"){
+            if(!this.uiScene.daySchedule.hasShowered){
             this.drawText("Current task: Take a warm shower")
             await this.until(_ => this.criteriaMet == true);
             this.scene.narrator.startDialogg(2)
             this.endMission()
             return;
+            }
+            else{
+                this.endMission()
+                return;
+            }
         }
         else if (m === "CAMPUS_SCENE"){
             this.drawText("Current task: Leave dorm to find campus")

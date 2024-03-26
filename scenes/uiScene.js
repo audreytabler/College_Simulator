@@ -5,6 +5,7 @@ import Phone from '../ui/phone.js'
 import PlayerStats from '../ui/playerStats.js'
 import MissionManager from '../ui/missionManager.js';
 import TaskConfirm from '../ui/taskConfirmPopup.js';
+import { DaySchedule } from '../ui/daySchedule.js';
 import eventsCenter from '../ui/eventCenter.js';
 
 
@@ -12,7 +13,7 @@ export class UIScene extends Phaser.Scene {
     constructor() {
         super({ key: "UI_SCENE", active: true }); // Make UIScene always active
         
-    this.clock
+        this.clock
         this.phone
         this.narrator;
         this.taskConfirm
@@ -28,18 +29,17 @@ export class UIScene extends Phaser.Scene {
         this.shirtColor = 0x6999B4
 
         this.ambientColor = 0xF7F7F7;
-
         this.tutorialInProgress = true;
+        this.daySchedule;
+        this.characterMovable = true
     }
     preload(){
         this.load.json('narrator', "./assets/narratorDialog.json")
     }
 
     create() {
-        
         this.phone = new Phone(this)
         this.clock = this.phone.clock
-
         
         this.narrator = new DialogBox(this, 700, 100, this.cache.json.get('narrator'));
         this.narrator.startDialog(0)
@@ -49,7 +49,9 @@ export class UIScene extends Phaser.Scene {
         this.missionManager = new MissionManager(this)
         this.missionManager.drawText("CURRENT TASK: ")
         this.taskConfirm = new TaskConfirm(this,this.clock)
-        this.newScene()
+
+        this.daySchedule = new DaySchedule(this,this.clock)
+        //this.newScene()
 
         eventsCenter.on('shower',this.shower,this)
         eventsCenter.on('class',this.class,this)
@@ -58,23 +60,26 @@ export class UIScene extends Phaser.Scene {
 
         eventsCenter.on('sunUp',this.sunUp,this)
         eventsCenter.on('sunDown',this.sunDown,this)
-        
     }
 
     update() {
         // Update the clock
         this.clock.update();
-    
     }
 
     newScene(nScene){
         this.activeScene = nScene
         this.missionManager.enteredMap(nScene)
-
     }
     shower(){
+        if(!this.daySchedule.hasShowered){
         this.narrator.startDialogg(0)
         this.missionManager.shower()
+        this.daySchedule.hasShowered = true
+        }
+        else{
+            this.narrator.startDialogText("You've already showered this morning")
+        }
     }
     class(){
         this.narrator.startDialogg(3)
@@ -85,9 +90,6 @@ export class UIScene extends Phaser.Scene {
             this.tutorialInProgress = false
             return
         }
-
-        
-        
     }
     sleep(){
         //popup box to select how many hours

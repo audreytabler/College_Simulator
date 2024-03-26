@@ -66,7 +66,7 @@ class DialogBox extends Phaser.GameObjects.Graphics {
     return this.isVisible
   }
   disableClicks(){
-    this.clicksAllowed = false
+    this.clicksAllowed=false
   }
   enableClicks(){
     this.clicksAllowed=true
@@ -79,13 +79,11 @@ class DialogBox extends Phaser.GameObjects.Graphics {
           this.clickToSkip = true
       else if (this.currentIndex == this.dialogLength -1){
         this.nextDialog();
-       // console.log("stat handler called")
         this.statHandler()
       }
       else if (this.currentIndex < this.dialogLength)
         this.nextDialog();
       else if (this.dialogEnabled){ 
-        //this.statHandler();
         this.hide();
       }
   }, this);
@@ -132,6 +130,7 @@ class DialogBox extends Phaser.GameObjects.Graphics {
   }
 
   startDialogg(index){ //start dialog with given index
+    this.scene.characterMovable =false
     this.dialogQueue.push(index)
     if(this.dialogEnabled == true){
       return
@@ -146,7 +145,6 @@ class DialogBox extends Phaser.GameObjects.Graphics {
     //which conversation
    this.nextDialog();
    this.statHandler()
-   
   }
 
   startDialog(){ //will go off of whatever the last index is
@@ -154,6 +152,7 @@ class DialogBox extends Phaser.GameObjects.Graphics {
     if(this.dialogEnabled == true){
       return
     }
+    this.scene.characterMovable =false
     this.dialogEnabled=true;
     if (this.dialogIndex >= this.data.dialogList.length)
       this.dialogIndex = this.data.dialogList.length - 1
@@ -163,6 +162,21 @@ class DialogBox extends Phaser.GameObjects.Graphics {
    this.dialogIndex = this.storedDialogIdx
 
    this.nextDialog();
+  }
+  startDialogText(text){
+    this.dialogQueue.push(this.dialogIndex)
+    if(this.dialogEnabled == true){
+      return
+    }
+    this.scene.characterMovable =false
+    this.dialogEnabled=true;
+    this.dialogIndex = 0
+
+   this.dialogLength = 0 //length of conversation
+   this.currentIndex = 0;
+   this.dialogIndex = this.storedDialogIdx
+
+   this.show(text)
   }
 
   nextDialog(){
@@ -183,7 +197,7 @@ class DialogBox extends Phaser.GameObjects.Graphics {
       this.dialogQueue.shift()
     this.dialogQueue.shift();
 
-    
+    this.scene.characterMovable =true
     this.dialogIndex++;
     this.storedDialogIdx = this.dialogIndex;
     this.dialogBox.setVisible(false);
