@@ -100,6 +100,9 @@ export class UIScene extends Phaser.Scene {
         this.taskConfirm.action = "study"
         this.taskConfirm.display(true)
     }
+    newDay(day){
+        this.daySchedule.newDay(day)
+    }
     sunUp(){
         this.ambientColor = 0xF7F7F7
     }

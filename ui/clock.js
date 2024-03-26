@@ -82,6 +82,7 @@ export class Clock extends Phaser.GameObjects.Graphics {
     updateWeekDay(){
         this.dayOfWeek = this.weekArray[(this.numDays - 1) % this.weekArray.length]
         this.dayWeekText.setText(this.dayOfWeek)
+        this.scene.newDay(this.dayOfWeek)
     }
 }
 

@@ -17,7 +17,6 @@ export class Phone extends Phaser.GameObjects.Graphics {
 
     createPhoneComponents() {
         this.phoneEdge = this.scene.add.rectangle(130,400,190,310,0x808080).setInteractive()
-
         this.phoneScreen = this.scene.add.rectangle(130,390,160,260,0xffffff).setInteractive();
 
         this.homeButton =  this.scene.add.rectangle(130,537,25,25,0x000000).setInteractive();
@@ -135,6 +134,10 @@ export class Phone extends Phaser.GameObjects.Graphics {
         this.reminderContainer.setVisible(false)
         this.socialContainer.setVisible(false)
         this.videoContainer.setVisible(false)
+    }
+
+    newDay(){
+        //reminderArray based on currentDayArray in daySchedule
     }
 
     updateReminderList(){ //TODO: When a new reminder is added, sort by time
