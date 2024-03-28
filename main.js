@@ -34,4 +34,5 @@ game.scene.add("UI_SCENE", UIScene);
 game.scene.add("TITLE_SCENE", TitleScene);
 //game.scene.start("CAMPUS_SCENE")
 //game.scene.start("TITLE_SCENE")
-game.scene.start("DORM_SCENE")
+//game.scene.start("DORM_SCENE")
+game.scene.start("CLASS_SCENE")

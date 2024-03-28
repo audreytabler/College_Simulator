@@ -110,7 +110,7 @@ export class ClassScene extends Phaser.Scene{
             this.popUpBox.setScale(1)
         });
         this.popUpBox.on('pointerdown', () => {
-            this.uiScene.checkClassRoom(this.usableObject)
+            this.uiScene.clickClassRoom(this.usableObject)
         })
         
         this.input.on('pointerdown', (pointer) => {
@@ -207,7 +207,7 @@ export class ClassScene extends Phaser.Scene{
         this.player.setCollideWorldBounds(true)
 
         this.cameras.main.startFollow(this.player, false, 0.2, 0.2);
-        /*
+        
         this.anims.create({
             key: "idle",
             frameRate: 10,
@@ -237,7 +237,71 @@ export class ClassScene extends Phaser.Scene{
             frameRate: 7,
             frames: this.anims.generateFrameNumbers("player", { start: 25, end: 28 }),
             repeat: -1
-        });*/
+        });
+
+        ///////
+        this.anims.create({
+            key: "idleh",
+            frameRate: 10,
+            frames: this.anims.generateFrameNumbers("hair", { start: 0, end: 0 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "forwardh",
+            frameRate: 10,
+            frames: this.anims.generateFrameNumbers("hair", { start: 10, end: 14 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "lefth",
+            frameRate: 7,
+            frames: this.anims.generateFrameNumbers("hair", { start: 15, end: 17 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "righth",
+            frameRate: 7,
+            frames: this.anims.generateFrameNumbers("hair", { start: 20, end: 22 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "backh",
+            frameRate: 7,
+            frames: this.anims.generateFrameNumbers("hair", { start: 25, end: 28 }),
+            repeat: -1
+        });
+        //////
+
+        this.anims.create({
+            key: "idles",
+            frameRate: 10,
+            frames: this.anims.generateFrameNumbers("shirt", { start: 0, end: 0 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "forwards",
+            frameRate: 10,
+            frames: this.anims.generateFrameNumbers("shirt", { start: 10, end: 14 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "lefts",
+            frameRate: 7,
+            frames: this.anims.generateFrameNumbers("shirt", { start: 15, end: 17 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "rights",
+            frameRate: 7,
+            frames: this.anims.generateFrameNumbers("shirt", { start: 20, end: 22 }),
+            repeat: -1
+        });
+        this.anims.create({
+            key: "backs",
+            frameRate: 7,
+            frames: this.anims.generateFrameNumbers("shirt", { start: 25, end: 28 }),
+            repeat: -1
+        });
 
     }
 }

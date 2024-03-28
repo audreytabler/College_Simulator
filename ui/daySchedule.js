@@ -8,15 +8,15 @@ export class DaySchedule extends Phaser.GameObjects.Graphics {
         this.scene = scene;
         this.clock = clock;
         //js object: 24hr time, activity name, location
-        this.mondayItems = [{time:10,name:"PYS",location:"107"},{time:11,name:"BIO",location:"102"},{time:13,name:"ENG",location:"105"}]
-        this.tuesdayItems = [{time:11,name:"SCI",location:"107"}]
+        this.mondayItems = [{time:10,name:"PYS",location:"107",completed:false},{time:11,name:"BIO",location:"102",completed:false},{time:13,name:"ENG",location:"105",completed:false}]
+        this.tuesdayItems = [{time:11,name:"SCI",location:"107",completed:false}]
         this.wednesdayItems = []
         this.thursdayItems = []
         this.fridayItems =[]
         this.saturdayItems=[]
         this.sundayItems=[]
 
-        this.currentDayItems
+        this.currentDayItems = [{time:10,name:"PYS",location:"107",completed:false},{time:11,name:"BIO",location:"102",completed:false},{time:13,name:"ENG",location:"105",completed:false}]
 
         this.hasShowered = false
         this.recommendedStudy=1
@@ -59,6 +59,22 @@ export class DaySchedule extends Phaser.GameObjects.Graphics {
     }
     newWeek(){
 
+    }
+    findRoomOnSchedule(room){
+        let foundIndex = null
+        for (let index = 0; index < this.currentDayItems.length; index++) {
+          //  const element = array[index];
+          if(this.currentDayItems[index].location === room){
+            return index
+            }
+            
+        }
+        /*this.currentDayItems.forEach(element => {
+            if(element.location === room){
+                return foundIndex
+            }
+        });*/
+        return foundIndex
     }
 
 }

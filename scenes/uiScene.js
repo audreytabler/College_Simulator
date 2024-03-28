@@ -38,6 +38,7 @@ export class UIScene extends Phaser.Scene {
     }
 
     create() {
+        this.daySchedule = new DaySchedule(this,this.clock)
         this.phone = new Phone(this)
         this.clock = this.phone.clock
         
@@ -50,7 +51,7 @@ export class UIScene extends Phaser.Scene {
         this.missionManager.drawText("CURRENT TASK: ")
         this.taskConfirm = new TaskConfirm(this,this.clock)
 
-        this.daySchedule = new DaySchedule(this,this.clock)
+        
         //this.newScene()
 
         eventsCenter.on('shower',this.shower,this)
@@ -84,12 +85,42 @@ export class UIScene extends Phaser.Scene {
     class(){
         this.narrator.startDialogg(3)
     }
-    checkClassRoom(room){
+    clickClassRoom(room){
         if(this.tutorialInProgress){
             this.missionManager.checkClassRoom(room) 
             this.tutorialInProgress = false
             return
         }
+        let index = this.daySchedule.findRoomOnSchedule(room)//currentDayItems.find(location == room) 
+            if(index != null){ //found: store index
+                console.log("index found! it is " + index + " time is " + this.daySchedule.currentDayItems[index].time)
+                var earlyTime = (this.daySchedule.currentDayItems[index].time *60) - 10 //minutes
+                var startTime = (this.daySchedule.currentDayItems[index].time *60) //minutes
+                var endTime = (this.daySchedule.currentDayItems[index].time *60) + 50// minutes
+
+                var currentTime = (this.phone.clock.totalHours *60) + this.phone.clock.time.minute
+
+                if( currentTime < earlyTime )
+                    this.narrator.startDialogText("You have a class in this room later today. Doors will open at " + (Math.round(earlyTime/60)-1) + ":50")
+                else if ((currentTime >= earlyTime) &&(currentTime <=(startTime+1))){
+                    this.narrator.startDialogText("Welcome to class! You arrived on time and will receive attendance points!")
+                    this.daySchedule.currentDayItems[index].completed = true
+                    //fade to black & display how many academic focus points earned
+                    //set global clock time to endTime
+                }
+                else if ((currentTime >(startTime+1))&& (currentTime < endTime)){
+                    this.narrator.startDialogText("You are " + currentTime-startTime + " minutes late to class. You may attend the remaining portion of the class")
+                    this.daySchedule.currentDayItems[index].completed = true
+                    //fade to black & display how many academic focus points earned
+                    //set global clock time to endTime
+                }
+                else{
+                    this.narrator.startDialogText("This class is already over")
+                }
+            }
+            else{ //if not found 0-p in day array)
+            this.narrator.startDialogText("You have no classes in this room today")}
+        
     }
     sleep(){
         //popup box to select how many hours

@@ -30,7 +30,7 @@ export class Phone extends Phaser.GameObjects.Graphics {
 
         //this.homeContainer.setVisible(true)
 
-        this.reminderText = this.scene.add.text(53,315,("\n》ACTIVITIES TODAY《" +this.reminderArray.toString()),{ fontSize: '14px', fill:'black',fontFamily:'sans-serif',});
+        this.reminderText = this.scene.add.text(53,315,("\n》ACTIVITIES TODAY《\n\n" +this.getReminderArray()),{ fontSize: '14px', fill:'black',fontFamily:'sans-serif',});
         this.reminderContainer = this.scene.add.container(0,0)
         this.reminderContainer.add(this.reminderText)
 
@@ -80,7 +80,6 @@ export class Phone extends Phaser.GameObjects.Graphics {
                     this.unfocusPhone();
             }
         });
-
 
         // Add click handler for the phone's home button
         this.homeButton.on('pointerdown', () => {
@@ -137,11 +136,38 @@ export class Phone extends Phaser.GameObjects.Graphics {
     }
 
     newDay(){
+
         //reminderArray based on currentDayArray in daySchedule
+        const currentDayItems = this.scene.daySchedule.currentDayItems
+        for (let index = 0; index < array.length; index++) {
+            const element = array[index];
+        }
     }
 
     updateReminderList(){ //TODO: When a new reminder is added, sort by time
 
+    }
+    getReminderArray(){
+        let array = this.scene.daySchedule.currentDayItems
+        let newArray = []
+        let stringInput=""
+        for (let i = 0; i < array.length; i++) {
+            stringInput=""
+            if (!array[i].completed)
+                stringInput = (stringInput + "☐ ")
+            else
+                stringInput = stringInput +"☑ "
+            if(array[i].time >12)
+                stringInput = stringInput +(array[i].time - 12) + "PM "
+            else if(array[i].time ==12)
+                stringInput = stringInput +12 + "PM "
+            else
+                stringInput = stringInput +array[i].time + "AM "
+            stringInput = stringInput +array[i].name + " | "
+            stringInput = stringInput +array[i].location + "\n"
+            newArray.push(stringInput)
+        }
+        return newArray.join("")
     }
 
 }

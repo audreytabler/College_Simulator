@@ -36,7 +36,12 @@
             "dialog":[
                 {
                     "name": "Narrator",
-                    "text": "Great! You feel ready for class! Check the reminder app on your phone to see what time your first class is at today (access your phone by clicking the item displaying the time at the bottom of the screen. Once it's focused, you can use the darker box at the bottom to return to the home screen)"
+                    "text": "Great! You feel ready for class! Check the reminder app on your phone to see what time your first class is at today"
+                },
+                {
+                    "name": "Narrator",
+                    "text": "Access your phone by clicking the item displaying the time at the bottom of the screen. Once it's focused, you can use the darker box at the bottom to return to the home screen"
+
                 },
                 {
                     "name": "Narrator",
