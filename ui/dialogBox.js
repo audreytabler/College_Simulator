@@ -42,7 +42,7 @@ class DialogBox extends Phaser.GameObjects.Graphics {
     this.clickableBox.toString = function() {
       // Customize the output based on your requirements
       return "clickable box";
-  };
+    };
 
     this.dialogBox.setPosition(x, y);
     this.dialogText = scene.make.text({
@@ -185,6 +185,7 @@ class DialogBox extends Phaser.GameObjects.Graphics {
   }
 
   show(text) {
+    this.scene.clock.timeActive = false
     this.dialogBox.setVisible(true);
     this.dialogText.setVisible(true);
     this.isVisible = true;
@@ -198,6 +199,7 @@ class DialogBox extends Phaser.GameObjects.Graphics {
     this.dialogQueue.shift();
 
     this.scene.characterMovable =true
+    this.scene.clock.timeActive = true
     this.dialogIndex++;
     this.storedDialogIdx = this.dialogIndex;
     this.dialogBox.setVisible(false);

@@ -152,6 +152,10 @@ export class DormScene extends Phaser.Scene{
         });
         
         this.popUpBox.on('pointerdown', () => {
+            if(this.uiScene.daySchedule.hasShowered){
+                eventsCenter.emit(this.usableObject)
+                return
+            }
             eventsCenter.emit(this.usableObject)
             if(this.usableObject ==="shower"){
                 this.emitter =this.add.particles(7640,4500,"fog",{
@@ -186,7 +190,13 @@ export class DormScene extends Phaser.Scene{
         const { left, right, up, down, } = this.cursor //would add up,down if overhead view
         const { W, A, S, D } = this.input.keyboard.addKeys('W,A,S,D');
         if(!this.uiScene.characterMovable){
-            return
+            this.player.setVelocity(0,0)
+            this.hair.setVelocity(0,0)
+            this.shirt.setVelocity(0,0)
+            this.player.play("idle",true)
+            this.shirt.play("idles",true)
+            this.hair.play("idleh",true)
+            return;
         }
 
         if (left.isDown || A.isDown){

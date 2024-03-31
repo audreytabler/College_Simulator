@@ -55,6 +55,8 @@ export class UIScene extends Phaser.Scene {
         //this.newScene()
 
         eventsCenter.on('shower',this.shower,this)
+        eventsCenter.on('wash hands',this.washHands,this)
+        eventsCenter.on('text',this.text,this)
         eventsCenter.on('class',this.class,this)
         eventsCenter.on('sleep',this.sleep,this)
         eventsCenter.on('study',this.study,this)
@@ -73,6 +75,9 @@ export class UIScene extends Phaser.Scene {
         this.missionManager.enteredMap(nScene)
     }
     shower(){
+        if(!this.characterMovable){
+            return
+        }
         if(!this.daySchedule.hasShowered){
         this.narrator.startDialogg(0)
         this.missionManager.shower()
@@ -87,13 +92,12 @@ export class UIScene extends Phaser.Scene {
     }
     clickClassRoom(room){
         if(this.tutorialInProgress){
-            this.missionManager.checkClassRoom(room) 
+            this.missionManager.checkClassRoom(room)
             this.tutorialInProgress = false
             return
         }
         let index = this.daySchedule.findRoomOnSchedule(room)//currentDayItems.find(location == room) 
             if(index != null){ //found: store index
-                console.log("index found! it is " + index + " time is " + this.daySchedule.currentDayItems[index].time)
                 var earlyTime = (this.daySchedule.currentDayItems[index].time *60) - 10 //minutes
                 var startTime = (this.daySchedule.currentDayItems[index].time *60) //minutes
                 var endTime = (this.daySchedule.currentDayItems[index].time *60) + 50// minutes
@@ -105,11 +109,12 @@ export class UIScene extends Phaser.Scene {
                 else if ((currentTime >= earlyTime) &&(currentTime <=(startTime+1))){
                     this.narrator.startDialogText("Welcome to class! You arrived on time and will receive attendance points!")
                     this.daySchedule.currentDayItems[index].completed = true
+                    this.phone.updateReminderList()
                     //fade to black & display how many academic focus points earned
                     //set global clock time to endTime
                 }
                 else if ((currentTime >(startTime+1))&& (currentTime < endTime)){
-                    this.narrator.startDialogText("You are " + currentTime-startTime + " minutes late to class. You may attend the remaining portion of the class")
+                    this.narrator.startDialogText("You are " + (currentTime-startTime) + " minutes late to class. You may attend the remaining portion of the class")
                     this.daySchedule.currentDayItems[index].completed = true
                     //fade to black & display how many academic focus points earned
                     //set global clock time to endTime
@@ -130,6 +135,15 @@ export class UIScene extends Phaser.Scene {
     study(){
         this.taskConfirm.action = "study"
         this.taskConfirm.display(true)
+    }
+    washHands(){
+        this.narrator.startDialogText("You washed your hands!")
+        this.statsOverlay.updateFocus(5)
+    }
+    
+    text(){
+        this.taskConfirm.action = "text"
+        this.taskConfirm.display(false)
     }
     newDay(day){
         this.daySchedule.newDay(day)

@@ -17,18 +17,26 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
         this.cancel;
 
         this.isHours = true
+        this.maxNumHours =12
 
         this.action
         this.setUpDisplay()
     }
     display(isHours){
         this.isHours = isHours
-        if(isHours){
+        if(this.isHours){
         this.numHours = 1
+        this.maxNumHours=13
         this.text.setText(("How many hours would you like to "+this.action+" for?"))
+
+        if(this.action == "study"){
+            this.maxNumHours =  Math.round(((this.scene.statsOverlay.focusNum)/1.4)/10)
+            console.log(this.maxNumHours)
         }
-        if(!isHours){
-            this.numHours = 15
+        }
+        if(!this.isHours){
+            this.numHours = 10
+            this.maxNumHours = 90
             this.text.setText(("How many minutes would you like to "+this.action+" for?"))    
         }
         
@@ -105,9 +113,15 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
         };
         this.upArrow.on('pointerdown', () => {
             //increment num hours by 1 
-            if(this.numHours <=12)
+            if(!this.isHours){
+                if(this.numHours < this.maxNumHours){
+                this.numHours+=10;
+                this.numHoursText.setText(this.numHours)}
+                return
+            }
+            if(this.numHours < this.maxNumHours){
             this.numHours++;
-            this.numHoursText.setText(this.numHours)
+            this.numHoursText.setText(this.numHours)}
         });
         this.cancel.on('pointerdown', () => {
             this.hide()
@@ -123,6 +137,12 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
             return "clickable box";
         };
         this.downArrow.on('pointerdown', () => {
+            if(!this.isHours){
+                if(this.numHours > 0){
+                this.numHours-=10;
+                this.numHoursText.setText(this.numHours)}
+                return
+            }
             if(this.numHours>0)
                 this.numHours--;
             this.numHoursText.setText(this.numHours)
@@ -140,24 +160,34 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
         if(this.isHours){
             statIncrement = 14 * this.numHours;
             this.scene.clock.advanceTime(this.numHours * 60)
+            this.scene.narrator.startDialogText("You " + this.action + " for " + this.numHours + " hours.")
         }
         else{
             statIncrement = 0.6 * this.numHours;
             this.scene.clock.advanceTime(this.numHours)
+            this.scene.narrator.startDialogText("You " + this.action + " for " + this.numHours + " minutes.")
         }
         if(this.action === "sleep"){ //increase energy by 12.5 per hour slept
             this.scene.statsOverlay.updateEnergy(statIncrement)
+            //this.scene.statsOverlay.displayUpdateText(12,statIncrement,"energy")
         }
         if(this.action === "study"){ //decrease focus, but increase academic score
             this.scene.statsOverlay.updateFocus(-statIncrement)
+           // this.scene.statsOverlay.displayUpdateText(39,statIncrement,"focus")
             this.scene.statsOverlay.updateEnergy(-statIncrement)
+           // this.scene.statsOverlay.displayUpdateText(12,-statIncrement,"energy")
             //increase academic score when added
         }
         if(this.action === "chat"){ 
             this.scene.statsOverlay.updateSocial(statIncrement)
+
             this.scene.statsOverlay.updateEnergy(-statIncrement)
         }
-        if(this.action === "text friend"){ 
+        if(this.action === "call home"){ 
+            this.scene.statsOverlay.updateSocial(statIncrement)
+            this.scene.statsOverlay.updateEnergy(-statIncrement)
+        }
+        if(this.action === "text"){ 
             this.scene.statsOverlay.updateSocial(statIncrement)
             this.scene.statsOverlay.updateEnergy(-statIncrement)
         }
@@ -171,6 +201,7 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
             //increase academic score
             this.scene.statsOverlay.updateEnergy(-statIncrement*0.5)
         }
+        
     }
 }
 

@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import Clock from '../ui/clock.js'
+import eventsCenter from '../ui/eventCenter.js';
 
 
 export class Phone extends Phaser.GameObjects.Graphics {
@@ -8,7 +9,7 @@ export class Phone extends Phaser.GameObjects.Graphics {
         this.scene = scene;
         this.clock;
         this.isPhoneFocused = false;
-        this.reminderArray = ["\n\n• 10 AM PYS | room 107","\n\n• 11 AM BIO | room 102","\n\n• 1 PM ENG | room 105"] //TODO: make reminder object that sorts by time, exports text object? completeable
+        //this.reminderArray = ["\n\n• 10 AM PYS | room 107","\n\n• 11 AM BIO | room 102","\n\n• 1 PM ENG | room 105"] //TODO: make reminder object that sorts by time, exports text object? completeable
                                                             // maybe make method to initialize reminderbutton each day
         // Create phone components
         this.createPhoneComponents();
@@ -36,10 +37,10 @@ export class Phone extends Phaser.GameObjects.Graphics {
 
 
         //social containers
-        this.textingButton = this.scene.add.rectangle(130,350,130,35,0x36B540).setInteractive();
+        this.textingButton = this.scene.add.rectangle(130,350,130,35,0x36B540).setInteractive().on('pointerdown', () => {eventsCenter.emit("text")})
         this.textLabel = this.scene.add.text(70,340,'text friend',{ fontSize: '18px', fill:'black'});
-        this.hangoutButton = this.scene.add.rectangle(130,400,130,35,0x226184).setInteractive();
-        this.hangoutLabel = this.scene.add.text(70,390,'plan event',{ fontSize: '18px', fill:'black'});
+        this.hangoutButton = this.scene.add.rectangle(130,400,130,35,0x226184).setInteractive().on('pointerdown', () => {eventsCenter.emit("plan hangout")})
+        this.hangoutLabel = this.scene.add.text(70,390,'plan hangout',{ fontSize: '16px', fill:'black'});
         this.callButton = this.scene.add.rectangle(130,450,130,35,0x226184).setInteractive();
         this.callLabel = this.scene.add.text(70,440,'call home',{ fontSize: '18px', fill:'black'});
         this.socialContainer = this.scene.add.container(0,0)
@@ -145,7 +146,10 @@ export class Phone extends Phaser.GameObjects.Graphics {
     }
 
     updateReminderList(){ //TODO: When a new reminder is added, sort by time
-
+        //let visible = this.reminderContainer
+        this.reminderText.setText(("\n》ACTIVITIES TODAY《\n\n" +this.getReminderArray()))
+       // this.reminderText = this.scene.add.text(this.reminderText.x,this.reminderText.y,("\n》ACTIVITIES TODAY《\n\n" +this.getReminderArray()),{ fontSize: '14px', fill:'black',fontFamily:'sans-serif',});
+       // this.reminderContainer.add(this.reminderText)
     }
     getReminderArray(){
         let array = this.scene.daySchedule.currentDayItems
@@ -169,6 +173,7 @@ export class Phone extends Phaser.GameObjects.Graphics {
         }
         return newArray.join("")
     }
+    
 
 }
 export default Phone;

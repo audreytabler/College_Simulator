@@ -106,7 +106,13 @@ export class CampusScene extends Phaser.Scene {
             this.playerEnteredTrigger = false; // Set the flag to false
         }
         if(!this.uiScene.characterMovable){
-            return
+            this.player.setVelocity(0,0)
+            this.hair.setVelocity(0,0)
+            this.shirt.setVelocity(0,0)
+            this.player.play("idle",true)
+            this.shirt.play("idles",true)
+            this.hair.play("idleh",true)
+            return;
         }
         const { left, right, up, down, } = this.cursor //would add up,down if overhead view
         const { W, A, S, D } = this.input.keyboard.addKeys('W,A,S,D');

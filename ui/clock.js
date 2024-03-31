@@ -16,6 +16,7 @@ export class Clock extends Phaser.GameObjects.Graphics {
         this.dayOfWeek = "Monday"
         this.weekArray = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
         this.totalHours = 7;
+        this.timeActive=false
 
         // Create a text object to display the clock
         this.clockText = this.scene.add.text(15, 800, this.getTimeString(), { font: '24px Arial', fill: '#000000' });
@@ -32,7 +33,8 @@ export class Clock extends Phaser.GameObjects.Graphics {
     update() { 
         const deltaTime = (this.scene.time.now - this.start); // Convert deltaTime to seconds
         const minutesPassed = deltaTime * this.timeScale;
-        this.advanceTime(minutesPassed);
+        if (this.timeActive){
+        this.advanceTime(minutesPassed);}
         // Update the clock display
         this.clockText.setText(this.getTimeString());
         this.start = this.scene.time.now

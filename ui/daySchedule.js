@@ -56,6 +56,7 @@ export class DaySchedule extends Phaser.GameObjects.Graphics {
         if(day =="saturday"){
             this.currentDayItems = this.saturdayItems
         }
+        this.scene.phone.updateReminderList()
     }
     newWeek(){
 

@@ -81,9 +81,13 @@ export class ClassScene extends Phaser.Scene{
             roomRect.setOrigin(0); // Make collisions based on top-left corner
             roomRect.setAlpha(0); // Keep it invisible
             this.physics.add.existing(roomRect, true);
+            
 
             this.physics.add.overlap(this.player, roomRect, () => {
                 this.usableObject = object.properties.find(prop => prop.name === 'roomNumber').value
+                if(!this.playerEnteredTrigger){    
+                    this.uiScene.clickClassRoom(this.usableObject)
+                }
                 this.playerEnteredTrigger = true
                 this.popUpText.setVisible(true)
                 this.popUpBox.setVisible(true)
@@ -93,6 +97,7 @@ export class ClassScene extends Phaser.Scene{
                 this.popUpBox.setPosition(roomRect.x+30,roomRect.y+15)
 
             });
+            this.overlapArray.push(roomRect)
         });   
         this.popUpBox = this.add.rectangle(8159+50, 5305+20, 75, 30,0x226184,0.5).setInteractive()
         this.popUpBox.setVisible(false)
@@ -120,12 +125,21 @@ export class ClassScene extends Phaser.Scene{
 
     }
     update(){
-        if(!this.uiScene.characterMovable){
-            return
-        }
         if ((!this.physics.overlap(this.player, this.overlapArray)) && (this.playerEnteredTrigger == true)) {
             // Player left the trigger area, trigger the event
             this.playerEnteredTrigger = false;
+            this.popUpBox.setVisible(false)
+            this.popUpText.setVisible(false)
+        }
+        
+        if(!this.uiScene.characterMovable){
+            this.player.setVelocity(0,0)
+            this.hair.setVelocity(0,0)
+            this.shirt.setVelocity(0,0)
+            this.player.play("idle",true)
+            this.shirt.play("idles",true)
+            this.hair.play("idleh",true)
+            return;
         }
         const { left, right, up, down, } = this.cursor //would add up,down if overhead view
         const { W, A, S, D } = this.input.keyboard.addKeys('W,A,S,D');

@@ -15,18 +15,17 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
         this.energyText;
         this.focusText;
         this.socialText;
-
-        //this.newText = this.scene.add.text(0,0,'hello',{ fontSize: '16px', fill: 'white' });
         
         this.mask;
 
         this.initialDrawAllStats();
+        //this.displayUpdateText(12,-15,"focus")
         return PlayerStats.instance;
     }
 
     updateEnergy(increment) {
+        this.displayUpdateEnergy(increment)//this.displayUpdateText(12,increment,"energy")
         this.energyNum = this.energyNum + increment
-        //this.energyLevel.createGeometryMask(this.emptyBars)
         if (this.energyNum > 140)
         this.energyNum = 140
         if (this.energyNum < 0){
@@ -40,6 +39,7 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
     }
 
     updateFocus(increment) {
+        this.displayUpdateText(39,increment,"focus")
         this.focusNum = this.focusNum + increment
         this.focusLevel.clear();
         this.focusLevel.fillStyle(0x8fbc8f, 1);
@@ -67,6 +67,7 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
     }
 
     updateSocial(increment) {
+        this.displayUpdateText(65,increment,"social")
         this.socialNum = this.socialNum + increment
         this.socialLevel.clear();
         this.socialLevel.fillStyle(0x73a9c2, 1);
@@ -107,6 +108,9 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
     }
 
     initialDrawAllStats() {
+        this.updateText = this.scene.add.text(170,65,'debug text',{ fontSize: '16px', fill:'white',blendMode: 'OVERLAY' }).setVisible(false);
+        this.updateEnergyText = this.scene.add.text(170,12,'debug text',{ fontSize: '16px', fill:'white',blendMode: 'OVERLAY' }).setVisible(false);
+        
         this.emptyBars = this.scene.add.graphics();
         this.emptyBars.fillStyle(0xFFFFFF, 0.7);
         this.emptyBars.fillRoundedRect(0, 0, 140, 20, 10); //blank energy
@@ -121,6 +125,7 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
         //this.energyLevel.createGeometryMask(this.emptyBars)
         this.energyLevel.setMask(this.mask)
         this.energyLevel.setInteractive(new Phaser.Geom.Rectangle(7, 2, 140, 20, 10), Phaser.Geom.Rectangle.Contains);
+        this.energyLevel.toString = function() {return "clickable box"};
         this.energyLevel.on('pointerover',() => {
             this.energyText.setVisible(true)
         });
@@ -134,6 +139,7 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
         this.focusLevel.fillRoundedRect(0, 0, this.focusNum, 20, 10);
         
         this.focusLevel.setInteractive(new Phaser.Geom.Rectangle(7, 2, 140, 20, 10), Phaser.Geom.Rectangle.Contains);
+        this.focusLevel.toString = function() {return "clickable box"};
         this.focusLevel.on('pointerover',() => {
             this.focusText.setVisible(true)
         });
@@ -144,6 +150,7 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
         //blue social bar
         this.socialLevel = this.scene.add.graphics();
         this.socialLevel.fillStyle(0x73a9c2, 1);
+        this.socialLevel.toString = function() {return "clickable box"};
         this.socialLevel.fillRoundedRect(0, 0, this.socialNum, 20, 10);
         //this.socialLevel.fillRoundedRect(0, 0, 10, 20, 10-(10*0.7));
         this.socialLevel.setInteractive(new Phaser.Geom.Rectangle(7, 3, 140, 20, 10), Phaser.Geom.Rectangle.Contains);
@@ -154,6 +161,8 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
             this.socialText.setVisible(false)
         });
 
+        
+
         this.energyText = this.scene.add.text(0,0,'debug text',{ fontSize: '16px', fill:'purple',blendMode: 'MULTIPLY' });
         this.focusText = this.scene.add.text(0,25,'debug text',{ fontSize: '16px', fill:'purple',blendMode: 'MULTIPLY' })
         this.socialText = this.scene.add.text(0,50,'debug text',{ fontSize: '16px', fill:'purple',blendMode: 'MULTIPLY' })
@@ -161,11 +170,52 @@ class PlayerStats extends Phaser.GameObjects.Graphics {
         this.focusText.setVisible(false)
         this.socialText.setVisible(false)
 
-        this.updateFocus(0)
-        this.updateEnergy(0)
-        this.updateSocial(0)
-
         this.scene.events.on('update', this.updatePosition, this);
+    }
+    displayUpdateText(y,num,stat){
+        this.updateText.alpha = 1
+        this.updateText.setVisible(true)
+        this.updateText.y = y
+        this.updateText.x = -10
+    
+        if(num>0)
+            this.updateText.setText("+"+num+" "+stat)
+        else
+            this.updateText.setText(num+" "+stat)
+        this.scene.tweens.add({
+            targets: this.updateText,
+            x: 170,//y,//15,
+            duration: 500, // 1 second
+            ease: 'Linear'
+        });
+        this.scene.tweens.add({
+            targets: this.updateText,
+            alpha: 0,
+            duration: 1000, // 1 second
+            delay: 1000, // Wait 2 second before starting the fade
+        });
+    }
+    displayUpdateEnergy(num){
+        this.updateEnergyText.alpha = 1
+        this.updateEnergyText.setVisible(true)
+        this.updateEnergyText.x = -10
+    
+        if(num>0)
+            this.updateEnergyText.setText("+"+num+" energy")
+        else
+            this.updateEnergyText.setText(num+" energy")
+        this.scene.tweens.add({
+            targets: this.updateEnergyText,
+            x: 170,//y,//15,
+            duration: 400, // 1 second
+            ease: 'Linear'
+        });
+        this.scene.tweens.add({
+            targets: this.updateEnergyText,
+            alpha: 0,
+            duration: 1000, // 1 second
+            delay: 1000, // Wait 2 second before starting the fade
+        });
     }
 }
 
