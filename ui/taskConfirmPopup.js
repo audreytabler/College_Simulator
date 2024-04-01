@@ -15,14 +15,18 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
         this.arrows
         this.confirm;
         this.cancel;
+       // this.campusActivities = data
 
         this.isHours = true
         this.maxNumHours =12
+
+        this.chooseFriend = false
 
         this.action
         this.setUpDisplay()
     }
     display(isHours){
+        this.chooseFriend = false
         this.isHours = isHours
         if(this.isHours){
         this.numHours = 1
@@ -31,8 +35,15 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
 
         if(this.action == "study"){
             this.maxNumHours =  Math.round(((this.scene.statsOverlay.focusNum)/1.4)/10)
-            console.log(this.maxNumHours)
         }
+        }
+        if(this.action == "make plans"){
+            this.chooseFriend = true
+            this.maxNumHours = this.scene.friendsList.length
+            this.text.setText(("Who would you like to make plans with?"))
+            //this.uiScene.submitPlans({numHours}) // and then it would do the following code from uiscene using that persons' schedule
+
+
         }
         if(!this.isHours){
             this.numHours = 10
@@ -153,10 +164,18 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
         this.hide()
     }
 
+    makePlans(){
+        this.isHours =true
+
+    }
+
     confirmTask(){
         this.hide();
         let statIncrement =0;
-        
+        if(this.action == "make plans"){
+            this.scene.submitPlans(this.numHours)
+            return
+        }
         if(this.isHours){
             statIncrement = 14 * this.numHours;
             this.scene.clock.advanceTime(this.numHours * 60)
@@ -167,6 +186,7 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
             this.scene.clock.advanceTime(this.numHours)
             this.scene.narrator.startDialogText("You " + this.action + " for " + this.numHours + " minutes.")
         }
+        
         if(this.action === "sleep"){ //increase energy by 12.5 per hour slept
             this.scene.statsOverlay.updateEnergy(statIncrement)
             //this.scene.statsOverlay.displayUpdateText(12,statIncrement,"energy")

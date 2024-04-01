@@ -3,10 +3,11 @@ import Phaser from 'phaser';
 
 
 export class DaySchedule extends Phaser.GameObjects.Graphics {
-    constructor(scene,clock) {
-        super(scene, 'Phone');
+    constructor(scene,clock,phone) {
+        super(scene, 'DaySchedule');
         this.scene = scene;
         this.clock = clock;
+        this.phone = phone
         //js object: 24hr time, activity name, location
         this.mondayItems = [{time:10,name:"PYS",location:"107",completed:false},{time:11,name:"BIO",location:"102",completed:false},{time:13,name:"ENG",location:"105",completed:false}]
         this.tuesdayItems = [{time:11,name:"SCI",location:"107",completed:false}]
@@ -76,6 +77,22 @@ export class DaySchedule extends Phaser.GameObjects.Graphics {
             }
         });*/
         return foundIndex
+    }
+
+    completeItem(index){
+        this.currentDayItems[index].completed = true
+        this.phone.updateReminderList()
+
+    }
+
+    addItem(time,name,location){
+        this.currentDayItems.push({
+            time: time,
+            name: name,
+            location: location,
+            completed: false
+        })
+        this.phone.updateReminderList()
     }
 
 }

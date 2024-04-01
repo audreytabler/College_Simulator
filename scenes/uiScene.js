@@ -32,13 +32,20 @@ export class UIScene extends Phaser.Scene {
         this.tutorialInProgress = true;
         this.daySchedule;
         this.characterMovable = true
+        this.numberArray;
+
+        this.activitiesData;
+        
     }
     preload(){
         this.load.json('narrator', "./assets/narratorDialog.json")
+        this.load.json('campusActivities', "./assets/campusActivities.json")
     }
 
     create() {
-        this.daySchedule = new DaySchedule(this,this.clock)
+        this.friendsList = ["Alice","Bob"]
+        this.daySchedule = new DaySchedule(this,this.clock,this.phone)
+        this.activitiesData = this.cache.json.get('campusActivities')
         this.phone = new Phone(this)
         this.clock = this.phone.clock
         
@@ -49,7 +56,7 @@ export class UIScene extends Phaser.Scene {
         this.statsOverlay = new PlayerStats(this)
         this.missionManager = new MissionManager(this)
         this.missionManager.drawText("CURRENT TASK: ")
-        this.taskConfirm = new TaskConfirm(this,this.clock)
+        this.taskConfirm = new TaskConfirm(this,this.clock,this.cache.json.get('campusActivities'))
 
         
         //this.newScene()
@@ -57,6 +64,9 @@ export class UIScene extends Phaser.Scene {
         eventsCenter.on('shower',this.shower,this)
         eventsCenter.on('wash hands',this.washHands,this)
         eventsCenter.on('text',this.text,this)
+        eventsCenter.on('call home',this.callHome,this)
+        eventsCenter.on('make plans',this.makePlans,this)
+        eventsCenter.on('plans submit',this.submitPlans,this)
         eventsCenter.on('class',this.class,this)
         eventsCenter.on('sleep',this.sleep,this)
         eventsCenter.on('study',this.study,this)
@@ -108,14 +118,17 @@ export class UIScene extends Phaser.Scene {
                     this.narrator.startDialogText("You have a class in this room later today. Doors will open at " + (Math.round(earlyTime/60)-1) + ":50")
                 else if ((currentTime >= earlyTime) &&(currentTime <=(startTime+1))){
                     this.narrator.startDialogText("Welcome to class! You arrived on time and will receive attendance points!")
-                    this.daySchedule.currentDayItems[index].completed = true
-                    this.phone.updateReminderList()
+                    //this.daySchedule.currentDayItems[index].completed = true
+                    this.daySchedule.completeItem[index]
+                    //this.phone.updateReminderList()
                     //fade to black & display how many academic focus points earned
                     //set global clock time to endTime
                 }
                 else if ((currentTime >(startTime+1))&& (currentTime < endTime)){
                     this.narrator.startDialogText("You are " + (currentTime-startTime) + " minutes late to class. You may attend the remaining portion of the class")
-                    this.daySchedule.currentDayItems[index].completed = true
+                    this.daySchedule.completeItem[index]
+                    //this.daySchedule.currentDayItems[index].completed = true
+                    //this.phone.updateReminderList()
                     //fade to black & display how many academic focus points earned
                     //set global clock time to endTime
                 }
@@ -144,6 +157,24 @@ export class UIScene extends Phaser.Scene {
     text(){
         this.taskConfirm.action = "text"
         this.taskConfirm.display(false)
+    }
+    callHome(){
+        this.taskConfirm.action = "call home"
+        this.taskConfirm.display(false)
+    }
+    makePlans(){
+        this.taskConfirm.action = "make plans"
+        this.taskConfirm.display(true)
+        
+    }
+    submitPlans(friend){
+        //pick random number
+        //corresponds to a number on the plan list
+        // [ alice wants to go [thing from plan list] with you at [random time], does this work with your schedule? ]
+        let num = Math.floor(Math.random() * 32)
+        let time = Math.floor(Math.random() * 10)
+        this.narrator.startDialogText(this.friendsList[friend] + " wants to go " + this.activitiesData.planList[num].prefix + ""+this.activitiesData.planList[num].name + " at " + time + "PM. Does this work with your schedule?")
+        this.daySchedule.addItem(time,this.activitiesData.planList[num].name,this.activitiesData.planList[num].location)
     }
     newDay(day){
         this.daySchedule.newDay(day)

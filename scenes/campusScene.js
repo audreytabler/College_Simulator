@@ -1,5 +1,4 @@
 import Phaser from 'phaser'
-import { Player } from '../ui/Player.js';
 import DialogBox from '../ui/dialogBox.js'
 import Clock from '../ui/clock.js'
 import PlayerStats from '../ui/playerStats.js'
