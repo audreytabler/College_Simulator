@@ -31,7 +31,13 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
         if(this.isHours){
         this.numHours = 1
         this.maxNumHours=13
+        this.numHoursText.font = '40px Courier New'
         this.text.setText(("How many hours would you like to "+this.action+" for?"))
+        this.shadedBG.setVisible(true)
+        this.text.setVisible(true)
+        this.numHoursText.setText(this.numHours)
+        this.numHoursText.setVisible(true)
+        this.upArrow.setVisible(true)
 
         if(this.action == "study"){
             this.maxNumHours =  Math.round(((this.scene.statsOverlay.focusNum)/1.4)/10)
@@ -39,8 +45,11 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
         }
         if(this.action == "make plans"){
             this.chooseFriend = true
-            this.maxNumHours = this.scene.friendsList.length
-            this.text.setText(("Who would you like to make plans with?"))
+            this.maxNumHours = this.scene.friendsList.length -1
+            this.text.setText(("Who would \nyou like to make plans with?"))
+            //this.numHoursText.font = '20px Courier New'
+            this.numHoursText.fontSize = '45px'
+            this.numHoursText.setText(this.scene.friendsList[this.numHours])
             //this.uiScene.submitPlans({numHours}) // and then it would do the following code from uiscene using that persons' schedule
 
 
@@ -51,11 +60,6 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
             this.text.setText(("How many minutes would you like to "+this.action+" for?"))    
         }
         
-        this.shadedBG.setVisible(true)
-        this.text.setVisible(true)
-        this.numHoursText.setText(this.numHours)
-        this.numHoursText.setVisible(true)
-        this.upArrow.setVisible(true)
         this.downArrow.setVisible(true)
         this.arrows.setVisible(true)
         this.confirm.setVisible(true)
@@ -105,15 +109,12 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
                 wordWrap: { width: 295 }
             }
         });
-
-        this.numHoursText=this.scene.make.text({
-            x: 780,
-            y: 190,
-            text: '10',
-            origin: { x: 0, y: 0},
-            style: {font: '80px Courier New',fill: 'white',style: 'bold',wordWrap: { width: 295 }
-            }
-        });
+        
+        this.numHoursText = this.scene.add.text(780,190,{ 
+            fontFamily: 'courier new', 
+            fontSize: '80px', 
+            color: '#ffffff',
+        })
         this.upArrow = this.scene.add.circle(750,205,15,0x465A7F).setInteractive()//this.scene.add.rectangle(850,200,35,35,0x9BD9AC).setInteractive();
         this.arrows= this.scene.make.text({x:734,y:188,text:'⏶',style: {font: '35px Courier New',fill: 'white',style: 'bold',}})
         this.decorContainer.add(this.arrows)
@@ -127,12 +128,17 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
             if(!this.isHours){
                 if(this.numHours < this.maxNumHours){
                 this.numHours+=10;
-                this.numHoursText.setText(this.numHours)}
+                this.numHoursText.setText(this.numHours)
+                }
                 return
             }
             if(this.numHours < this.maxNumHours){
             this.numHours++;
-            this.numHoursText.setText(this.numHours)}
+            this.numHoursText.setText(this.numHours)
+            if(this.action == "make plans"){
+                this.numHoursText.setText(this.scene.friendsList[this.numHours])
+            }
+        }
         });
         this.cancel.on('pointerdown', () => {
             this.hide()
@@ -144,19 +150,22 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
         this.downArrow = this.scene.add.circle(750,240,15,0x465A7F).setInteractive()//this.scene.add.rectangle(850,250,35,35,0xD69D80).setInteractive();
         this.arrows= this.scene.make.text({x:734,y:225,text:'⏷',style: {font: '35px Courier New',fill: 'white',style: 'bold',}})
         this.downArrow.toString = function() {
-            // Customize the output based on your requirements
             return "clickable box";
         };
         this.downArrow.on('pointerdown', () => {
             if(!this.isHours){
                 if(this.numHours > 0){
                 this.numHours-=10;
-                this.numHoursText.setText(this.numHours)}
+                this.numHoursText.setText(this.numHours)
+            }
                 return
             }
             if(this.numHours>0)
                 this.numHours--;
             this.numHoursText.setText(this.numHours)
+            if(this.action == "make plans"){
+                this.numHoursText.setText(this.scene.friendsList[this.numHours])
+            }
             //increment num hours by -1
         });
         

@@ -43,7 +43,7 @@ export class UIScene extends Phaser.Scene {
     }
 
     create() {
-        this.friendsList = ["Alice","Bob"]
+        this.friendsList = ["Alice","Bob","Lucy"]
         this.daySchedule = new DaySchedule(this,this.clock,this.phone)
         this.activitiesData = this.cache.json.get('campusActivities')
         this.phone = new Phone(this)
@@ -172,7 +172,7 @@ export class UIScene extends Phaser.Scene {
         //corresponds to a number on the plan list
         // [ alice wants to go [thing from plan list] with you at [random time], does this work with your schedule? ]
         let num = Math.floor(Math.random() * 32)
-        let time = Math.floor(Math.random() * 10)
+        let time = Math.floor(Math.random() * 9) +1
         this.narrator.startDialogText(this.friendsList[friend] + " wants to go " + this.activitiesData.planList[num].prefix + ""+this.activitiesData.planList[num].name + " at " + time + "PM. Does this work with your schedule?")
         this.daySchedule.addItem(time,this.activitiesData.planList[num].name,this.activitiesData.planList[num].location)
     }

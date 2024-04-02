@@ -66,10 +66,8 @@ export class DaySchedule extends Phaser.GameObjects.Graphics {
         let foundIndex = null
         for (let index = 0; index < this.currentDayItems.length; index++) {
           //  const element = array[index];
-          if(this.currentDayItems[index].location === room){
-            return index
-            }
-            
+            if(this.currentDayItems[index].location === room)
+                return index
         }
         /*this.currentDayItems.forEach(element => {
             if(element.location === room){
@@ -81,8 +79,7 @@ export class DaySchedule extends Phaser.GameObjects.Graphics {
 
     completeItem(index){
         this.currentDayItems[index].completed = true
-        this.phone.updateReminderList()
-
+        this.scene.phone.updateReminderList()
     }
 
     addItem(time,name,location){
@@ -92,7 +89,7 @@ export class DaySchedule extends Phaser.GameObjects.Graphics {
             location: location,
             completed: false
         })
-        this.phone.updateReminderList()
+        this.scene.phone.updateReminderList()
     }
 
 }
