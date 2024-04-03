@@ -28,38 +28,42 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
     display(isHours){
         this.chooseFriend = false
         this.isHours = isHours
-        if(this.isHours){
-        this.numHours = 1
-        this.maxNumHours=13
-        this.numHoursText.font = '40px Courier New'
-        this.text.setText(("How many hours would you like to "+this.action+" for?"))
+        
         this.shadedBG.setVisible(true)
         this.text.setVisible(true)
-        this.numHoursText.setText(this.numHours)
-        this.numHoursText.setVisible(true)
         this.upArrow.setVisible(true)
 
         if(this.action == "study"){
             this.maxNumHours =  Math.round(((this.scene.statsOverlay.focusNum)/1.4)/10)
         }
+        if(this.isHours){
+            this.numHours = 1
+            this.maxNumHours=13
+            //this.numHoursText.fontSize = '80px'
+            this.text.setText(("How many hours would you like to "+this.action+" for?"))
         }
+        if(!this.isHours){
+            this.numHours = 10
+            this.maxNumHours = 90
+           // this.numHoursText.fontSize = '80px'
+            this.text.setText(("How many minutes would you like to "+this.action+" for?"))    
+        }
+        this.numHoursText.setText(this.numHours)
         if(this.action == "make plans"){
+            this.numHoursText.font = '45px Courier New'
             this.chooseFriend = true
             this.maxNumHours = this.scene.friendsList.length -1
             this.text.setText(("Who would \nyou like to make plans with?"))
             //this.numHoursText.font = '20px Courier New'
-            this.numHoursText.fontSize = '45px'
+           // this.numHoursText.fontSize = '45px'
             this.numHoursText.setText(this.scene.friendsList[this.numHours])
             //this.uiScene.submitPlans({numHours}) // and then it would do the following code from uiscene using that persons' schedule
 
 
         }
-        if(!this.isHours){
-            this.numHours = 10
-            this.maxNumHours = 90
-            this.text.setText(("How many minutes would you like to "+this.action+" for?"))    
-        }
         
+        
+        this.numHoursText.setVisible(true)
         this.downArrow.setVisible(true)
         this.arrows.setVisible(true)
         this.confirm.setVisible(true)
@@ -110,11 +114,11 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
             }
         });
         
-        this.numHoursText = this.scene.add.text(780,190,{ 
-            fontFamily: 'courier new', 
-            fontSize: '80px', 
-            color: '#ffffff',
-        })
+        this.numHoursText = this.scene.make.text({x:780,y:190,style:{ 
+            fontSize: '50px',fontFamily:'courier new',
+            //fontSize: '80px', 
+            color: '#ffffff'
+        }})
         this.upArrow = this.scene.add.circle(750,205,15,0x465A7F).setInteractive()//this.scene.add.rectangle(850,200,35,35,0x9BD9AC).setInteractive();
         this.arrows= this.scene.make.text({x:734,y:188,text:'⏶',style: {font: '35px Courier New',fill: 'white',style: 'bold',}})
         this.decorContainer.add(this.arrows)

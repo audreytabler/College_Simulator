@@ -54,6 +54,15 @@ export class CampusScene extends Phaser.Scene {
         let pathlayer = map.createLayer("details",grassTileset).setPipeline('Light2D')
         let wallLayer = map.createLayer("buildings",grassTileset).setPipeline('Light2D')
 
+        //1921.0000000000075 Y: 1062
+        let billBoard = this.add.rectangle(1921,1100,200,70,0x6E5440).setInteractive()
+        billBoard.on('pointerdown', (pointer) => {
+            let num = Math.floor(Math.random() * 32)
+            let time = Math.floor(Math.random() * 9) +1
+            this.uiScene.narrator.startDialogText("Campus " + this.uiScene.activitiesData.planList[num].name + " for all students is happening at " + time +" PM in the " +this.uiScene.activitiesData.planList[num].location)//this.friendsList[friend] + " wants to go " + this.activitiesData.planList[num].prefix + ""+this.activitiesData.planList[num].name + " at " + time + "PM. Does this work with your schedule?")
+            this.uiScene.daySchedule.addItem(time,this.uiScene.activitiesData.planList[num].name,this.uiScene.activitiesData.planList[num].location)
+        })
+
         //COLLISION WITH WALLS STUFF
         this.loadPlayer()
         let treesLayer = map.createLayer("trees",grassTileset).setPipeline('Light2D')

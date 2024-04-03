@@ -24,10 +24,12 @@ export class Phone extends Phaser.GameObjects.Graphics {
         this.reminderButton = this.scene.add.rectangle(100,350,35,35,0x226184).setInteractive();
         this.socialButton = this.scene.add.rectangle(150,350,35,35,0x36B540).setInteractive();
         this.videoButton = this.scene.add.rectangle(100,400,35,35,0xDD7C53).setInteractive();
-        this.appIcons = this.scene.add.text(89,325,'≡    ☺',{ fontSize: '35px',fontFamily:'fantasy', fill:'white'})
-        this.appIcons2 = this.scene.add.text(88,377,'▶',{ fontSize: '36px',fontFamily:'fantasy', fill:'white'})
+        this.studyButton = this.scene.add.rectangle(150,400,35,35,0xA686B7).setInteractive();
+
+        this.appIcons = this.scene.add.text(86,325,'✔   ☺',{ fontSize: '35px',fontFamily:'fantasy', fill:'white'})
+        this.appIcons2 = this.scene.add.text(88,377,'▶    ≡',{ fontSize: '36px',fontFamily:'fantasy', fill:'white'})
         this.homeContainer = this.scene.add.container(0,0)
-        this.homeContainer.add([this.reminderButton,this.socialButton,this.videoButton,this.appIcons,this.appIcons2])
+        this.homeContainer.add([this.reminderButton,this.socialButton,this.videoButton,this.studyButton,this.appIcons,this.appIcons2])
 
         //this.homeContainer.setVisible(true)
 
@@ -104,6 +106,7 @@ export class Phone extends Phaser.GameObjects.Graphics {
     }
 
     focusPhone() {
+        console.log(this.phoneEdge.y)
         // Animate the phone to focus position
         this.scene.tweens.add({
             targets: [this.phoneEdge, this.phoneScreen,this.homeButton,this.clock.clockText,this.clock.dayWeekText,this.homeContainer,this.reminderContainer,this.socialContainer,this.videoContainer],
@@ -118,6 +121,9 @@ export class Phone extends Phaser.GameObjects.Graphics {
 
     unfocusPhone() {
         // Animate the phone to unfocus position
+        this.isPhoneFocused = false;
+        //if(this.phoneEdge.y >640)
+          //  return
         this.scene.tweens.add({
             targets: [this.phoneEdge, this.phoneScreen,this.homeButton,this.clock.clockText,this.clock.dayWeekText,this.homeContainer, this.reminderContainer,this.socialContainer,this.videoContainer],
             y: '+=250',

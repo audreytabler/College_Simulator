@@ -32,22 +32,26 @@ export class UIScene extends Phaser.Scene {
         this.tutorialInProgress = true;
         this.daySchedule;
         this.characterMovable = true
-        this.numberArray;
+        this.numberArray = [];
+        this.npcDialog //=this.cache.json.get('dialog')
 
         this.activitiesData;
         
     }
     preload(){
         this.load.json('narrator', "./assets/narratorDialog.json")
+        this.load.json('npc-dialog', "./assets/npcDialog.json")
         this.load.json('campusActivities', "./assets/campusActivities.json")
     }
 
     create() {
         this.friendsList = ["Alice","Bob","Lucy"]
+        this.classScene= this.scene.get("CLASS_SCENE")
         this.daySchedule = new DaySchedule(this,this.clock,this.phone)
         this.activitiesData = this.cache.json.get('campusActivities')
         this.phone = new Phone(this)
         this.clock = this.phone.clock
+        this.npcDialog =this.cache.json.get('npc-dialog')
         
         this.narrator = new DialogBox(this, 700, 100, this.cache.json.get('narrator'));
         this.narrator.startDialog(0)
@@ -118,17 +122,28 @@ export class UIScene extends Phaser.Scene {
                     this.narrator.startDialogText("You have a class in this room later today. Doors will open at " + (Math.round(earlyTime/60)-1) + ":50")
                 else if ((currentTime >= earlyTime) &&(currentTime <=(startTime+1))){
                     this.narrator.startDialogText("Welcome to class! You arrived on time and will receive attendance points!")
-                    //this.daySchedule.currentDayItems[index].completed = true
+                    this.daySchedule.currentDayItems[index].completed = true
+                    /*this.classScene.cameras.main.fadeOut(1000, 0, 0, 0)
+                        this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                            this.classScene.cameras.main.fadeIn(1000, 0, 0, 0)
+                        })*/
                     this.daySchedule.completeItem[index]
-                    //this.phone.updateReminderList()
+                    this.clock.advanceTime(47)
+                    this.phone.updateReminderList()
                     //fade to black & display how many academic focus points earned
                     //set global clock time to endTime
                 }
                 else if ((currentTime >(startTime+1))&& (currentTime < endTime)){
-                    this.narrator.startDialogText("You are " + (currentTime-startTime) + " minutes late to class. You may attend the remaining portion of the class")
+                    this.narrator.startDialogText("You are " + Math.round(currentTime-startTime) + " minutes late to class. You may attend the remaining portion of the class")
                     this.daySchedule.completeItem[index]
-                    //this.daySchedule.currentDayItems[index].completed = true
-                    //this.phone.updateReminderList()
+                    this.clock.advanceTime(47 - (currentTime-startTime))
+                    /*
+                    this.classScene.cameras.main.fadeOut(1000, 0, 0, 0)
+                        this.classScene.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                            this.classScene.cameras.main.fadeIn(1000, 0, 0, 0)
+                        })*/
+                    this.daySchedule.currentDayItems[index].completed = true
+                    this.phone.updateReminderList()
                     //fade to black & display how many academic focus points earned
                     //set global clock time to endTime
                 }

@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import eventsCenter from '../ui/eventCenter';
+import { NPC } from '../ui/NPC';
 
 
 
@@ -23,6 +24,7 @@ export class DormScene extends Phaser.Scene{
 
         this.playerEnteredTrigger = false
         this.testLight;
+        this.roommate
         //////
 
     }
@@ -38,6 +40,7 @@ export class DormScene extends Phaser.Scene{
         this.load.image("tiles","/assets/CollegeTileSet.png")
         this.load.tilemapTiledJSON("dormMap", "/assets/dormMap.tmj")
         this.load.image("fog","./assets/fog.png")
+        this.load.spritesheet('npcSpritesheet', "./assets/CharacterSpritesheet2.png", { frameWidth: 85, frameHeight: 150 })
 
     }
     
@@ -76,6 +79,10 @@ export class DormScene extends Phaser.Scene{
         //COLLISION WITH WALLS STUFF
         
         this.loadPlayer()
+        //dormScene.js:176 player position - X: 7525.666666666638 Y: 5840
+        this.roommate = new NPC(this,7525,5840,"Alex",0,'npcSpritesheet')
+        
+        this.physics.add.collider(this.player,this.roommate.body)
         let chairLayer = map.createLayer("chairBacks",dormTileset).setPipeline('Light2D')
         wallLayer.setCollisionByExclusion([-1]);
         this.physics.add.collider(this.player, wallLayer);
@@ -264,14 +271,18 @@ export class DormScene extends Phaser.Scene{
         this.player.setBodySize(65,120)
         this.player.setMaxVelocity(this.playerSpeed)
         this.player.setPipeline('Light2D')
+        this.player.setBounce(0.2)
         this.hair.setMaxVelocity(this.playerSpeed)
         this.hair.setBodySize(65,120)
         this.hair.setTint(this.uiScene.hairColor)
         this.hair.setPipeline('Light2D')
+        this.hair.setBounce(0.2)
         this.shirt.setMaxVelocity(this.playerSpeed)
         this.shirt.setBodySize(65,120)
+        this.shirt.setBounce(0.2)
         this.shirt.setTint(this.uiScene.shirtColor)
-        this.shirt.setPipeline('Light2D')   
+        this.shirt.setPipeline('Light2D') 
+        
 
         this.cameras.main.startFollow(this.player, false, 0.2, 0.2);
         this.cameras.main.setPostPipeline('Light2D')
