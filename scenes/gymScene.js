@@ -25,6 +25,8 @@ export class GymScene extends Phaser.Scene{
         this.load.image("popUp", "/assets/enter.png")
         
         this.load.image("gymBg","/assets/campusGym.png")
+        this.load.image("tiles","/assets/CollegeTileSet.png")
+        this.load.tilemapTiledJSON("gymMap", "/assets/gymMap.tmj")
         //this.load.tilemapTiledJSON("classMap", "/assets/ClassMap.tmj")
 
     }
@@ -42,20 +44,21 @@ export class GymScene extends Phaser.Scene{
 
 
         //TILEMAP STUFF
-       /* let map = this.make.tilemap({key: 'classMap'})
-        let grassTileset = map.addTilesetImage("MainTileset","tiles")
+        let map = this.make.tilemap({key: 'gymMap'})
+        let grassTileset = map.addTilesetImage("CollegeTileSet","tiles")
 
-        let groundlayer = map.createLayer("background",grassTileset)
-        let wallLayer = map.createLayer("walls",grassTileset)*/
+        //let groundlayer = map.createLayer("background",grassTileset)
+        let wallLayer = map.createLayer("wallLayer",grassTileset)
+        wallLayer.setAlpha(0)
 
         //COLLISION WITH WALLS STUFF
         this.loadPlayer()
-        /*wallLayer.setCollisionByExclusion([-1]);
+        wallLayer.setCollisionByExclusion([-1]);
         this.physics.add.collider(this.player, wallLayer);
         this.physics.add.collider(this.hair, wallLayer);
         this.physics.add.collider(this.shirt, wallLayer);
         ////////////////////////////////////////
-        const transportLayer = map.getObjectLayer("transportation"); 
+        const transportLayer = map.getObjectLayer("transportation_layer"); 
         this.overlapArray=[]
 
         transportLayer.objects.forEach(object => {
@@ -65,6 +68,8 @@ export class GymScene extends Phaser.Scene{
                 this.physics.add.existing(transportRect, true);
 
                 this.physics.add.overlap(this.player, transportRect, () => {
+                    this.uiScene.playerSpawnX = object.properties.find(prop => prop.name === 'playerSpawnX').value
+                    this.uiScene.playerSpawnY = object.properties.find(prop => prop.name === 'playerSpawnY').value
                     if(!this.playerEnteredTrigger){
                         this.cameras.main.fadeOut(1000, 0, 0, 0)
                         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
@@ -74,7 +79,7 @@ export class GymScene extends Phaser.Scene{
                     this.playerEnteredTrigger = true 
                     this.overlapArray.push(transportRect)
                 });
-        });*/
+        });
         //////////////////////////////////////////
          
         this.popUpBox = this.add.rectangle(8159+50, 5305+20, 75, 30,0x226184,0.5).setInteractive()
@@ -178,9 +183,9 @@ export class GymScene extends Phaser.Scene{
     }
 
     loadPlayer(){
-        
-        let playerX=1819
-        let playerY=2627
+       // 1842 Y: 2599
+        let playerX=1842
+        let playerY=2599
         this.player = this.physics.add.sprite(playerX, playerY, "player").setOrigin(0, 0)
         this.hair = this.physics.add.sprite(playerX, playerY, "hair").setOrigin(0, 0)
         this.shirt = this.physics.add.sprite(playerX, playerY, "shirt").setOrigin(0, 0)

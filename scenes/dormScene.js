@@ -38,7 +38,7 @@ export class DormScene extends Phaser.Scene{
         
         //tilemap
         this.load.image("tiles","/assets/CollegeTileSet.png")
-        this.load.tilemapTiledJSON("dormMap", "/assets/dormMap.tmj")
+        this.load.tilemapTiledJSON("dormMap", "/assets/dormMap2.tmj")
         this.load.image("fog","./assets/fog.png")
         this.load.spritesheet('npcSpritesheet', "./assets/CharacterSpritesheet2.png", { frameWidth: 85, frameHeight: 150 })
 

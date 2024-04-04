@@ -175,6 +175,7 @@ class DialogBox extends Phaser.GameObjects.Graphics {
    this.dialogLength = 0 //length of conversation
    this.currentIndex = 0;
    this.dialogIndex = this.storedDialogIdx
+   this.storedDialogIdx = this.storedDialogIdx-1
 
    this.show(text)
   }
@@ -201,7 +202,7 @@ class DialogBox extends Phaser.GameObjects.Graphics {
     this.scene.characterMovable =true
     this.scene.clock.timeActive = true
     this.dialogIndex++;
-    this.storedDialogIdx = this.dialogIndex;
+    this.storedDialogIdx = this.storedDialogIdx+1//this.dialogIndex;
     this.dialogBox.setVisible(false);
     this.dialogText.setVisible(false);
     this.dialogText.setText('');
