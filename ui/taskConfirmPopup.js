@@ -208,6 +208,7 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
             this.scene.statsOverlay.updateFocus(-statIncrement)
            // this.scene.statsOverlay.displayUpdateText(39,statIncrement,"focus")
             this.scene.statsOverlay.updateEnergy(-statIncrement)
+            this.scene.phone.changeStudyHours(-this.numHours)
            // this.scene.statsOverlay.displayUpdateText(12,-statIncrement,"energy")
             //increase academic score when added
         }

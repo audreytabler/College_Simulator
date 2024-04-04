@@ -58,6 +58,7 @@ export class DaySchedule extends Phaser.GameObjects.Graphics {
             this.currentDayItems = this.saturdayItems
         }
         this.scene.phone.updateReminderList()
+        this.scene.phone.changeStudyHours(Math.floor(Math.random() * 5)+1)
     }
     newWeek(){
 

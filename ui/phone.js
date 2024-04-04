@@ -9,11 +9,13 @@ export class Phone extends Phaser.GameObjects.Graphics {
         this.scene = scene;
         this.clock;
         this.isPhoneFocused = false;
+        this.currentStudyHours=5;
         //this.reminderArray = ["\n\n• 10 AM PYS | room 107","\n\n• 11 AM BIO | room 102","\n\n• 1 PM ENG | room 105"] //TODO: make reminder object that sorts by time, exports text object? completeable
                                                             // maybe make method to initialize reminderbutton each day
         // Create phone components
         this.createPhoneComponents();
         this.setupInteractivity();
+        
     }
 
     createPhoneComponents() {
@@ -56,6 +58,17 @@ export class Phone extends Phaser.GameObjects.Graphics {
 
         this.videoContainer = this.scene.add.container(0,0)
         this.videoContainer.add([this.funVideos,this.educationVideos,this.newsVideos])
+
+        //study container
+        this.rectangleDecor = this.scene.add.rectangle(130,369,130,85,0x749F9A)
+        this.hoursToStudyLabel = this.scene.add.text(70,327,'  Amount of\ntime to study',{ fontFamily: 'arial',fontSize: '20px', fill:'black',fontWeight: 'bold'});
+        this.hoursToStudy = this.scene.add.text(90,375,(this.currentStudyHours + ' hrs'),{ fontFamily: 'arial',fontSize: '27px', fill:'black',fontWeight: 'bold'});
+        this.currentGPALabel = this.scene.add.text(70,415,'Current GPA',{ fontFamily: 'arial',fontSize: '20px', fill:'black',fontWeight: 'bold'});
+        this.currentGPAText = this.scene.add.text(93,437,'3.85',{ fontFamily: 'arial',fontSize: '27px', fill:'black',fontWeight: 'bold'});
+
+        this.studyContainer = this.scene.add.container(0,0)
+        this.studyContainer.add([this.rectangleDecor, this.hoursToStudyLabel,this.hoursToStudy,this.currentGPALabel,this.currentGPAText])
+
 
         // // // // // // //
         this.clock = new Clock(this.scene,this.scene.time.now);
@@ -103,13 +116,18 @@ export class Phone extends Phaser.GameObjects.Graphics {
             this.videoContainer.setVisible(true)
 
         });
+        this.studyButton.on('pointerdown', () => {
+            this.hideAllContainers()
+            this.studyContainer.setVisible(true)
+
+        });
     }
 
     focusPhone() {
         console.log(this.phoneEdge.y)
         // Animate the phone to focus position
         this.scene.tweens.add({
-            targets: [this.phoneEdge, this.phoneScreen,this.homeButton,this.clock.clockText,this.clock.dayWeekText,this.homeContainer,this.reminderContainer,this.socialContainer,this.videoContainer],
+            targets: [this.phoneEdge, this.phoneScreen,this.homeButton,this.clock.clockText,this.clock.dayWeekText,this.homeContainer,this.reminderContainer,this.socialContainer,this.videoContainer,this.studyContainer],
             y: '-=250',
             duration: 500,
             ease: 'Power2',
@@ -125,7 +143,7 @@ export class Phone extends Phaser.GameObjects.Graphics {
         //if(this.phoneEdge.y >640)
           //  return
         this.scene.tweens.add({
-            targets: [this.phoneEdge, this.phoneScreen,this.homeButton,this.clock.clockText,this.clock.dayWeekText,this.homeContainer, this.reminderContainer,this.socialContainer,this.videoContainer],
+            targets: [this.phoneEdge, this.phoneScreen,this.homeButton,this.clock.clockText,this.clock.dayWeekText,this.homeContainer, this.reminderContainer,this.socialContainer,this.videoContainer,this.studyContainer],
             y: '+=250',
             duration: 500,
             ease: 'Power2',
@@ -140,6 +158,7 @@ export class Phone extends Phaser.GameObjects.Graphics {
         this.reminderContainer.setVisible(false)
         this.socialContainer.setVisible(false)
         this.videoContainer.setVisible(false)
+        this.studyContainer.setVisible(false)
     }
 
     newDay(){
@@ -178,6 +197,13 @@ export class Phone extends Phaser.GameObjects.Graphics {
             newArray.push(stringInput)
         }
         return newArray.join("")
+    }
+    changeStudyHours(num){
+        this.currentStudyHours+=num
+        if(this.currentStudyHours <= 0)
+            this.currentStudyHours = 0
+        
+        this.hoursToStudy.setText(this.currentStudyHours + " hrs")
     }
     
 
