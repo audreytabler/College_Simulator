@@ -5,7 +5,7 @@ import { CampusScene } from './scenes/campusScene.js';
 import {DormScene} from './scenes/dormScene.js'
 import {UIScene} from './scenes/uiScene.js'
 import {ClassScene} from './scenes/classScene.js'
-import { GymScene } from './scenes/GymScene.js';
+import { GymScene } from './scenes/gymScene.js';
 
 const game = new Phaser.Game({
     type: Phaser.WEBGL,
