@@ -217,6 +217,11 @@ export class TaskConfirm extends Phaser.GameObjects.Graphics {
 
             this.scene.statsOverlay.updateEnergy(-statIncrement)
         }
+        if(this.action === "read"){ 
+            this.scene.statsOverlay.updateFocus(statIncrement)
+
+            this.scene.statsOverlay.updateEnergy(-statIncrement)
+        }
         if(this.action === "call home"){ 
             this.scene.statsOverlay.updateSocial(statIncrement)
             this.scene.statsOverlay.updateEnergy(-statIncrement)

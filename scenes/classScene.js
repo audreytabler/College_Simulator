@@ -208,11 +208,14 @@ export class ClassScene extends Phaser.Scene{
     
         this.player.setBodySize(65,120)
         this.player.setMaxVelocity(this.playerSpeed)
+        this.player.setBounce(0.2)
         this.hair.setMaxVelocity(this.playerSpeed)
         this.hair.setBodySize(65,120)
+        this.hair.setBounce(0.2)
         this.hair.setTint(this.uiScene.hairColor)
         this.shirt.setMaxVelocity(this.playerSpeed)
         this.shirt.setBodySize(65,120)
+        this.shirt.setBounce(0.2)
         this.shirt.setTint(this.uiScene.shirtColor) 
        // this.player.setPosition(1433, 2694)//this.player.setPosition(920, 2139)
 

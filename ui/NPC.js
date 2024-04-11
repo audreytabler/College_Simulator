@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 
 export class NPC extends Phaser.GameObjects.Graphics {
-    constructor(scene,x,y,name,skin,textureKey,data) {
+    constructor(scene,x,y,name,skin,textureKey,) {
         super(scene, 'NPC');
         this.scene = scene
         this.uiScene = this.scene.uiScene
@@ -9,6 +9,10 @@ export class NPC extends Phaser.GameObjects.Graphics {
         this.numberArray = this.uiScene.numberArray
         this.dialogBox = this.uiScene.narrator
         this.name = name
+        this.player = this.scene.player
+        this.playerhair = this.scene.hair
+        this.playershirt = this.scene.shirt
+        this.wall = this.scene.wallLayer
         //this.socialScore = socialScore
 
         this.sprite = this.scene.physics.add.sprite(x, y, textureKey,skin).setOrigin(0,0); //where skin is number corresponding on spritesheet
@@ -18,10 +22,16 @@ export class NPC extends Phaser.GameObjects.Graphics {
         this.sprite.setPipeline('Light2D')
         this.sprite.setBodySize(65,120)
         this.sprite.setBounce(0.2)
+        
         //this.sprite.setPushable(true)
-        //this.sprite.setDrag(1000)
-        this.scene.physics.add.collider(this.sprite, this.scene.physics.world.staticBodies, this.handleCollision, null, this);
-        this.scene.physics.add.collider(this.sprite, this.scene.physics.world.dynamicBodies, this.handleCollision, null, this);
+        this.sprite.setDrag(1000)
+        //this.wall.setCollisionByExclusion([-1]);
+        this.scene.physics.add.collider(this.sprite, this.player, this.handleCollision, null, this);
+        this.scene.physics.add.collider(this.sprite, this.playerhair)
+        this.scene.physics.add.collider(this.sprite, this.playershirt)
+        
+        this.scene.physics.add.collider(this.sprite, this.wall);
+        //this.scene.physics.add.collider(this.sprite, this.scene.physics.world.dynamicBodies, this.handleCollision, null, this);
        // this.sprite.setVelocityX(10)
 
         this.sprite.body.moves=true;
@@ -69,7 +79,7 @@ handleCollision(npc, object) {
     console.log('Collision detected:', npc, object);
     // Apply collision handling logic here
     // Example: Apply a force or velocity to the NPC sprite
-    const forceMagnitude = 100; // Adjust as needed
+    //const forceMagnitude = 100; // Adjust as needed
     npc.setVelocity(0, 0); // Stop the NPC sprite upon collision
 }
 

@@ -88,6 +88,7 @@ export class DormScene extends Phaser.Scene{
         this.physics.add.collider(this.player, wallLayer);
         this.physics.add.collider(this.hair, wallLayer);
         this.physics.add.collider(this.shirt, wallLayer);
+        this.physics.add.collider(this.roommate.sprite, wallLayer);
         ////////////////////////////////////////
         this.transportLayer = map.getObjectLayer("interactions"); 
         this.popUpBox = this.add.rectangle(8159+50, 5305+20, 75, 30,0x226184,0.5).setInteractive()
@@ -272,14 +273,17 @@ export class DormScene extends Phaser.Scene{
         this.player.setMaxVelocity(this.playerSpeed)
         this.player.setPipeline('Light2D')
         this.player.setBounce(0.2)
+        //this.player.setPushable(false)
         this.hair.setMaxVelocity(this.playerSpeed)
         this.hair.setBodySize(65,120)
         this.hair.setTint(this.uiScene.hairColor)
         this.hair.setPipeline('Light2D')
         this.hair.setBounce(0.2)
+        //this.hair.setPushable(false)
         this.shirt.setMaxVelocity(this.playerSpeed)
         this.shirt.setBodySize(65,120)
         this.shirt.setBounce(0.2)
+        //this.shirt.setPushable(false)
         this.shirt.setTint(this.uiScene.shirtColor)
         this.shirt.setPipeline('Light2D') 
         

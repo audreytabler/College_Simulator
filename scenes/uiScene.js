@@ -74,6 +74,7 @@ export class UIScene extends Phaser.Scene {
         eventsCenter.on('class',this.class,this)
         eventsCenter.on('sleep',this.sleep,this)
         eventsCenter.on('study',this.study,this)
+        eventsCenter.on('read books',this.read,this)
 
         eventsCenter.on('sunUp',this.sunUp,this)
         eventsCenter.on('sunDown',this.sunDown,this)
@@ -171,6 +172,10 @@ export class UIScene extends Phaser.Scene {
     
     text(){
         this.taskConfirm.action = "text"
+        this.taskConfirm.display(false)
+    }
+    read(){
+        this.taskConfirm.action = "read"
         this.taskConfirm.display(false)
     }
     callHome(){

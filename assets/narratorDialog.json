@@ -27,7 +27,7 @@
                 },
                 {
                     "name": "Narrator",
-                    "text": "You slept for eight hours last night so your energy bar is full! Your focus levels are a little low this morning-- how about a shower to help clear your mind? (use WASD or arrow keys to move)",
+                    "text": "You slept for eight hours last night so your energy bar is full! Your focus levels are a little low this morning-- how about a shower to help clear your mind? (use WASD or arrow keys to move after you click to exit this dialog)",
                     "goal":"shower"
                 }
             ]

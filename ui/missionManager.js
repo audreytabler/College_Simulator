@@ -43,12 +43,15 @@ class MissionManager extends Phaser.GameObjects.Graphics {
         else if (m === "CAMPUS_SCENE"){
             this.drawText("Current task: Leave dorm to find campus")
             await this.until(_ => this.criteriaMet == true);
+            this.scene.narrator.startDialogg(3)
+            this.endMission()
+            return;
            // this.scene.narrator.startDialog() 
         }
         else if (m === "CLASS_SCENE"){
             this.drawText("Current task: Find the science building (top right path)")
             await this.until(_ => this.criteriaMet == true);
-            //this.scene.narrator.startDialog() 
+             
         }
         else if (m === "107"){
             this.drawText("Current task: Select room 107")
