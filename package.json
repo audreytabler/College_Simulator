@@ -1,15 +1,19 @@
 {
   "name": "honors-college-sim-web",
+  "homepage": "https://audreytabler.github.io/College_Simulator/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "predeploy": "npm run build", 
+    "deploy": "gh-pages -d dist",  
     "preview": "vite preview",
     "process-assets": "tile-extruder --tileWidth 32 --tileHeight 32 --margin 1 --spacing 2 --input ./src//tileset.png --output ./dist/tilesets/tileset.png"
   },
   "devDependencies": {
+    "gh-pages": "^6.1.1",
     "vite": "^5.0.8"
   },
   "dependencies": {
