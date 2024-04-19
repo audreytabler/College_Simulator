@@ -29,7 +29,10 @@ export class ClassScene extends Phaser.Scene{
 
     }
     create(){
-        
+        this.sound.stopAll();
+        var music = this.sound.add('inside');
+        music.play();
+
         this.scene.get("UI_SCENE").newScene(this.sys.settings.key)
         this.uiScene = this.scene.get("UI_SCENE")
 
@@ -224,7 +227,7 @@ export class ClassScene extends Phaser.Scene{
         this.player.setCollideWorldBounds(true)
 
         this.cameras.main.startFollow(this.player, false, 0.2, 0.2);
-        
+        /*
         this.anims.create({
             key: "idle",
             frameRate: 10,
@@ -319,6 +322,7 @@ export class ClassScene extends Phaser.Scene{
             frames: this.anims.generateFrameNumbers("shirt", { start: 25, end: 28 }),
             repeat: -1
         });
+        */
 
     }
 }

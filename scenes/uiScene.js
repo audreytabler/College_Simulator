@@ -25,8 +25,8 @@ export class UIScene extends Phaser.Scene {
 
         this.skinTone=1
         this.hairType=1;
-        this.hairColor =0x6D4C41
-        this.shirtColor = 0x6999B4
+        this.hairColor =0xFFFFFF
+        this.shirtColor = 0xFFFFFF
 
         this.ambientColor = 0xF7F7F7;
         this.tutorialInProgress = true;

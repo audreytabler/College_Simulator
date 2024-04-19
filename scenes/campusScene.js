@@ -24,10 +24,17 @@ export class CampusScene extends Phaser.Scene {
         this.load.spritesheet('shirt', 'assets/CharacterSpritesheetShirt.png', { frameWidth: 85, frameHeight: 150 });
         
         this.load.image("tiles","/assets/CollegeTileSet.png")
+        this.load.image("board","/assets/billboard.png")
         this.load.tilemapTiledJSON("campusMap", "/assets/campusMapJson.tmj")
+        this.load.audio("outside", "assets/Outside.wav")
     }
     create(){
+        this.sound.stopAll();
         
+        var music = this.sound.add('outside');
+        music.setVolume(0.6)
+        music.play();
+
         this.scene.get("UI_SCENE").newScene(this.sys.settings.key)
         this.uiScene = this.scene.get("UI_SCENE")
 
@@ -55,7 +62,8 @@ export class CampusScene extends Phaser.Scene {
         let wallLayer = map.createLayer("buildings",grassTileset).setPipeline('Light2D')
 
         //1921.0000000000075 Y: 1062
-        let billBoard = this.add.rectangle(1921,1100,200,70,0x6E5440).setInteractive()
+        this.add.image
+        let billBoard = this.add.image(1921,1050,"board").setInteractive()
         billBoard.on('pointerdown', (pointer) => {
             let num = Math.floor(Math.random() * 32)
             let time = Math.floor(Math.random() * 9) +1

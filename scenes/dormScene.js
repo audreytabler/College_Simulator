@@ -41,10 +41,16 @@ export class DormScene extends Phaser.Scene{
         this.load.tilemapTiledJSON("dormMap", "/assets/dormMap2.tmj")
         this.load.image("fog","./assets/fog.png")
         this.load.spritesheet('npcSpritesheet', "./assets/CharacterSpritesheet2.png", { frameWidth: 85, frameHeight: 150 })
-
+        
+        this.load.audio("inside", "assets/Inside_Flute2.wav")
     }
     
     create(){
+        this.sound.stopAll();
+        var music = this.sound.add('inside');
+        music.setVolume(0.6)
+        music.play();
+
         eventsCenter.on('sunUp',this.fadeToDay,this)
         eventsCenter.on('sunDown',this.fadeToNight,this)
         this.scene.get("UI_SCENE").newScene(this.sys.settings.key)
@@ -282,9 +288,9 @@ export class DormScene extends Phaser.Scene{
         //this.hair.setPushable(false)
         this.shirt.setMaxVelocity(this.playerSpeed)
         this.shirt.setBodySize(65,120)
+        this.shirt.setTint(this.uiScene.shirtColor)
         this.shirt.setBounce(0.2)
         //this.shirt.setPushable(false)
-        this.shirt.setTint(this.uiScene.shirtColor)
         this.shirt.setPipeline('Light2D') 
         
 
