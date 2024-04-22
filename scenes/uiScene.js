@@ -42,6 +42,12 @@ export class UIScene extends Phaser.Scene {
         this.load.json('narrator', "./assets/narratorDialog.json")
         this.load.json('npc-dialog', "./assets/npcDialog.json")
         this.load.json('campusActivities', "./assets/campusActivities.json")
+
+        //loading images for phone
+        this.load.image("playSymbol","assets/playSymbolOverlay.png")
+        this.load.image("funVideo","assets/focusThumbnail.png")
+        this.load.image("studyVideo","assets/studyThumbnail.png")
+        this.load.image("newsVideo","assets/newsThumbnail.png")
     }
 
     create() {
@@ -186,6 +192,18 @@ export class UIScene extends Phaser.Scene {
         this.taskConfirm.action = "make plans"
         this.taskConfirm.display(true)
         
+    }
+    watchFocus(){
+        this.taskConfirm.action = "watch calming videos"
+        this.taskConfirm.display(false)
+    }
+    watchStudy(){
+        this.taskConfirm.action = "watch study videos"
+        this.taskConfirm.display(true)
+    }
+    watchNews(){
+        this.taskConfirm.action = "watch the news"
+        this.taskConfirm.display(false)
     }
     submitPlans(friend){
         //pick random number

@@ -33,8 +33,8 @@ export class DormScene extends Phaser.Scene{
         //character creation.. get variables for the end of the filepath for skin & hair files loaded in
         this.uiScene = this.scene.get("UI_SCENE")
         this.load.spritesheet('player', 'assets/CharacterSpritesheetBald'+this.uiScene.skinTone+'.png', { frameWidth: 85, frameHeight: 150 });
-        this.load.spritesheet('hair', ('assets/CharacterSpriteHair'+this.uiScene.hairType+'.png'), { frameWidth: 85, frameHeight: 150 });
         this.load.spritesheet('shirt', 'assets/CharacterSpritesheetShirt.png', { frameWidth: 85, frameHeight: 150 });
+        this.load.spritesheet('hair', ('assets/CharacterSpriteHair'+this.uiScene.hairType+'.png'), { frameWidth: 85, frameHeight: 150 });
         
         //tilemap
         this.load.image("tiles","/assets/CollegeTileSet.png")
@@ -50,6 +50,7 @@ export class DormScene extends Phaser.Scene{
         var music = this.sound.add('inside');
         music.setVolume(0.6)
         music.play();
+        music.loop = true;
 
         eventsCenter.on('sunUp',this.fadeToDay,this)
         eventsCenter.on('sunDown',this.fadeToNight,this)
@@ -272,8 +273,8 @@ export class DormScene extends Phaser.Scene{
         const playerY = this.uiScene.playerSpawnY
         
         this.player = this.physics.add.sprite(playerX, playerY, "player").setOrigin(0, 0)
-        this.hair = this.physics.add.sprite(playerX, playerY, "hair").setOrigin(0, 0)
         this.shirt = this.physics.add.sprite(playerX, playerY, "shirt").setOrigin(0, 0)
+        this.hair = this.physics.add.sprite(playerX, playerY, "hair").setOrigin(0, 0)
     
         this.player.setBodySize(65,120)
         this.player.setMaxVelocity(this.playerSpeed)
