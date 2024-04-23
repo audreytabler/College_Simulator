@@ -1,11 +1,13 @@
 import './style.css'
 import Phaser from 'phaser'
-import {TitleScene} from './scenes/titleScene.js'
-import { CampusScene } from './scenes/campusScene.js';
-import {DormScene} from './scenes/dormScene.js'
-import {UIScene} from './scenes/uiScene.js'
-import {ClassScene} from './scenes/classScene.js'
-import { GymScene } from './scenes/gymScene.js';
+import {TitleScene} from '../scenes/titleScene.js'
+import { CampusScene } from '../scenes/campusScene.js';
+import {DormScene} from '../scenes/dormScene.js'
+import {UIScene} from '../scenes/uiScene.js'
+import {ClassScene} from '../scenes/classScene.js'
+import { GymScene } from '../scenes/gymScene.js';
+
+const gameCanvas: HTMLCanvasElement | null = document.getElementById('gameCanvas') as HTMLCanvasElement;
 
 const game = new Phaser.Game({
     type: Phaser.WEBGL,
