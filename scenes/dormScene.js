@@ -40,8 +40,14 @@ export class DormScene extends Phaser.Scene{
         this.load.image("tiles","/assets/CollegeTileSet.png")
         this.load.tilemapTiledJSON("dormMap", "/assets/dormMap2.tmj")
         this.load.image("fog","./assets/fog.png")
-        this.load.spritesheet('npcSpritesheet', "./assets/CharacterSpritesheet2.png", { frameWidth: 85, frameHeight: 150 })
-        
+        //this.load.spritesheet('npcSpritesheet', "./assets/CharacterSpritesheet2.png", { frameWidth: 85, frameHeight: 150 })
+        this.load.image("npc1","assets/npc1.png") 
+        this.load.image("npc2","assets/npc2.png") 
+        this.load.image("npc3","assets/npc3.png") 
+        this.load.image("npc4","assets/npc4.png") 
+        this.load.image("npc5","assets/npc5.png")
+        this.load.image("npc6","assets/npc6.png")  
+
         this.load.audio("inside", "assets/Inside_Flute2.wav")
     }
     
@@ -86,8 +92,10 @@ export class DormScene extends Phaser.Scene{
         //COLLISION WITH WALLS STUFF
         
         this.loadPlayer()
-        //dormScene.js:176 player position - X: 7525.666666666638 Y: 5840
-        this.roommate = new NPC(this,7525,5840,"Alex",0,'npcSpritesheet')
+        //dormScene.js:176 player position - X: 7525.666666666638  7542 Y: 3832.999999999988  6720.666666666664 Y: 2150.599999999974
+        this.roommate = new NPC(this,7525,5840,"Alex",0,'npc2')
+        this.suitemate = new NPC(this,7542,3832,"Alex",0,'npc1')
+        this.npc3 = new NPC(this,6720,2150,"Alex",0,'npc6')
         
         this.physics.add.collider(this.player,this.roommate.body)
         let chairLayer = map.createLayer("chairBacks",dormTileset).setPipeline('Light2D')
@@ -96,6 +104,8 @@ export class DormScene extends Phaser.Scene{
         this.physics.add.collider(this.hair, wallLayer);
         this.physics.add.collider(this.shirt, wallLayer);
         this.physics.add.collider(this.roommate.sprite, wallLayer);
+        this.physics.add.collider(this.suitemate.sprite, wallLayer);
+        this.physics.add.collider(this.npc3.sprite, wallLayer);
         ////////////////////////////////////////
         this.transportLayer = map.getObjectLayer("interactions"); 
         this.popUpBox = this.add.rectangle(8159+50, 5305+20, 75, 30,0x226184,0.5).setInteractive()
@@ -196,6 +206,7 @@ export class DormScene extends Phaser.Scene{
 
     }
     update(){
+    
         if ((!this.physics.overlap(this.player, this.overlapArray)) && (this.playerEnteredTrigger == true)) {
             // Player left the trigger area, trigger the event
             this.playerEnteredTrigger = false; // Set the flag to false
@@ -256,6 +267,8 @@ export class DormScene extends Phaser.Scene{
             this.shirt.play("forwards",true)
         }
         else {
+            this.hair.setPosition(this.player.x,this.player.y)
+        this.shirt.setPosition(this.player.x,this.player.y)
             this.player.setVelocityX(0);
             this.player.setVelocityY(0);
             this.hair.setVelocityX(0);

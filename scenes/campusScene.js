@@ -3,6 +3,7 @@ import DialogBox from '../ui/dialogBox.js'
 import Clock from '../ui/clock.js'
 import PlayerStats from '../ui/playerStats.js'
 import MissionManager from '../ui/missionManager.js';
+import { NPC } from '../ui/NPC';
 
 export class CampusScene extends Phaser.Scene {
     //this constructor is basically side bar with all gameobjects in scene
@@ -73,11 +74,23 @@ export class CampusScene extends Phaser.Scene {
 
         //COLLISION WITH WALLS STUFF
         this.loadPlayer()
+
+        //890.3333333333261 Y: 1895.666666666675
+        //2427.6666666666642 Y: 1890.3333333333521
+        this.npc3 = new NPC(this,2060,1120,"Alex",0,'npc5')
+        this.npc4 = new NPC(this,890,1895,"Alex",0,'npc3')
+        this.npc5 = new NPC(this,2427,1890,"Alex",0,'npc6')
+
+        
+
         let treesLayer = map.createLayer("trees",grassTileset).setPipeline('Light2D')
         wallLayer.setCollisionByExclusion([-1]);
         this.physics.add.collider(this.player, wallLayer);
         this.physics.add.collider(this.hair, wallLayer);
         this.physics.add.collider(this.shirt, wallLayer);
+        this.physics.add.collider(this.npc3, wallLayer);
+        this.physics.add.collider(this.npc4, wallLayer);
+        this.physics.add.collider(this.npc5, wallLayer);
         ////////////////////////////////////////
         this.overlapArray=[]
         const transportLayer = map.getObjectLayer("transportation"); 
@@ -175,6 +188,8 @@ export class CampusScene extends Phaser.Scene {
             this.shirt.play("forwards",true)
         }
         else {
+            this.hair.setPosition(this.player.x,this.player.y)
+            this.shirt.setPosition(this.player.x,this.player.y)
             this.player.setVelocityX(0);
             this.player.setVelocityY(0);
             this.hair.setVelocityX(0);

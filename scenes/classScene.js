@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import { NPC } from '../ui/NPC';
 
 
 export class ClassScene extends Phaser.Scene{
@@ -51,6 +52,8 @@ export class ClassScene extends Phaser.Scene{
 
         //COLLISION WITH WALLS STUFF
         this.loadPlayer()
+        this.npc = new NPC(this,7525,5840,"Alex",0,'npc4')
+        //206.33333333333087 Y: 1707.3333333333446
         wallLayer.setCollisionByExclusion([-1]);
         this.physics.add.collider(this.player, wallLayer);
         this.physics.add.collider(this.hair, wallLayer);
@@ -189,6 +192,8 @@ export class ClassScene extends Phaser.Scene{
             this.shirt.play("forwards",true)
         }
         else {
+            this.hair.setPosition(this.player.x,this.player.y)
+            this.shirt.setPosition(this.player.x,this.player.y)
             this.player.setVelocityX(0);
             this.player.setVelocityY(0);
             this.hair.setVelocityX(0);
