@@ -42,7 +42,7 @@ export class Clock extends Phaser.GameObjects.Graphics {
             this.sunUp = true;
             eventsCenter.emit("sunUp")
         }
-        if((this.totalHours >=19) && (this.sunUp)){
+        if((this.time.hour >=5) &&(this.time.period == 'PM') && (this.sunUp)){
             console.log("total hours is " + this.totalHours)
             this.sunUp = false;
             eventsCenter.emit("sunDown")
